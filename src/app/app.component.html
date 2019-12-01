@@ -1,6 +1,7 @@
+<input #singleInput placeholder="single input" (input)="updateSingleInput($event.target.value)" />
 <form>
     <input placeholder="first input" />
     <input placeholder="second input" />
 </form>
-<button (click)="increment()"></button>
+<button (click)="updateSingleInput('test')"></button>
 <span>{{ test$ | async }}</span>

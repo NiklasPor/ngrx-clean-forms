@@ -11,13 +11,14 @@ export function reduceFormControl<T>(
     control: FormControlState<T>,
     update: FormControlUpdate<T>
 ): FormControlState<T> {
-    if (!control.validators && !control.value) {
+    if (!Object.keys(control).length) {
         return control;
     }
 
     return {
         ...control,
         ...update,
+        pristine: false,
     };
 }
 
