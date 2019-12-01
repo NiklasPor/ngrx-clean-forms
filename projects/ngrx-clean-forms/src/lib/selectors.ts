@@ -1,6 +1,14 @@
-import { FormControlError, FormControl, FormGroup, FormGroupErrors } from './types';
+import {
+    FormControlErrors,
+    FormControlState,
+    FormGroupState,
+    FormGroupErrors,
+    FormGroupSummary,
+    FormControlSummary,
+    FormGroupControlSummaries,
+} from './types';
 
-export function getFormControlErrors<T>(control: FormControl<T>): FormControlError | null {
+export function getFormControlErrors<T>(control: FormControlState<T>): FormControlErrors | null {
     const errors = control.validators
         .map(validator => validator(control))
         .filter(error => error !== null)
@@ -9,10 +17,31 @@ export function getFormControlErrors<T>(control: FormControl<T>): FormControlErr
     return Object.keys(errors).length ? errors : null;
 }
 
-export function getFormGroupErrors(group: FormGroup): FormGroupErrors {
+export function getFormGroupErrors(group: FormGroupState): FormGroupErrors {
     const errors = Object.entries(group)
         .map(([key, control]) => ({ [key]: getFormControlErrors(control) }))
         .reduce((grp1, grp2) => ({ ...grp1, ...grp2 }));
 
     return Object.keys(errors).length ? errors : null;
+}
+
+export function getFormControlSummary<T>(control: FormControlState<T>): FormControlSummary<T> {
+    return {
+        ...control,
+        errors: getFormControlErrors(control),
+    };
+}
+
+export function getFormGroupControlSummaries(group: FormGroupState): FormGroupControlSummaries {
+    return Object.entries(group)
+        .map(([key, control]) => ({ [key]: getFormControlSummary(control) }))
+        .reduce((grp1, grp2) => ({ ...grp1, ...grp2 }));
+}
+
+export function getFormGroupSummary(group: FormGroupState): FormGroupSummary {
+    return {
+        controls: getFormGroupControlSummaries(group),
+        errors: getFormGroupErrors(group),
+        pristine: group.pristine,
+    };
 }
