@@ -17,7 +17,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ngrx-clean-forms": [
+        "dist/ngrx-clean-forms"
+      ],
+      "ngrx-clean-forms/*": [
+        "dist/ngrx-clean-forms/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
