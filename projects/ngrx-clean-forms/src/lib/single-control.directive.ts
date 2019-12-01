@@ -37,8 +37,7 @@ export class SingleControlDirective implements OnDestroy {
     constructor(private ref: ElementRef, private r2: Renderer2) {}
 
     @HostListener('input') onInput() {
-        this.formUpdate.emit({ pristine: false });
-        this.formUpdate.emit({ value: this.ref.nativeElement.value });
+        this.formUpdate.emit({ value: this.ref.nativeElement.value, pristine: false });
     }
 
     @HostListener('blur') onBlur() {
