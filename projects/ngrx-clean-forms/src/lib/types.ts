@@ -3,12 +3,12 @@ export type Validator<T> = (control: FormControlState<T>) => FormControlErrors |
 export type FormGroupUpdate = Partial<FormGroupState>;
 export type FormControlUpdate<T> = Partial<FormControlState<T>>;
 
-export interface FormGroupCreation {
-    [controlKey: string]: FormControlState<any>;
-}
-
 export interface FormControlErrors {
     [error: string]: any;
+}
+
+export interface FormGroupErrors {
+    [controlKey: string]: FormControlErrors;
 }
 
 export interface FormControlState<T> {

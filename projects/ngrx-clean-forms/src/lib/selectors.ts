@@ -2,10 +2,10 @@ import {
     FormControlErrors,
     FormControlState,
     FormGroupState,
-    FormGroupErrors,
     FormGroupSummary,
     FormControlSummary,
     FormGroupControlSummaries,
+    FormGroupErrors,
 } from './types';
 
 export function getFormControlErrors<T>(control: FormControlState<T>): FormControlErrors | null {
