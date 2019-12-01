@@ -35,12 +35,12 @@ export function reduceFormGroup<T>(group: FormGroupState, update: FormGroupUpdat
 
 export function initialFormControl<T>(
     initialValue: T,
-    validators: Validator<T>[]
+    validators?: Validator<T>[]
 ): FormControlState<T> {
     return {
         value: initialValue,
         pristine: true,
-        validators,
+        validators: validators || [],
     };
 }
 

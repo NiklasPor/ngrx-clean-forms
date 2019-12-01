@@ -1,4 +1,10 @@
-<input #singleInput placeholder="single input" (input)="updateSingleInput($event.target.value)" />
+<input
+    #singleInput
+    placeholder="single input"
+    libSingleControl
+    [formSummary$]="singleInputValue$"
+    (formUpdate)="updateSingleInput($event)"
+/>
 <form>
     <input placeholder="first input" />
     <input placeholder="second input" />

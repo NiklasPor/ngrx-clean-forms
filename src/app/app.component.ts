@@ -4,6 +4,7 @@ import { AppState } from './+state/app.state';
 import { increment, updateSingleFormControl } from './+state/example.actions';
 import { selectTest, selectForm } from './+state/example.selectors';
 import { map } from 'rxjs/operators';
+import { FormControlUpdate } from 'projects/ngrx-clean-forms/src/lib/types';
 
 @Component({
     selector: 'app-root',
@@ -11,19 +12,13 @@ import { map } from 'rxjs/operators';
     styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-    singleInputValue$ = this.store.select(selectForm).pipe(map(form => form));
-
-    @ViewChild('singleInput', { static: true }) singleInput: ElementRef;
+    singleInputValue$ = this.store.select(selectForm);
 
     constructor(private store: Store<AppState>) {}
 
-    ngOnInit() {
-        this.store.select(selectForm).subscribe(summary => {
-            this.singleInput.nativeElement.value = summary.value;
-        });
-    }
+    ngOnInit() {}
 
-    updateSingleInput(value: string) {
-        this.store.dispatch(updateSingleFormControl({ update: { value } }));
+    updateSingleInput(controlUpdate: FormControlUpdate<any>) {
+        this.store.dispatch(updateSingleFormControl({ update: controlUpdate }));
     }
 }
