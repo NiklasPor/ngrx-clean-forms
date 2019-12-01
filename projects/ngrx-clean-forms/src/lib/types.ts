@@ -1,7 +1,10 @@
 export type Validator<T> = (control: FormControlState<T>) => FormControlErrors | null;
 
-export type FormGroupUpdate = Partial<FormGroupState>;
 export type FormControlUpdate<T> = Partial<FormControlState<T>>;
+
+export interface FormGroupUpdate extends Partial<FormGroupState> {
+    controls: Partial<FormGroupControls>;
+}
 
 export interface FormControlErrors {
     [error: string]: any;
@@ -22,8 +25,8 @@ export interface FormGroupControls {
     [controlKey: string]: FormControlState<any>;
 }
 
-export interface FormGroupState {
-    controls: FormGroupControls;
+export interface FormGroupState<T = FormGroupControls> {
+    controls: T;
     pristine: boolean;
 }
 

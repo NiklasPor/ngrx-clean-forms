@@ -2,12 +2,9 @@
     #singleInput
     placeholder="single input"
     libSingleControl
-    [formSummary$]="singleInputValue$"
+    [formSummary$]="singleInput$"
     (formUpdate)="updateSingleInput($event)"
 />
-<form>
-    <input placeholder="first input" />
-    <input placeholder="second input" />
+<form libFormGroup [formSummary$]="formGroup$" (formUpdate)="updatFormGroup($event)">
+    <input libSingleControl />
 </form>
-<button (click)="updateSingleInput('test')"></button>
-<span>{{ test$ | async }}</span>

@@ -24,10 +24,13 @@ const classes = {
     selector: '[libSingleControl]',
 })
 export class SingleControlDirective implements OnDestroy {
+    @Input()
+    controlKey: string;
+
     @Input('formSummary$')
     set setFormSummary$(formSummary$: Observable<FormControlSummary<any>>) {
         this.unsubscribe();
-        formSummary$.subscribe(summary => this.updateInput(summary));
+        this.subscription = formSummary$.subscribe(summary => this.updateSummary(summary));
     }
 
     @Output() formUpdate = new EventEmitter<FormControlUpdate<any>>();
@@ -44,7 +47,7 @@ export class SingleControlDirective implements OnDestroy {
         this.formUpdate.emit({ touched: true });
     }
 
-    updateInput(summary: FormControlSummary<any>) {
+    updateSummary(summary: FormControlSummary<any>) {
         this.ref.nativeElement.value = summary.value;
 
         if (summary.valid) {

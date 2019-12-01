@@ -1,10 +1,10 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from './+state/app.state';
-import { increment, updateSingleFormControl } from './+state/example.actions';
-import { selectTest, selectForm } from './+state/example.selectors';
+import { increment, updateSingleFormControl, updateFormGroup } from './+state/example.actions';
+import { selectTest, selectSingleInput, selectFormGroup } from './+state/example.selectors';
 import { map } from 'rxjs/operators';
-import { FormControlUpdate } from 'projects/ngrx-clean-forms/src/lib/types';
+import { FormControlUpdate, FormGroupUpdate } from 'projects/ngrx-clean-forms/src/lib/types';
 
 @Component({
     selector: 'app-root',
@@ -12,7 +12,8 @@ import { FormControlUpdate } from 'projects/ngrx-clean-forms/src/lib/types';
     styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-    singleInputValue$ = this.store.select(selectForm);
+    singleInput$ = this.store.select(selectSingleInput);
+    formGroup$ = this.store.select(selectFormGroup);
 
     constructor(private store: Store<AppState>) {}
 
@@ -20,5 +21,9 @@ export class AppComponent implements OnInit {
 
     updateSingleInput(controlUpdate: FormControlUpdate<any>) {
         this.store.dispatch(updateSingleFormControl({ update: controlUpdate }));
+    }
+
+    updatFormGroup(update: FormGroupUpdate) {
+        this.store.dispatch(updateFormGroup({ update }));
     }
 }

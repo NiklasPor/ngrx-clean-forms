@@ -21,7 +21,7 @@ export function reduceFormControl<T>(
     };
 }
 
-export function reduceFormGroup<T>(group: FormGroupState, update: FormGroupUpdate) {
+export function reduceFormGroup<T extends FormGroupState>(group: T, update: FormGroupUpdate): T {
     return {
         ...group,
         ...update,
@@ -44,7 +44,7 @@ export function initialFormControl<T>(
     };
 }
 
-export function initialFormGroup(controls: FormGroupControls): FormGroupState {
+export function initialFormGroup<T extends FormGroupControls>(controls: T): FormGroupState<T> {
     return {
         pristine: true,
         controls,
