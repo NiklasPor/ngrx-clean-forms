@@ -14,6 +14,7 @@ export interface FormGroupErrors {
 export interface FormControlState<T> {
     value: T;
     pristine: boolean;
+    touched: boolean;
     validators: Validator<T>[];
 }
 

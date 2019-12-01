@@ -18,7 +18,6 @@ export function reduceFormControl<T>(
     return {
         ...control,
         ...update,
-        pristine: false,
     };
 }
 
@@ -40,6 +39,7 @@ export function initialFormControl<T>(
     return {
         value: initialValue,
         pristine: true,
+        touched: false,
         validators: validators || [],
     };
 }
