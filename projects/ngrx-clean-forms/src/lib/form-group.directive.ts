@@ -7,6 +7,7 @@ import {
     Output,
     EventEmitter,
     QueryList,
+    ViewChild,
 } from '@angular/core';
 import { SingleControlDirective } from './single-control.directive';
 import { FormGroupUpdate, FormGroupSummary } from './types';
