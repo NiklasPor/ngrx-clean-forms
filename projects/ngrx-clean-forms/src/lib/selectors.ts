@@ -26,9 +26,12 @@ export function getFormGroupErrors(group: FormGroupState): FormGroupErrors {
 }
 
 export function getFormControlSummary<T>(control: FormControlState<T>): FormControlSummary<T> {
+    const errors = getFormControlErrors(control);
+
     return {
         ...control,
-        errors: getFormControlErrors(control),
+        errors,
+        valid: errors === null,
     };
 }
 

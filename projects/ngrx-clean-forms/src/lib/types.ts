@@ -28,6 +28,7 @@ export interface FormGroupState {
 
 export interface FormControlSummary<T> extends FormControlState<T> {
     errors: FormControlErrors;
+    valid: boolean;
 }
 
 export interface FormGroupControlSummaries extends FormGroupControls {

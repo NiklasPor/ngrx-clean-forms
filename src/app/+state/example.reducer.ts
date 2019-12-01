@@ -3,6 +3,9 @@ import { createReducer, on } from '@ngrx/store';
 import { increment, updateSingleFormControl } from './example.actions';
 import { initialFormControl, reduceFormControl } from 'projects/ngrx-clean-forms/src/lib/reducer';
 
+const required = (control: FormControlState<string>) =>
+    control.value.trim().length ? null : { required: true };
+
 export interface ExampleState {
     test: string;
     singleControl: FormControlState<string>;
@@ -10,7 +13,7 @@ export interface ExampleState {
 
 export const initialState: ExampleState = {
     test: 'test',
-    singleControl: initialFormControl('initial', []),
+    singleControl: initialFormControl('initial', [required]),
 };
 
 const internalExampleReducer = createReducer(
