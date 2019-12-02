@@ -5,7 +5,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { environment } from 'src/environments/environment';
-import { NgrxCleanFormsModule } from 'projects/ngrx-clean-forms/src/lib/ngrx-clean-forms/ngrx-clean-forms.module';
+import { NgrxCleanFormsModule } from 'projects/ngrx-clean-forms/src/lib/ngrx-clean-forms.module';
 
 @NgModule({
     declarations: [AppComponent],
