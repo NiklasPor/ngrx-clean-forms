@@ -27,7 +27,14 @@ export function reduceFormGroup<T extends FormGroupState>(group: T, update: Form
         ...update,
         controls: {
             ...group.controls,
-            ...(update.controls || {}),
+            ...(Object.entries(update.controls)
+                .map(([key, control]) => ({
+                    [key]: {
+                        ...group.controls[key],
+                        ...control,
+                    },
+                }))
+                .reduce((ctrl1, ctrl2) => ({ ...ctrl1, ...ctrl2 }), {}) || {}),
         },
     };
 }

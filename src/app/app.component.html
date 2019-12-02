@@ -1,10 +1,6 @@
-<input
-    #singleInput
-    placeholder="single input"
-    libSingleControl
-    [formSummary$]="singleInput$"
-    (formUpdate)="updateSingleInput($event)"
-/>
 <form libFormGroup [formSummary$]="formGroup$" (formUpdate)="updatFormGroup($event)">
-    <input libSingleControl />
+    <div>
+        <input libSingleControl controlKey="firstInput" />
+        <input libSingleControl controlKey="secondInput" />
+    </div>
 </form>

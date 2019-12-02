@@ -8,6 +8,7 @@ import {
     EventEmitter,
     QueryList,
     ViewChild,
+    ContentChildren,
 } from '@angular/core';
 import { SingleControlDirective } from './single-control.directive';
 import { FormGroupUpdate, FormGroupSummary } from './types';
@@ -25,7 +26,7 @@ export class FormGroupDirective implements AfterViewInit, OnDestroy {
 
     @Output() formUpdate = new EventEmitter<FormGroupUpdate>();
 
-    @ViewChildren(SingleControlDirective) children!: QueryList<SingleControlDirective>;
+    @ContentChildren(SingleControlDirective) children!: QueryList<SingleControlDirective>;
 
     subscriptions = new Array<Subscription>();
 
