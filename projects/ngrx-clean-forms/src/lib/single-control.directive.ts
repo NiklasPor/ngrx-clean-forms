@@ -1,12 +1,11 @@
 import {
-    Directive,
     ElementRef,
     EventEmitter,
-    HostListener,
     Input,
     OnDestroy,
     Output,
     Renderer2,
+    Directive,
 } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { FormControlSummary, FormControlUpdate } from './types';
@@ -20,35 +19,34 @@ const classes = {
     untouched: 'ng-untouched',
 };
 
-@Directive({
-    selector: '[libSingleControl]',
-})
-export class SingleControlDirective implements OnDestroy {
+export abstract class SingleControlDirective<T> implements OnDestroy {
     @Input()
     controlKey: string;
 
     @Input('formSummary$')
-    set setFormSummary$(formSummary$: Observable<FormControlSummary<any>>) {
+    set setFormSummary$(formSummary$: Observable<FormControlSummary<T>>) {
         this.unsubscribe();
         this.subscription = formSummary$.subscribe(summary => this.updateSummary(summary));
     }
 
-    @Output() formUpdate = new EventEmitter<FormControlUpdate<any>>();
+    @Output() formUpdate = new EventEmitter<FormControlUpdate<T>>();
 
     subscription: Subscription;
 
-    constructor(private ref: ElementRef, private r2: Renderer2) {}
+    constructor(protected ref: ElementRef, private r2: Renderer2) {}
 
-    @HostListener('input') onInput() {
-        this.formUpdate.emit({ value: this.ref.nativeElement.value, pristine: false });
-    }
+    abstract setValue(value: T);
 
-    @HostListener('blur') onBlur() {
+    emitTouched() {
         this.formUpdate.emit({ untouched: false });
     }
 
-    updateSummary(summary: FormControlSummary<any>) {
-        this.ref.nativeElement.value = summary.value;
+    emitValue(value: T) {
+        this.formUpdate.emit({ value, pristine: false });
+    }
+
+    updateSummary(summary: FormControlSummary<T>) {
+        this.setValue(summary.value);
 
         if (summary.valid) {
             this.r2.addClass(this.ref.nativeElement, classes.valid);

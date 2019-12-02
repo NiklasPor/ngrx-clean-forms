@@ -1,6 +1,6 @@
-<form libFormGroup [formSummary$]="formGroup$" (formUpdate)="updatFormGroup($event)">
+<form libFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
     <div>
-        <input libSingleControl controlKey="firstInput" />
-        <input libSingleControl controlKey="secondInput" />
+        <input type="text" libSingleControl controlKey="firstInput" />
+        <input type="text" libSingleControl controlKey="secondInput" />
     </div>
 </form>

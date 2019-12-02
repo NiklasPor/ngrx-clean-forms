@@ -7,10 +7,13 @@ import {
     OnDestroy,
     Output,
     QueryList,
+    Type,
 } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { SingleControlDirective } from './single-control.directive';
 import { FormGroupSummary, FormGroupUpdate } from './types';
+import { InputControlDirective } from './input-control.directive';
+import 'reflect-metadata';
 
 @Directive({
     selector: '[libFormGroup]',
@@ -24,7 +27,7 @@ export class FormGroupDirective implements AfterViewInit, OnDestroy {
 
     @Output() formUpdate = new EventEmitter<FormGroupUpdate>();
 
-    @ContentChildren(SingleControlDirective) children!: QueryList<SingleControlDirective>;
+    @ContentChildren(InputControlDirective) children!: QueryList<SingleControlDirective<any>>;
 
     subscriptions = new Array<Subscription>();
 
