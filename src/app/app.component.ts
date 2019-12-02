@@ -1,19 +1,9 @@
-import {
-    Component,
-    ViewChild,
-    OnInit,
-    ElementRef,
-    ViewChildren,
-    AfterViewInit,
-} from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from './+state/app.state';
-import { increment, updateSingleFormControl, updateFormGroup } from './+state/example.actions';
-import { selectTest, selectSingleInput, selectFormGroup } from './+state/example.selectors';
-import { map } from 'rxjs/operators';
 import { FormControlUpdate, FormGroupUpdate } from 'projects/ngrx-clean-forms/src/lib/types';
-import { FormGroupDirective } from 'projects/ngrx-clean-forms/src/lib/form-group.directive';
-import { SingleControlDirective } from 'projects/ngrx-clean-forms/src/lib/single-control.directive';
+import { AppState } from './+state/app.state';
+import { updateFormGroup, updateSingleFormControl } from './+state/example.actions';
+import { selectFormGroup, selectSingleInput } from './+state/example.selectors';
 
 @Component({
     selector: 'app-root',

@@ -1,10 +1,10 @@
-import { SingleControlDirective } from './single-control.directive';
+import { AbstractControlDirective } from './abstract-control.directive';
 import { HostListener, Directive } from '@angular/core';
 
 @Directive({
     selector: 'input[type="text"][libSingleControl]',
 })
-export class InputControlDirective extends SingleControlDirective<string> {
+export class TextInputControlDirective extends AbstractControlDirective<string> {
     @HostListener('input') onInput() {
         this.emitValue(this.ref.nativeElement.value);
     }

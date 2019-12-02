@@ -1,24 +1,12 @@
-import {
-    AfterViewInit,
-    ContentChildren,
-    Directive,
-    EventEmitter,
-    Input,
-    OnDestroy,
-    Output,
-    QueryList,
-    Type,
-} from '@angular/core';
+import { AfterViewInit, Directive, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { SingleControlDirective } from './single-control.directive';
-import { FormGroupSummary, FormGroupUpdate } from './types';
-import { InputControlDirective } from './input-control.directive';
-import 'reflect-metadata';
+import { FormGroupSummary, FormGroupUpdate } from '../../types';
+import { ControlChildren } from './control-children';
 
 @Directive({
     selector: '[libFormGroup]',
 })
-export class FormGroupDirective implements AfterViewInit, OnDestroy {
+export class FormGroupDirective extends ControlChildren implements AfterViewInit, OnDestroy {
     @Input('formSummary$')
     set setFormSummary$(formSummary$: Observable<FormGroupSummary>) {
         this.unsubscribe();
@@ -27,14 +15,11 @@ export class FormGroupDirective implements AfterViewInit, OnDestroy {
 
     @Output() formUpdate = new EventEmitter<FormGroupUpdate>();
 
-    @ContentChildren(InputControlDirective) children!: QueryList<SingleControlDirective<any>>;
-
     subscriptions = new Array<Subscription>();
 
-    constructor() {}
-
     ngAfterViewInit() {
-        this.children.forEach(control => {
+        console.log(this.getChildren());
+        this.getChildren().forEach(control => {
             control.formUpdate.subscribe(update =>
                 this.formUpdate.next({ controls: { [control.controlKey]: update } })
             );
@@ -42,11 +27,12 @@ export class FormGroupDirective implements AfterViewInit, OnDestroy {
     }
 
     updateSummary(summary: FormGroupSummary) {
-        if (!this.children) {
+        const children = this.getChildren();
+        if (!children.length) {
             return;
         }
 
-        this.children.forEach(control => {
+        children.forEach(control => {
             control.updateSummary(summary.controls[control.controlKey]);
         });
     }

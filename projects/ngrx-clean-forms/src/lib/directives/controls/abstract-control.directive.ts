@@ -8,7 +8,7 @@ import {
     Directive,
 } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { FormControlSummary, FormControlUpdate } from './types';
+import { FormControlSummary, FormControlUpdate } from '../../types';
 
 const classes = {
     invalid: 'ng-invalid',
@@ -19,7 +19,7 @@ const classes = {
     untouched: 'ng-untouched',
 };
 
-export abstract class SingleControlDirective<T> implements OnDestroy {
+export abstract class AbstractControlDirective<T> implements OnDestroy {
     @Input()
     controlKey: string;
 
