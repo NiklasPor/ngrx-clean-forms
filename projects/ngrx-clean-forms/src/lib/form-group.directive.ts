@@ -46,7 +46,7 @@ export class FormGroupDirective implements AfterViewInit, OnDestroy {
         }
 
         this.children.forEach(control => {
-            control.updateSummary(summary[control.controlKey]);
+            control.updateSummary(summary.controls[control.controlKey]);
         });
     }
 
