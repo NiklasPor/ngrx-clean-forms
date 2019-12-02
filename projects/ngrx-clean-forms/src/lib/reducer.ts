@@ -6,15 +6,12 @@ import {
     Validator,
     FormGroupControls,
 } from './types';
+import { mapFormControls } from './utils';
 
 export function reduceFormControl<T>(
     control: FormControlState<T>,
     update: FormControlUpdate<T>
 ): FormControlState<T> {
-    if (!Object.keys(control).length) {
-        return control;
-    }
-
     return {
         ...control,
         ...update,
@@ -27,14 +24,10 @@ export function reduceFormGroup<T extends FormGroupState>(group: T, update: Form
         ...update,
         controls: {
             ...group.controls,
-            ...(Object.entries(update.controls)
-                .map(([key, control]) => ({
-                    [key]: {
-                        ...group.controls[key],
-                        ...control,
-                    },
-                }))
-                .reduce((ctrl1, ctrl2) => ({ ...ctrl1, ...ctrl2 }), {}) || {}),
+            ...mapFormControls(update.controls, (control, key) => ({
+                ...group.controls[key],
+                ...control,
+            })),
         },
     };
 }
