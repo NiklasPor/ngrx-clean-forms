@@ -44,7 +44,7 @@ export class SingleControlDirective implements OnDestroy {
     }
 
     @HostListener('blur') onBlur() {
-        this.formUpdate.emit({ touched: true });
+        this.formUpdate.emit({ untouched: false });
     }
 
     updateSummary(summary: FormControlSummary<any>) {
@@ -66,12 +66,12 @@ export class SingleControlDirective implements OnDestroy {
             this.r2.removeClass(this.ref.nativeElement, classes.pristine);
         }
 
-        if (summary.touched) {
-            this.r2.addClass(this.ref.nativeElement, classes.touched);
-            this.r2.removeClass(this.ref.nativeElement, classes.untouched);
-        } else {
+        if (summary.untouched) {
             this.r2.addClass(this.ref.nativeElement, classes.untouched);
             this.r2.removeClass(this.ref.nativeElement, classes.touched);
+        } else {
+            this.r2.addClass(this.ref.nativeElement, classes.touched);
+            this.r2.removeClass(this.ref.nativeElement, classes.untouched);
         }
     }
 

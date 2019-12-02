@@ -45,10 +45,26 @@ export function getFormGroupControlSummaries(
     return mapFormControls(controls, control => getFormControlSummary(control));
 }
 
+export function getFormGroupPristine(group: FormGroupState): boolean {
+    return Object.values(group.controls)
+        .map(control => control.pristine)
+        .reduce((val1, val2) => val1 && val2);
+}
+
+export function getFormGroupUntouched(group: FormGroupState): boolean {
+    return Object.values(group.controls)
+        .map(control => control.untouched)
+        .reduce((val1, val2) => val1 && val2);
+}
+
 export function getFormGroupSummary(group: FormGroupState): FormGroupSummary {
+    const errors = getFormGroupErrors(group);
+
     return {
         controls: getFormGroupControlSummaries(group.controls),
-        errors: getFormGroupErrors(group),
-        pristine: group.pristine,
+        pristine: getFormGroupPristine(group),
+        untouched: getFormGroupUntouched(group),
+        errors,
+        valid: errors === null,
     };
 }

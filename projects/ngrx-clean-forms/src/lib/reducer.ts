@@ -39,14 +39,13 @@ export function initialFormControl<T>(
     return {
         value: initialValue,
         pristine: true,
-        touched: false,
+        untouched: true,
         validators: validators || [],
     };
 }
 
 export function initialFormGroup<T extends FormGroupControls>(controls: T): FormGroupState<T> {
     return {
-        pristine: true,
         controls,
     };
 }

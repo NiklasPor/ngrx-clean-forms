@@ -17,7 +17,7 @@ export interface FormGroupErrors {
 export interface FormControlState<T> {
     value: T;
     pristine: boolean;
-    touched: boolean;
+    untouched: boolean;
     validators: Validator<T>[];
 }
 
@@ -27,7 +27,6 @@ export interface FormGroupControls {
 
 export interface FormGroupState<T = FormGroupControls> {
     controls: T;
-    pristine: boolean;
 }
 
 export interface FormControlSummary<T> extends FormControlState<T> {
@@ -42,4 +41,7 @@ export interface FormGroupControlSummaries extends FormGroupControls {
 export interface FormGroupSummary extends FormGroupState {
     controls: FormGroupControlSummaries;
     errors: FormGroupErrors;
+    valid: boolean;
+    pristine: boolean;
+    untouched: boolean;
 }
