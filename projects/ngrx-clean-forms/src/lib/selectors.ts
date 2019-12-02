@@ -39,8 +39,8 @@ export function getFormControlSummary<T>(control: FormControlState<T>): FormCont
     };
 }
 
-export function getFormGroupControlSummaries(
-    controls: FormGroupControls
+export function getFormGroupControlSummaries<T extends FormGroupControls>(
+    controls: T
 ): FormGroupControlSummaries {
     return mapFormControls(controls, control => getFormControlSummary(control));
 }
@@ -57,7 +57,9 @@ export function getFormGroupUntouched(group: FormGroupState): boolean {
         .reduce((val1, val2) => val1 && val2);
 }
 
-export function getFormGroupSummary(group: FormGroupState): FormGroupSummary {
+export function getFormGroupSummary<T extends FormGroupControls>(
+    group: FormGroupState<T>
+): FormGroupSummary {
     const errors = getFormGroupErrors(group);
 
     return {

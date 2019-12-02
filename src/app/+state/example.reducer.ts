@@ -1,6 +1,7 @@
 import {
     FormControlState,
     FormGroupState,
+    FormGroupControls,
 } from './../../../projects/ngrx-clean-forms/src/lib/types';
 import { createReducer, on } from '@ngrx/store';
 import { increment, updateSingleFormControl, updateFormGroup } from './example.actions';
@@ -14,15 +15,15 @@ import {
 const required = (control: FormControlState<string>) =>
     control.value.trim().length ? null : { required: true };
 
-export type ExampleFormState = FormGroupState<{
+export interface ExampleFormControls extends FormGroupControls {
     firstInput: FormControlState<string>;
     secondInput: FormControlState<string>;
-}>;
+}
 
 export interface ExampleState {
     test: string;
     singleControl: FormControlState<string>;
-    group: ExampleFormState;
+    group: FormGroupState<ExampleFormControls>;
 }
 
 export const initialState: ExampleState = {

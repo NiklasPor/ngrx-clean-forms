@@ -1,18 +1,16 @@
 import {
-    Directive,
-    ViewChildren,
     AfterViewInit,
-    OnDestroy,
-    Input,
-    Output,
-    EventEmitter,
-    QueryList,
-    ViewChild,
     ContentChildren,
+    Directive,
+    EventEmitter,
+    Input,
+    OnDestroy,
+    Output,
+    QueryList,
 } from '@angular/core';
-import { SingleControlDirective } from './single-control.directive';
-import { FormGroupUpdate, FormGroupSummary } from './types';
 import { Observable, Subscription } from 'rxjs';
+import { SingleControlDirective } from './single-control.directive';
+import { FormGroupSummary, FormGroupUpdate } from './types';
 
 @Directive({
     selector: '[libFormGroup]',
