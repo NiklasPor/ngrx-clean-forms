@@ -21,6 +21,11 @@ export function getFormControlErrors<T>(control: FormControlState<T>): FormContr
 
 export function getFormGroupErrors(group: FormGroupState): FormGroupErrors | null {
     const errors = mapFormControls(group.controls, control => getFormControlErrors(control));
+
+    Object.entries(errors)
+        .filter(([_, value]) => value === null)
+        .forEach(([key, _]) => delete errors[key]);
+
     return Object.keys(errors).length ? errors : null;
 }
 
