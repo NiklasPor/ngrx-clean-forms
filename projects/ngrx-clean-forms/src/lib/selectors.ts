@@ -8,6 +8,7 @@ import {
     FormGroupErrors,
     FormGroupControls,
 } from './types';
+import { mapFormControls } from './utils';
 
 export function getFormControlErrors<T>(control: FormControlState<T>): FormControlErrors | null {
     const errors = control.validators
@@ -18,11 +19,8 @@ export function getFormControlErrors<T>(control: FormControlState<T>): FormContr
     return Object.keys(errors).length ? errors : null;
 }
 
-export function getFormGroupErrors(group: FormGroupState): FormGroupErrors {
-    const errors = Object.entries(group.controls)
-        .map(([key, control]) => ({ [key]: getFormControlErrors(control) }))
-        .reduce((grp1, grp2) => ({ ...grp1, ...grp2 }), {});
-
+export function getFormGroupErrors(group: FormGroupState): FormGroupErrors | null {
+    const errors = mapFormControls(group.controls, control => getFormControlErrors(control));
     return Object.keys(errors).length ? errors : null;
 }
 
@@ -39,9 +37,7 @@ export function getFormControlSummary<T>(control: FormControlState<T>): FormCont
 export function getFormGroupControlSummaries(
     controls: FormGroupControls
 ): FormGroupControlSummaries {
-    return Object.entries(controls)
-        .map(([key, control]) => ({ [key]: getFormControlSummary(control) }))
-        .reduce((grp1, grp2) => ({ ...grp1, ...grp2 }));
+    return mapFormControls(controls, control => getFormControlSummary(control));
 }
 
 export function getFormGroupSummary(group: FormGroupState): FormGroupSummary {
