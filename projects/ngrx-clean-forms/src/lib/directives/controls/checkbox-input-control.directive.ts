@@ -2,7 +2,7 @@ import { AbstractControlDirective, CONTROL_DIRECTIVE_SELECTOR } from './abstract
 import { HostListener, Directive } from '@angular/core';
 
 @Directive({
-    selector: `input[type="text"][${CONTROL_DIRECTIVE_SELECTOR}]`,
+    selector: `input[type="checkbox"][${CONTROL_DIRECTIVE_SELECTOR}]`,
 })
 export class CheckboxInputControlDirective extends AbstractControlDirective<string> {
     @HostListener('input') onInput() {

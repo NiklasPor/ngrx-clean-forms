@@ -16,28 +16,29 @@ const required = (control: FormControlState<string>) =>
     control.value.trim().length ? null : { required: true };
 
 export interface ExampleFormControls extends FormGroupControls {
-    firstInput: FormControlState<string>;
-    secondInput: FormControlState<number>;
+    textInput: FormControlState<string>;
+    numberInput: FormControlState<number>;
+    checkboxInput: FormControlState<boolean>;
+    customInput: FormControlState<number>;
 }
 
 export interface ExampleState {
-    test: string;
     singleControl: FormControlState<string>;
     group: FormGroupState<ExampleFormControls>;
 }
 
 export const initialState: ExampleState = {
-    test: 'test',
     singleControl: initialFormControl('initial', [required]),
     group: initialFormGroup({
-        firstInput: initialFormControl(''),
-        secondInput: initialFormControl(0),
+        textInput: initialFormControl(''),
+        numberInput: initialFormControl(0),
+        checkboxInput: initialFormControl(false),
+        customInput: initialFormControl(1),
     }),
 };
 
 const internalExampleReducer = createReducer(
     initialState,
-    on(increment, state => ({ ...state, test: state.test + '-' })),
     on(updateSingleFormControl, (state, props) => ({
         ...state,
         singleControl: reduceFormControl(state.singleControl, props.update),

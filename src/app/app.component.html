@@ -1,6 +1,7 @@
-<form libFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+<form ngrxForm [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
     <div>
-        <input type="text" libSingleControl controlKey="firstInput" />
-        <app-custom-input libSingleControl controlKey="secondInput"></app-custom-input>
+        <input type="text" ngrxControl="textInput" />
+        <input type="number" ngrxControl="numberInput" />
+        <app-custom-input ngrxControl="customInput"></app-custom-input>
     </div>
 </form>

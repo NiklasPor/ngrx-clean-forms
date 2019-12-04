@@ -1,7 +1,8 @@
 import { AfterViewInit, Directive, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, Subject } from 'rxjs';
 import { FormGroupSummary, FormGroupUpdate } from '../../types';
 import { ControlChildren } from './control-children';
+import { takeUntil, first } from 'rxjs/operators';
 
 @Directive({
     selector: '[ngrxForm]',
@@ -9,13 +10,18 @@ import { ControlChildren } from './control-children';
 export class FormGroupDirective extends ControlChildren implements AfterViewInit, OnDestroy {
     @Input('formSummary$')
     set setFormSummary$(formSummary$: Observable<FormGroupSummary>) {
-        this.unsubscribe();
-        this.subscriptions.push(formSummary$.subscribe(summary => this.updateSummary(summary)));
+        this.destroy$.complete();
+
+        this.formSummary$ = formSummary$;
+        this.formSummary$
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(summary => this.updateSummary(summary));
     }
 
     @Output() formUpdate = new EventEmitter<FormGroupUpdate>();
 
-    subscriptions = new Array<Subscription>();
+    formSummary$: Observable<FormGroupSummary>;
+    destroy$ = new Subject<void>();
 
     ngAfterViewInit() {
         this.getChildren().forEach(control => {
@@ -23,10 +29,17 @@ export class FormGroupDirective extends ControlChildren implements AfterViewInit
                 this.formUpdate.next({ controls: { [control.controlKey]: update } })
             );
         });
+
+        this.formSummary$.pipe(first()).subscribe(summary => this.updateSummary(summary));
+    }
+
+    ngOnDestroy() {
+        this.destroy$.complete();
     }
 
     updateSummary(summary: FormGroupSummary) {
         const children = this.getChildren();
+
         if (!children.length) {
             return;
         }
@@ -34,13 +47,5 @@ export class FormGroupDirective extends ControlChildren implements AfterViewInit
         children.forEach(control => {
             control.updateSummary(summary.controls[control.controlKey]);
         });
-    }
-
-    unsubscribe() {
-        this.subscriptions.forEach(sub => sub && sub.unsubscribe());
-    }
-
-    ngOnDestroy() {
-        this.unsubscribe();
     }
 }

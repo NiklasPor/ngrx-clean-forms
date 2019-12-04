@@ -4,6 +4,7 @@ import { FormControlUpdate, FormGroupUpdate } from 'projects/ngrx-clean-forms/sr
 import { AppState } from './+state/app.state';
 import { updateFormGroup, updateSingleFormControl } from './+state/example.actions';
 import { selectFormGroup, selectSingleInput } from './+state/example.selectors';
+import { tap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-root',
