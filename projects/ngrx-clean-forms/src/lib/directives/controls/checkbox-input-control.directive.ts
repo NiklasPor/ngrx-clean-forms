@@ -5,8 +5,9 @@ import { HostListener, Directive } from '@angular/core';
     selector: `input[type="checkbox"][${CONTROL_DIRECTIVE_SELECTOR}]`,
 })
 export class CheckboxInputControlDirective extends AbstractControlDirective<string> {
-    @HostListener('input') onInput() {
-        this.emitValue(this.ref.nativeElement.checked);
+    @HostListener('input') onInput($event: Event) {
+        const value = ($event.target as HTMLInputElement).value;
+        this.emitValue(value);
     }
 
     @HostListener('blur') onBlur() {
