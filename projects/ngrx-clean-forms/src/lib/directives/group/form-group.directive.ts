@@ -18,7 +18,6 @@ export class FormGroupDirective extends ControlChildren implements AfterViewInit
     subscriptions = new Array<Subscription>();
 
     ngAfterViewInit() {
-        console.log(this.getChildren());
         this.getChildren().forEach(control => {
             control.formUpdate.subscribe(update =>
                 this.formUpdate.next({ controls: { [control.controlKey]: update } })

@@ -1,14 +1,15 @@
-import { exampleReducer, ExampleState } from './+state/example.reducer';
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { AppComponent } from './app.component';
+import { BrowserModule } from '@angular/platform-browser';
 import { StoreModule } from '@ngrx/store';
-import { environment } from 'src/environments/environment';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NgrxCleanFormsModule } from 'projects/ngrx-clean-forms/src/lib/ngrx-clean-forms.module';
+import { environment } from 'src/environments/environment';
+import { exampleReducer } from './+state/example.reducer';
+import { AppComponent } from './app.component';
+import { CustomInputComponent } from './custom-input/custom-input.component';
 
 @NgModule({
-    declarations: [AppComponent],
+    declarations: [AppComponent, CustomInputComponent],
     imports: [
         NgrxCleanFormsModule,
         BrowserModule,

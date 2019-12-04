@@ -29,7 +29,7 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
         this.subscription = formSummary$.subscribe(summary => this.updateSummary(summary));
     }
 
-    @Output() formUpdate = new EventEmitter<FormControlUpdate<T>>();
+    @Output() formUpdate = new EventEmitter<FormControlUpdate<T>>(true);
 
     subscription: Subscription;
 
@@ -42,6 +42,7 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
     }
 
     emitValue(value: T) {
+        console.log(value);
         this.formUpdate.emit({ value, pristine: false });
     }
 

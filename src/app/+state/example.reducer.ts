@@ -17,7 +17,7 @@ const required = (control: FormControlState<string>) =>
 
 export interface ExampleFormControls extends FormGroupControls {
     firstInput: FormControlState<string>;
-    secondInput: FormControlState<string>;
+    secondInput: FormControlState<number>;
 }
 
 export interface ExampleState {
@@ -31,7 +31,7 @@ export const initialState: ExampleState = {
     singleControl: initialFormControl('initial', [required]),
     group: initialFormGroup({
         firstInput: initialFormControl(''),
-        secondInput: initialFormControl(''),
+        secondInput: initialFormControl(0),
     }),
 };
 
