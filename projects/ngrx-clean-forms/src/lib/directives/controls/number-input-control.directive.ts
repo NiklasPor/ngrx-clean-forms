@@ -1,8 +1,7 @@
 import { HostListener, Directive } from '@angular/core';
-import { AbstractControlDirective } from './abstract-control.directive';
-
+import { AbstractControlDirective, CONTROL_DIRECTIVE_SELECTOR } from './abstract-control.directive';
 @Directive({
-    selector: 'input[type="number"][libSingleControl]',
+    selector: `input[type="number"][${CONTROL_DIRECTIVE_SELECTOR}]`,
 })
 export class NumberInputControlDirective extends AbstractControlDirective<number> {
     @HostListener('input') onChange() {

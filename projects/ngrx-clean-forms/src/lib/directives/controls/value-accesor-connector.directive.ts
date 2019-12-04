@@ -1,9 +1,9 @@
 import { Directive, ElementRef, Inject, Renderer2, Optional } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { AbstractControlDirective } from './abstract-control.directive';
+import { AbstractControlDirective, CONTROL_DIRECTIVE_SELECTOR } from './abstract-control.directive';
 
 @Directive({
-    selector: '[libSingleControl]',
+    selector: `[${CONTROL_DIRECTIVE_SELECTOR}]`,
 })
 export class ValueAccesorConnectorDirective extends AbstractControlDirective<number> {
     accessor: ControlValueAccessor;

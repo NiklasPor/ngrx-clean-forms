@@ -4,9 +4,9 @@ import { HostListener, Directive } from '@angular/core';
 @Directive({
     selector: `input[type="text"][${CONTROL_DIRECTIVE_SELECTOR}]`,
 })
-export class TextInputControlDirective extends AbstractControlDirective<string> {
+export class CheckboxInputControlDirective extends AbstractControlDirective<string> {
     @HostListener('input') onInput() {
-        this.emitValue(this.ref.nativeElement.value);
+        this.emitValue(this.ref.nativeElement.checked);
     }
 
     @HostListener('blur') onBlur() {

@@ -1,3 +1,4 @@
+import { CheckboxInputControlDirective } from './directives/controls/checkbox-input-control.directive';
 import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -9,6 +10,7 @@ import { FormGroupDirective } from './directives/group/form-group.directive';
 
 const controlDirectives: Type<AbstractControlDirective<any>>[] = [
     TextInputControlDirective,
+    CheckboxInputControlDirective,
     NumberInputControlDirective,
     ValueAccesorConnectorDirective,
 ];

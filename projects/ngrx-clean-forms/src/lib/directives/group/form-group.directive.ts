@@ -4,7 +4,7 @@ import { FormGroupSummary, FormGroupUpdate } from '../../types';
 import { ControlChildren } from './control-children';
 
 @Directive({
-    selector: '[libFormGroup]',
+    selector: '[ngrxForm]',
 })
 export class FormGroupDirective extends ControlChildren implements AfterViewInit, OnDestroy {
     @Input('formSummary$')

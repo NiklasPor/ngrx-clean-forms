@@ -1,13 +1,5 @@
-import {
-    ElementRef,
-    EventEmitter,
-    Input,
-    OnDestroy,
-    Output,
-    Renderer2,
-    Directive,
-} from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { ElementRef, EventEmitter, Input, OnDestroy, Output, Renderer2 } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { FormControlSummary, FormControlUpdate } from '../../types';
 
 const classes = {
@@ -19,19 +11,21 @@ const classes = {
     untouched: 'ng-untouched',
 };
 
+export const CONTROL_DIRECTIVE_SELECTOR = `ngrxControl`;
+
 export abstract class AbstractControlDirective<T> implements OnDestroy {
-    @Input()
-    controlKey: string;
+    @Input(CONTROL_DIRECTIVE_SELECTOR)
+    controlKey?: string;
 
     @Input('formSummary$')
     set setFormSummary$(formSummary$: Observable<FormControlSummary<T>>) {
-        this.unsubscribe();
-        this.subscription = formSummary$.subscribe(summary => this.updateSummary(summary));
+        this.destroy$.complete();
+        formSummary$.subscribe(summary => this.updateSummary(summary));
     }
 
     @Output() formUpdate = new EventEmitter<FormControlUpdate<T>>(true);
 
-    subscription: Subscription;
+    private destroy$ = new Subject<void>();
 
     constructor(protected ref: ElementRef, private r2: Renderer2) {}
 
@@ -42,7 +36,6 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
     }
 
     emitValue(value: T) {
-        console.log(value);
         this.formUpdate.emit({ value, pristine: false });
     }
 
@@ -75,12 +68,6 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this.unsubscribe();
-    }
-
-    unsubscribe() {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
+        this.destroy$.complete();
     }
 }
