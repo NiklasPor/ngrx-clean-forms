@@ -12,7 +12,7 @@ import { AbstractControlDirective, CONTROL_DIRECTIVE_SELECTOR } from './abstract
 @Directive({
     selector: `[${CONTROL_DIRECTIVE_SELECTOR}]`,
 })
-export class ValueAccesorConnectorDirective extends AbstractControlDirective<number> {
+export class ValueAccessorConnectorDirective extends AbstractControlDirective<any> {
     accessor: ControlValueAccessor;
 
     constructor(

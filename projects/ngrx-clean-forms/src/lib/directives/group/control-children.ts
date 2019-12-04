@@ -2,7 +2,7 @@ import { ContentChildren, QueryList } from '@angular/core';
 import { AbstractControlDirective } from '../controls/abstract-control.directive';
 import { NumberInputControlDirective } from './../controls/number-input-control.directive';
 import { TextInputControlDirective } from './../controls/text-input-control.directive';
-import { ValueAccesorConnectorDirective } from '../controls/value-accesor-connector.directive';
+import { ValueAccessorConnectorDirective } from '../controls/value-accessor-connector.directive';
 import { CheckboxInputControlDirective } from '../controls/checkbox-input-control.directive';
 
 type directiveQuery = QueryList<AbstractControlDirective<any>>;
@@ -12,7 +12,7 @@ export abstract class ControlChildren {
     @ContentChildren(TextInputControlDirective, config) private textInputs: directiveQuery;
     @ContentChildren(CheckboxInputControlDirective, config) private checkboxInputs: directiveQuery;
     @ContentChildren(NumberInputControlDirective, config) private numberInputs: directiveQuery;
-    @ContentChildren(ValueAccesorConnectorDirective, config) private customInputs: directiveQuery;
+    @ContentChildren(ValueAccessorConnectorDirective, config) private customInputs: directiveQuery;
 
     protected getChildren() {
         return [this.textInputs, this.numberInputs, this.customInputs, this.checkboxInputs]
