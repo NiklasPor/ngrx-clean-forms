@@ -11,6 +11,8 @@ import {
     initialFormGroup,
     reduceFormGroup,
 } from 'projects/ngrx-clean-forms/src/lib/reducer';
+import { of } from 'projects/ngrx-clean-forms/src/lib/utils';
+import { Validators } from '@angular/forms';
 
 const required = (control: FormControlState<string>) =>
     control.value.trim().length ? null : { required: true };
@@ -32,7 +34,7 @@ export const initialState: ExampleState = {
     singleControl: initialFormControl('initial', [required]),
     group: initialFormGroup({
         textInput: initialFormControl(''),
-        numberInput: initialFormControl(0),
+        numberInput: initialFormControl(0, [of(Validators.max(4))]),
         rangeInput: initialFormControl(0),
         checkboxInput: initialFormControl(false),
         customInput: initialFormControl(1),
