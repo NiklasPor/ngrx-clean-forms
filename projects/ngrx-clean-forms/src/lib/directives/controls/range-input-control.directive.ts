@@ -14,6 +14,6 @@ export class NumberInputControlDirective extends AbstractControlDirective<number
     }
 
     setValue(value: number) {
-        this.r2.setProperty(this.ref.nativeElement, 'value', value === null ? '' : value);
+        this.r2.setProperty(this.ref.nativeElement, 'value', value);
     }
 }
