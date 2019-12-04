@@ -17,12 +17,4 @@ export class CheckboxInputControlDirective extends AbstractControlDirective<bool
     setValue(value: boolean) {
         this.r2.setProperty(this.ref.nativeElement, 'checked', value);
     }
-
-    convertToBoolean(value: string): boolean {
-        return value === 'on';
-    }
-
-    convertToString(value: boolean): string {
-        return value ? 'on' : 'off';
-    }
 }
