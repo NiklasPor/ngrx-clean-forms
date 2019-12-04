@@ -7,11 +7,13 @@ import { NumberInputControlDirective } from './directives/controls/number-input-
 import { TextInputControlDirective } from './directives/controls/text-input-control.directive';
 import { ValueAccessorConnectorDirective } from './directives/controls/value-accessor-connector.directive';
 import { FormGroupDirective } from './directives/group/form-group.directive';
+import { RangeInputControlDirective } from './directives/controls/range-input-control.directive';
 
 const controlDirectives: Type<AbstractControlDirective<any>>[] = [
     TextInputControlDirective,
     CheckboxInputControlDirective,
     NumberInputControlDirective,
+    RangeInputControlDirective,
     ValueAccessorConnectorDirective,
 ];
 

@@ -18,6 +18,7 @@ const required = (control: FormControlState<string>) =>
 export interface ExampleFormControls extends FormGroupControls {
     textInput: FormControlState<string>;
     numberInput: FormControlState<number>;
+    rangeInput: FormControlState<number>;
     checkboxInput: FormControlState<boolean>;
     customInput: FormControlState<number>;
 }
@@ -32,6 +33,7 @@ export const initialState: ExampleState = {
     group: initialFormGroup({
         textInput: initialFormControl(''),
         numberInput: initialFormControl(0),
+        rangeInput: initialFormControl(0),
         checkboxInput: initialFormControl(false),
         customInput: initialFormControl(1),
     }),

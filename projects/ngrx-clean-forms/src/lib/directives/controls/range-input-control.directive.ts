@@ -1,10 +1,10 @@
 import { HostListener, Directive } from '@angular/core';
 import { AbstractControlDirective, CONTROL_DIRECTIVE_SELECTOR } from './abstract-control.directive';
 @Directive({
-    selector: `input[type="number"][${CONTROL_DIRECTIVE_SELECTOR}]`,
+    selector: `input[type="range"][${CONTROL_DIRECTIVE_SELECTOR}]`,
 })
-export class NumberInputControlDirective extends AbstractControlDirective<number> {
-    @HostListener('input') onChange($event: Event) {
+export class RangeInputControlDirective extends AbstractControlDirective<number> {
+    @HostListener('input', ['$event']) onChange($event: Event) {
         const value = ($event.target as HTMLInputElement).value;
         this.emitValue(value === '' ? null : parseFloat(value));
     }

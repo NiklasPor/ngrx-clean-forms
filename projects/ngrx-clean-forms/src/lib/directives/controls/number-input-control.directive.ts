@@ -4,7 +4,7 @@ import { AbstractControlDirective, CONTROL_DIRECTIVE_SELECTOR } from './abstract
     selector: `input[type="number"][${CONTROL_DIRECTIVE_SELECTOR}]`,
 })
 export class NumberInputControlDirective extends AbstractControlDirective<number> {
-    @HostListener('input') onChange($event: Event) {
+    @HostListener('input', ['$event']) onChange($event: Event) {
         const value = ($event.target as HTMLInputElement).value;
         this.emitValue(value === '' ? null : parseFloat(value));
     }
