@@ -14,6 +14,6 @@ export class CheckboxInputControlDirective extends AbstractControlDirective<stri
     }
 
     setValue(value: string) {
-        this.ref.nativeElement.value = value;
+        this.r2.setProperty(this.ref.nativeElement, 'checked', value);
     }
 }

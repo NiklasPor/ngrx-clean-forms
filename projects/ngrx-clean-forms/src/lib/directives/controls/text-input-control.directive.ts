@@ -14,6 +14,6 @@ export class TextInputControlDirective extends AbstractControlDirective<string> 
     }
 
     setValue(value: string) {
-        this.ref.nativeElement.value = value;
+        this.r2.setProperty(this.ref.nativeElement, 'value', value);
     }
 }

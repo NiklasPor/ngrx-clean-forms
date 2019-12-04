@@ -38,7 +38,11 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
 
     private destroy$ = new Subject<void>();
 
-    constructor(protected ref: ElementRef, private r2: Renderer2, private cdr: ChangeDetectorRef) {}
+    constructor(
+        protected ref: ElementRef,
+        protected r2: Renderer2,
+        private cdr: ChangeDetectorRef
+    ) {}
 
     abstract setValue(value: T);
 
