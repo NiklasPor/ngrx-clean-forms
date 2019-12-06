@@ -7,8 +7,6 @@ import {
 
 export const selectExample = (state: AppState) => state.example;
 
-export const selectTest = createSelector(selectExample, state => state.test);
-
 export const selectSingleInput = createSelector(selectExample, state =>
     getFormControlSummary(state.singleControl)
 );
