@@ -35,13 +35,12 @@ export interface FormControlSummary<T> extends FormControlState<T> {
     valid: boolean;
 }
 
-export interface FormGroupControlSummaries extends FormGroupControls {
-    [controlKey: string]: FormControlSummary<any>;
-}
+export type FormGroupControlSummaries<TControls extends FormGroupControls> = {
+    [K in keyof TControls]: FormControlSummary<any>;
+};
 
-export interface FormGroupSummary<T extends FormGroupControlSummaries = FormGroupControlSummaries>
-    extends FormGroupState {
-    controls: T;
+export interface FormGroupSummary<TControls extends FormGroupControls> extends FormGroupState {
+    controls: FormGroupControlSummaries<TControls>;
     errors: FormGroupErrors;
     valid: boolean;
     pristine: boolean;
