@@ -7,6 +7,7 @@ import {
     FormGroupErrors,
     FormGroupControls,
     FormGroupControlSummaries,
+    FormControls,
 } from './types';
 import { mapFormControls } from './utils';
 
@@ -19,7 +20,9 @@ export function getFormControlErrors<T>(control: FormControlState<T>): FormContr
     return Object.keys(errors).length ? errors : null;
 }
 
-export function getFormGroupErrors(group: FormGroupState): FormGroupErrors | null {
+export function getFormGroupErrors<TControls extends FormControls>(
+    group: FormGroupState<TControls>
+): FormGroupErrors<TControls> | null {
     const errors = mapFormControls(group.controls, control => getFormControlErrors(control));
 
     Object.entries(errors)
@@ -39,25 +42,29 @@ export function getFormControlSummary<T>(control: FormControlState<T>): FormCont
     };
 }
 
-export function getFormGroupControlSummaries<TControls extends FormGroupControls>(
-    controls: TControls
+export function getFormGroupControlSummaries<TControls extends FormControls>(
+    controls: FormGroupControls<TControls>
 ): FormGroupControlSummaries<TControls> {
     return mapFormControls(controls, control => getFormControlSummary(control));
 }
 
-export function getFormGroupPristine(group: FormGroupState): boolean {
+export function getFormGroupPristine<TControls extends FormControls>(
+    group: FormGroupState<TControls>
+): boolean {
     return Object.values(group.controls)
         .map(control => control.pristine)
         .reduce((val1, val2) => val1 && val2);
 }
 
-export function getFormGroupUntouched(group: FormGroupState): boolean {
+export function getFormGroupUntouched<TControls extends FormControls>(
+    group: FormGroupState<TControls>
+): boolean {
     return Object.values(group.controls)
         .map(control => control.untouched)
         .reduce((val1, val2) => val1 && val2);
 }
 
-export function getFormGroupSummary<TControls extends FormGroupControls>(
+export function getFormGroupSummary<TControls extends FormControls>(
     group: FormGroupState<TControls>
 ): FormGroupSummary<TControls> {
     const errors = getFormGroupErrors(group);

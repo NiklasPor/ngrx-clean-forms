@@ -2,6 +2,7 @@ import {
     FormControlState,
     FormGroupState,
     FormGroupControls,
+    FormControls,
 } from './../../../projects/ngrx-clean-forms/src/lib/types';
 import { createReducer, on } from '@ngrx/store';
 import { increment, updateSingleFormControl, updateFormGroup } from './example.actions';
@@ -11,18 +12,18 @@ import {
     initialFormGroup,
     reduceFormGroup,
 } from 'projects/ngrx-clean-forms/src/lib/reducer';
-import { of } from 'projects/ngrx-clean-forms/src/lib/utils';
+import { of, mapFormControls } from 'projects/ngrx-clean-forms/src/lib/utils';
 import { Validators } from '@angular/forms';
 
 const required = (control: FormControlState<string>) =>
     control.value.trim().length ? null : { required: true };
 
-export interface ExampleFormControls extends FormGroupControls {
-    textInput: FormControlState<string>;
-    numberInput: FormControlState<number>;
-    rangeInput: FormControlState<number>;
-    checkboxInput: FormControlState<boolean>;
-    customInput: FormControlState<number>;
+export interface ExampleFormControls {
+    textInput: string;
+    numberInput: number;
+    rangeInput: number;
+    checkboxInput: boolean;
+    customInput: number;
 }
 
 export interface ExampleState {

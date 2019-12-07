@@ -5,6 +5,7 @@ import {
     FormGroupUpdate,
     Validator,
     FormGroupControls,
+    FormControls,
 } from './types';
 import { mapFormControls } from './utils';
 
@@ -18,7 +19,10 @@ export function reduceFormControl<T>(
     };
 }
 
-export function reduceFormGroup<T extends FormGroupState>(group: T, update: FormGroupUpdate): T {
+export function reduceFormGroup<TControls extends FormControls>(
+    group: FormGroupState<TControls>,
+    update: FormGroupUpdate<TControls>
+): FormGroupState<TControls> {
     return {
         ...group,
         ...update,
@@ -44,7 +48,9 @@ export function initialFormControl<T>(
     };
 }
 
-export function initialFormGroup<T extends FormGroupControls>(controls: T): FormGroupState<T> {
+export function initialFormGroup<TControls extends FormControls>(
+    controls: FormGroupControls<TControls>
+): FormGroupState<TControls> {
     return {
         controls,
     };

@@ -4,12 +4,14 @@ import { FormGroupSummary, FormGroupUpdate } from '../../types';
 import { ControlChildren } from './control-children';
 import { takeUntil, first } from 'rxjs/operators';
 
+type controls = any;
+
 @Directive({
     selector: '[ngrxForm]',
 })
 export class FormGroupDirective extends ControlChildren implements AfterViewInit, OnDestroy {
     @Input('formSummary$')
-    set setFormSummary$(formSummary$: Observable<FormGroupSummary>) {
+    set setFormSummary$(formSummary$: Observable<FormGroupSummary<controls>>) {
         this.destroy$.complete();
 
         this.formSummary$ = formSummary$;
@@ -18,9 +20,9 @@ export class FormGroupDirective extends ControlChildren implements AfterViewInit
             .subscribe(summary => this.updateSummary(summary));
     }
 
-    @Output() formUpdate = new EventEmitter<FormGroupUpdate>();
+    @Output() formUpdate = new EventEmitter<FormGroupUpdate<controls>>();
 
-    formSummary$: Observable<FormGroupSummary>;
+    formSummary$: Observable<FormGroupSummary<controls>>;
     destroy$ = new Subject<void>();
 
     ngAfterViewInit() {
@@ -37,7 +39,7 @@ export class FormGroupDirective extends ControlChildren implements AfterViewInit
         this.destroy$.complete();
     }
 
-    updateSummary(summary: FormGroupSummary) {
+    updateSummary(summary: FormGroupSummary<controls>) {
         const children = this.getChildren();
 
         if (!children.length) {
