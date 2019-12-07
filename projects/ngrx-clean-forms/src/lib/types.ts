@@ -1,24 +1,28 @@
 type Modify<T, R> = Omit<T, keyof R> & R;
 
-export type FormGroupInitialize<TControls extends FormControls> = {
-    [K in keyof TControls]: FormControlInitializeTuple<TControls[K]>;
-};
-
-export type FormControlInitializeTuple<T> = [T, Validator<T>[]?];
-
+// Base structural type
 export interface FormControls {
     [key: string]: any;
 }
 
+// Initialization
 export type Validator<T> = (control: FormControlState<T>) => FormControlErrors | null;
 
+export type FormControlInitializeTuple<T> = [T, Validator<T>[]?];
+
+export type FormGroupInitialize<TControls extends FormControls> = {
+    [K in keyof TControls]: FormControlInitializeTuple<TControls[K]>;
+};
+
+// Updates
 export type FormControlUpdate<T> = Partial<FormControlState<T>>;
 
 export type FormGroupUpdate<TControls extends FormControls> = Modify<
     Partial<FormGroupState<TControls>>,
-    { controls?: Partial<FormGroupControls<TControls>> }
+    { controls?: Partial<FormGroupControlStates<TControls>> }
 >;
 
+// Errors
 export interface FormControlErrors {
     [error: string]: any;
 }
@@ -27,6 +31,7 @@ export type FormGroupErrors<TControls extends FormControls> = {
     [K in keyof TControls]: FormControlErrors;
 };
 
+// States
 export interface FormControlState<T> {
     value: T;
     pristine: boolean;
@@ -34,14 +39,15 @@ export interface FormControlState<T> {
     validators: Validator<T>[];
 }
 
-export type FormGroupControls<TControls extends FormControls> = {
+export type FormGroupControlStates<TControls extends FormControls> = {
     [K in keyof TControls]: FormControlState<TControls[K]>;
 };
 
 export interface FormGroupState<TControls extends FormControls> {
-    controls: FormGroupControls<TControls>;
+    controls: FormGroupControlStates<TControls>;
 }
 
+// Summaries
 export interface FormControlSummary<T> extends FormControlState<T> {
     errors: FormControlErrors;
     valid: boolean;

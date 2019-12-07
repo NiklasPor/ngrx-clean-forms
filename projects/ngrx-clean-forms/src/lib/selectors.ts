@@ -5,11 +5,11 @@ import {
     FormGroupSummary,
     FormControlSummary,
     FormGroupErrors,
-    FormGroupControls,
+    FormGroupControlStates,
     FormGroupControlSummaries,
     FormControls,
 } from './types';
-import { mapFormControls } from './utils';
+import { mapFormControlStates } from './utils';
 
 export function getFormControlErrors<T>(control: FormControlState<T>): FormControlErrors | null {
     const errors = control.validators
@@ -23,7 +23,7 @@ export function getFormControlErrors<T>(control: FormControlState<T>): FormContr
 export function getFormGroupErrors<TControls extends FormControls>(
     group: FormGroupState<TControls>
 ): FormGroupErrors<TControls> | null {
-    const errors = mapFormControls(group.controls, control => getFormControlErrors(control));
+    const errors = mapFormControlStates(group.controls, control => getFormControlErrors(control));
 
     Object.entries(errors)
         .filter(([_, value]) => value === null)
@@ -43,9 +43,9 @@ export function getFormControlSummary<T>(control: FormControlState<T>): FormCont
 }
 
 export function getFormGroupControlSummaries<TControls extends FormControls>(
-    controls: FormGroupControls<TControls>
+    controls: FormGroupControlStates<TControls>
 ): FormGroupControlSummaries<TControls> {
-    return mapFormControls(controls, control => getFormControlSummary(control));
+    return mapFormControlStates(controls, control => getFormControlSummary(control));
 }
 
 export function getFormGroupPristine<TControls extends FormControls>(

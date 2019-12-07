@@ -1,19 +1,17 @@
+import { Validators } from '@angular/forms';
+import { createReducer, on } from '@ngrx/store';
+import {
+    initialFormControl,
+    initialFormGroup,
+    reduceFormControl,
+    reduceFormGroup,
+} from 'projects/ngrx-clean-forms/src/lib/reducer';
+import { validatorOf } from 'projects/ngrx-clean-forms/src/lib/utils';
 import {
     FormControlState,
     FormGroupState,
-    FormGroupControls,
-    FormControls,
 } from './../../../projects/ngrx-clean-forms/src/lib/types';
-import { createReducer, on } from '@ngrx/store';
-import { increment, updateSingleFormControl, updateFormGroup } from './example.actions';
-import {
-    initialFormControl,
-    reduceFormControl,
-    initialFormGroup,
-    reduceFormGroup,
-} from 'projects/ngrx-clean-forms/src/lib/reducer';
-import { validatorOf, mapFormControls } from 'projects/ngrx-clean-forms/src/lib/utils';
-import { Validators } from '@angular/forms';
+import { updateFormGroup, updateSingleFormControl } from './example.actions';
 
 const required = (control: FormControlState<string>) =>
     control.value.trim().length ? null : { required: true };
