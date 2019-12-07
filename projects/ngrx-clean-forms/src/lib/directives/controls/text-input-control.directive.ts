@@ -2,11 +2,8 @@ import { AbstractControlDirective, CONTROL_DIRECTIVE_SELECTOR } from './abstract
 import { HostListener, Directive } from '@angular/core';
 
 @Directive({
-    selector: [
-        `input[type="text"][${CONTROL_DIRECTIVE_SELECTOR}]`,
-        `textarea[${CONTROL_DIRECTIVE_SELECTOR}]`,
-        `input:not([type="checkbox"]):not([type="number"]):not([type="range"])[${CONTROL_DIRECTIVE_SELECTOR}]`,
-    ].join(','),
+    // tslint:disable-next-line: max-line-length
+    selector: `input[type="text"][${CONTROL_DIRECTIVE_SELECTOR}],textarea[${CONTROL_DIRECTIVE_SELECTOR}],input:not([type="checkbox"]):not([type="number"]):not([type="range"])[${CONTROL_DIRECTIVE_SELECTOR}]`,
 })
 export class TextInputControlDirective extends AbstractControlDirective<string> {
     @HostListener('input') onInput() {
