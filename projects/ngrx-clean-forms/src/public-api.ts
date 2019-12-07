@@ -1,7 +1,5 @@
-/*
- * Public API Surface of ngrx-clean-forms
- */
-
-export * from './lib/ngrx-clean-forms.service';
-export * from './lib/ngrx-clean-forms.component';
-export * from './lib/ngrx-clean-forms.module';
+export * from './lib/init';
+export * from './lib/reducer';
+export * from './lib/selectors';
+export * from './lib/types';
+export * from './lib/utils';
