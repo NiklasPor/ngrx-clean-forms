@@ -18,9 +18,13 @@ export function mapFormControls<TControls extends FormControls, R>(
     };
 }
 
-export function of<T>(fn: ValidatorFn): Validator<T> {
+export function validatorOf<T>(fn: ValidatorFn): Validator<T> {
     return (control: FormControlState<T>) =>
         fn({
             value: control.value,
+            dirty: !control.pristine,
+            pristine: control.pristine,
+            touched: !control.untouched,
+            untouched: control.untouched,
         } as AbstractControl);
 }

@@ -1,5 +1,11 @@
 type Modify<T, R> = Omit<T, keyof R> & R;
 
+export type FormGroupInitialize<TControls extends FormControls> = {
+    [K in keyof TControls]: FormControlInitializeTuple<TControls[K]>;
+};
+
+export type FormControlInitializeTuple<T> = [T, Validator<T>[]?];
+
 export interface FormControls {
     [key: string]: any;
 }

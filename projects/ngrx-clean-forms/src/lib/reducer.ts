@@ -6,6 +6,7 @@ import {
     Validator,
     FormGroupControls,
     FormControls,
+    FormGroupInitialize,
 } from './types';
 import { mapFormControls } from './utils';
 
@@ -49,9 +50,13 @@ export function initialFormControl<T>(
 }
 
 export function initialFormGroup<TControls extends FormControls>(
-    controls: FormGroupControls<TControls>
+    controls: FormGroupInitialize<TControls>
 ): FormGroupState<TControls> {
     return {
-        controls,
+        controls: Object.entries(controls)
+            .map(([key, [initialValue, validators]]) => ({
+                [key]: initialFormControl(initialValue, validators),
+            }))
+            .reduce((ctrl1, ctrl2) => ({ ...ctrl1, ...ctrl2 }), {}) as FormGroupControls<TControls>,
     };
 }

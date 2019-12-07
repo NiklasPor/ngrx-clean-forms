@@ -12,7 +12,7 @@ import {
     initialFormGroup,
     reduceFormGroup,
 } from 'projects/ngrx-clean-forms/src/lib/reducer';
-import { of, mapFormControls } from 'projects/ngrx-clean-forms/src/lib/utils';
+import { validatorOf, mapFormControls } from 'projects/ngrx-clean-forms/src/lib/utils';
 import { Validators } from '@angular/forms';
 
 const required = (control: FormControlState<string>) =>
@@ -34,11 +34,11 @@ export interface ExampleState {
 export const initialState: ExampleState = {
     singleControl: initialFormControl('initial', [required]),
     group: initialFormGroup({
-        textInput: initialFormControl(''),
-        numberInput: initialFormControl(0, [of(Validators.max(4))]),
-        rangeInput: initialFormControl(0),
-        checkboxInput: initialFormControl(false),
-        customInput: initialFormControl(1),
+        textInput: [''],
+        numberInput: [0, [validatorOf(Validators.max(4))]],
+        rangeInput: [0],
+        checkboxInput: [false],
+        customInput: [0],
     }),
 };
 
