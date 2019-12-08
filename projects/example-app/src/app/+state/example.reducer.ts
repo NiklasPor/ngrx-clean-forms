@@ -2,10 +2,7 @@ import { Validators } from '@angular/forms';
 import { createReducer, on } from '@ngrx/store';
 import { reduceFormControl, reduceFormGroup } from 'projects/ngrx-clean-forms/src/lib/reducer';
 import { validatorOf } from 'projects/ngrx-clean-forms/src/lib/utils';
-import {
-    FormControlState,
-    FormGroupState,
-} from './../../../projects/ngrx-clean-forms/src/lib/types';
+import { FormControlState, FormGroupState } from '../../../../ngrx-clean-forms/src/lib/types';
 import { updateFormGroup, updateSingleFormControl } from './example.actions';
 import { initFormControl, initFormGroup } from 'projects/ngrx-clean-forms/src/lib/init';
 

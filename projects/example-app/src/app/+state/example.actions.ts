@@ -1,8 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import {
-    FormControlUpdate,
-    FormGroupUpdate,
-} from './../../../projects/ngrx-clean-forms/src/lib/types';
+import { FormControlUpdate, FormGroupUpdate } from '../../../../ngrx-clean-forms/src/lib/types';
 import { ExampleFormControls } from './example.reducer';
 
 export const increment = createAction('[Counter Component] Increment');
