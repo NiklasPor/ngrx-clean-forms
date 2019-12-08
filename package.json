@@ -1,7 +1,7 @@
 {
     "scripts": {
         "start": "ng serve",
-        "build": "cp README.md projects/example-app/README.md && ng build && rm projects/example-app/README.md",
+        "build": "cp ./README.md ./projects/ngrx-clean-forms/README.md && ng build && rm ./projects/ngrx-clean-forms/README.md",
         "test": "ng test",
         "lint": "ng lint"
     }
