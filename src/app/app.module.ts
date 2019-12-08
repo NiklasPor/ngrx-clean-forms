@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { NgrxCleanFormsModule } from 'ngrx-clean-forms';
+import { NgrxCleanFormsModule } from 'projects/ngrx-clean-forms/src/public-api';
 import { environment } from 'src/environments/environment';
 import { exampleReducer } from './+state/example.reducer';
 import { AppComponent } from './app.component';

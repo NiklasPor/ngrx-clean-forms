@@ -19,7 +19,7 @@ const controlDirectives: Type<AbstractControlDirective<any>>[] = [
 
 @NgModule({
     declarations: [FormGroupDirective, ...controlDirectives],
-    imports: [CommonModule, ReactiveFormsModule],
+    imports: [CommonModule],
     exports: [FormGroupDirective, ...controlDirectives],
 })
 export class NgrxCleanFormsModule {}
