@@ -26,16 +26,16 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
     @Input(CONTROL_DIRECTIVE_SELECTOR)
     controlKey?: string;
 
-    @Input('formSummary$')
-    set setFormSummary$(formSummary$: Observable<FormControlSummary<T>>) {
+    @Input('controlSummary$')
+    set setControlSummary$(controlSummary$: Observable<FormControlSummary<T>>) {
         this.destroy$.complete();
 
-        formSummary$
+        controlSummary$
             .pipe(takeUntil(this.destroy$))
             .subscribe(summary => this.updateSummary(summary));
     }
 
-    @Output() formUpdate = new EventEmitter<FormControlUpdate<T>>(true);
+    @Output() controlUpdate = new EventEmitter<FormControlUpdate<T>>(true);
 
     private destroy$ = new Subject<void>();
 
@@ -48,11 +48,11 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
     abstract setValue(value: T);
 
     emitTouched() {
-        this.formUpdate.emit({ untouched: false });
+        this.controlUpdate.emit({ untouched: false });
     }
 
     emitValue(value: T) {
-        this.formUpdate.emit({ value, pristine: false });
+        this.controlUpdate.emit({ value, pristine: false });
     }
 
     updateSummary(summary: FormControlSummary<T>) {
