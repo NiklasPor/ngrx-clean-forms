@@ -21,6 +21,7 @@ The focus of this library lies on:
     -   [Using the Angular forms validators](#using-the-angular-forms-validators)
     -   [Displaying errors (CSS classes)](#displaying-errors--css-classes-)
     -   [Binding to custom input components](#binding-to-custom-input-components)
+    -   [Binding to an input without a form](#binding-to-a-input-without-a-form)
 -   [Not yet supported features](#not-yet-supported-features)
 
 ## Getting Started
@@ -223,6 +224,20 @@ Those classes will be automatically assigned to the controls and forms managed b
 The workflow for adding support to your custom support is the same as for vanilla Angular forms. You'll simply have to implement the [ControlValueAccessor](https://angular.io/api/forms/ControlValueAccessor) interface.
 
 You can also have a look at the `CustomInputComponent` inside the example application of this repository, which shows a simple example implementation.
+
+### Binding to an input without a form
+
+To bind to a input which is not contained in a form you'll have to complete the same steps as for a form. There are methods available for performing the same task just for a single input:
+
+-   `initFormControl()` for initialization
+-   `reduceFormControl()` for updating the control
+-   `getFormControlSummary()` for retrieving the summary
+
+Inside your template you can then bind the single input:
+
+```html
+<input ngrxControl [controlSummary$]="singleInput$" (controlUpdate)="updateSingleInput($event)" />
+```
 
 ## Not yet supported features
 
