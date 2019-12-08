@@ -5,8 +5,9 @@ import { validatorOf } from 'projects/ngrx-clean-forms/src/lib/utils';
 import { FormControlState, FormGroupState } from '../../../../ngrx-clean-forms/src/lib/types';
 import { updateFormGroup, updateSingleFormControl } from './example.actions';
 import { initFormControl, initFormGroup } from 'projects/ngrx-clean-forms/src/lib/init';
+import { Validator } from 'ngrx-clean-forms';
 
-const required = (control: FormControlState<string>) =>
+const required: Validator<string> = (control: FormControlState<string>) =>
     control.value.trim().length ? null : { required: true };
 
 export interface ExampleFormControls {
