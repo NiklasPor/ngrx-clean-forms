@@ -3,6 +3,39 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
+        "NgrxCleanForms": {
+            "projectType": "library",
+            "root": "projects/ngrx-clean-forms",
+            "sourceRoot": "projects/ngrx-clean-forms/src",
+            "prefix": "ngrx",
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-ng-packagr:build",
+                    "options": {
+                        "tsConfig": "projects/ngrx-clean-forms/tsconfig.lib.json",
+                        "project": "projects/ngrx-clean-forms/ng-package.json"
+                    }
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "main": "projects/ngrx-clean-forms/src/test.ts",
+                        "tsConfig": "projects/ngrx-clean-forms/tsconfig.spec.json",
+                        "karmaConfig": "projects/ngrx-clean-forms/karma.conf.js"
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-devkit/build-angular:tslint",
+                    "options": {
+                        "tsConfig": [
+                            "projects/ngrx-clean-forms/tsconfig.lib.json",
+                            "projects/ngrx-clean-forms/tsconfig.spec.json"
+                        ],
+                        "exclude": ["**/node_modules/**"]
+                    }
+                }
+            }
+        },
         "ExampleApp": {
             "projectType": "application",
             "schematics": {
@@ -46,39 +79,6 @@
                     "builder": "@angular-devkit/build-angular:tslint",
                     "options": {
                         "tsConfig": ["tsconfig.app.json", "tsconfig.spec.json"],
-                        "exclude": ["**/node_modules/**"]
-                    }
-                }
-            }
-        },
-        "NgrxCleanForms": {
-            "projectType": "library",
-            "root": "projects/ngrx-clean-forms",
-            "sourceRoot": "projects/ngrx-clean-forms/src",
-            "prefix": "ngrx",
-            "architect": {
-                "build": {
-                    "builder": "@angular-devkit/build-ng-packagr:build",
-                    "options": {
-                        "tsConfig": "projects/ngrx-clean-forms/tsconfig.lib.json",
-                        "project": "projects/ngrx-clean-forms/ng-package.json"
-                    }
-                },
-                "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
-                    "options": {
-                        "main": "projects/ngrx-clean-forms/src/test.ts",
-                        "tsConfig": "projects/ngrx-clean-forms/tsconfig.spec.json",
-                        "karmaConfig": "projects/ngrx-clean-forms/karma.conf.js"
-                    }
-                },
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": [
-                            "projects/ngrx-clean-forms/tsconfig.lib.json",
-                            "projects/ngrx-clean-forms/tsconfig.spec.json"
-                        ],
                         "exclude": ["**/node_modules/**"]
                     }
                 }
