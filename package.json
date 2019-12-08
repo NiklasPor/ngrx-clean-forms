@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "start": "ng serve",
+        "start": "npm run build-lib && ng serve",
         "build-lib": "cp ./README.md ./projects/ngrx-clean-forms/README.md && ng build NgrxCleanForms && rm ./projects/ngrx-clean-forms/README.md",
         "test-lib": "ng test NgrxCleanForms",
         "lint-lib": "ng lint NgrxCleanForms",
