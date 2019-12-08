@@ -1,19 +1,17 @@
 import {
+    ChangeDetectorRef,
     ElementRef,
     EventEmitter,
     Input,
     OnDestroy,
     Output,
     Renderer2,
-    ChangeDetectorRef,
-    Host,
-    Inject,
-    NgZone,
 } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { FormControlSummary, FormControlUpdate } from '../../types';
+import { takeUntil } from 'rxjs/operators';
 
-const classes = {
+const cssClasses = {
     invalid: 'ng-invalid',
     valid: 'ng-valid',
     pristine: 'ng-pristine',
@@ -31,7 +29,10 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
     @Input('formSummary$')
     set setFormSummary$(formSummary$: Observable<FormControlSummary<T>>) {
         this.destroy$.complete();
-        formSummary$.subscribe(summary => this.updateSummary(summary));
+
+        formSummary$
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(summary => this.updateSummary(summary));
     }
 
     @Output() formUpdate = new EventEmitter<FormControlUpdate<T>>(true);
@@ -58,28 +59,18 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
         this.setValue(summary.value);
         this.cdr.detectChanges();
 
-        if (summary.valid) {
-            this.r2.addClass(this.ref.nativeElement, classes.valid);
-            this.r2.removeClass(this.ref.nativeElement, classes.invalid);
-        } else {
-            this.r2.addClass(this.ref.nativeElement, classes.invalid);
-            this.r2.removeClass(this.ref.nativeElement, classes.valid);
-        }
+        this.chooseClass(cssClasses.invalid, cssClasses.valid, summary.valid);
+        this.chooseClass(cssClasses.dirty, cssClasses.pristine, summary.pristine);
+        this.chooseClass(cssClasses.touched, cssClasses.untouched, summary.untouched);
+    }
 
-        if (summary.pristine) {
-            this.r2.addClass(this.ref.nativeElement, classes.pristine);
-            this.r2.removeClass(this.ref.nativeElement, classes.dirty);
+    chooseClass(class1: string, class2: string, chooseSecond: boolean) {
+        if (chooseSecond) {
+            this.r2.addClass(this.ref.nativeElement, class2);
+            this.r2.removeClass(this.ref.nativeElement, class1);
         } else {
-            this.r2.addClass(this.ref.nativeElement, classes.dirty);
-            this.r2.removeClass(this.ref.nativeElement, classes.pristine);
-        }
-
-        if (summary.untouched) {
-            this.r2.addClass(this.ref.nativeElement, classes.untouched);
-            this.r2.removeClass(this.ref.nativeElement, classes.touched);
-        } else {
-            this.r2.addClass(this.ref.nativeElement, classes.touched);
-            this.r2.removeClass(this.ref.nativeElement, classes.untouched);
+            this.r2.addClass(this.ref.nativeElement, class1);
+            this.r2.removeClass(this.ref.nativeElement, class2);
         }
     }
 
