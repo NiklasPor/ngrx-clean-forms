@@ -28,7 +28,7 @@ export interface FormControlErrors {
 }
 
 export type FormGroupErrors<TControls extends FormControls> = {
-    [K in keyof TControls]: FormControlErrors;
+    [K in keyof Partial<TControls>]: FormControlErrors;
 };
 
 // States
