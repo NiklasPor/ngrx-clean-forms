@@ -10,13 +10,26 @@ The focus of this library lies on:
 
 ## Table of Contents
 
+-   [Getting Started](#getting-started)
+    -   [Import the NgrxCleanFormsModule](#import-the-ngrxcleanformsmodule)
+    -   [Add the form state to your state managment](#add-the-form-state-to-your-state-managment)
+    -   [Accessing the form state & errors](#accessing-the-form-state---errors)
+    -   [Updating (reducing) the form state](#updating--reducing--the-form-state)
+    -   [Binding your HTML form to your state](#binding-your-html-form-to-your-state)
+-   [Additional Resources](#additional-resources)
+    -   [Adding validators](#adding-validators)
+    -   [Using the Angular forms validators](#using-the-angular-forms-validators)
+    -   [Displaying errors (CSS classes)](#displaying-errors--css-classes-)
+    -   [Binding to custom input components](#binding-to-custom-input-components)
+-   [Not yet supported features](#not-yet-supported-features)
+
 ## Getting Started
 
 ```
 npm i ngrx-clean-forms
 ```
 
-### Import the `NgrxCleanFormsModule`
+### Import the NgrxCleanFormsModule
 
 After installing the package you'll have to include it in your module. You **won't** need an import to another FormModule (e.g. `ReactiveFormsModule` or `FormsModule`) when you use this framework.
 
@@ -70,7 +83,7 @@ export const initialState: ExampleState = {
 
 The explicit passing of the generic type is optional, but it's way easier to find invalid property types when you specify it.
 
-### `Summary`: Accessing the form state & errors
+### Accessing the form state & errors
 
 The `FormControlSummary<T>` and `FormGroupSummary<TControls>` provide a summary of their counterparts `FormControlState<T>` and `FormGroupState<TControls>`. They also include errors and further additions which depend on the state.
 
@@ -84,7 +97,7 @@ export const selectFormGroup = createSelector(selectExample, state =>
 );
 ```
 
-### `Update`: Updating (reducing) the form state
+### Updating (reducing) the form state
 
 Just like the `Summary` types there are `Update` types you can utilize for updating the form state.
 
