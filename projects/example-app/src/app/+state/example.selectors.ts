@@ -1,9 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { AppState } from './app.state';
-import {
-    getFormControlSummary,
-    getFormGroupSummary,
-} from 'projects/ngrx-clean-forms/src/lib/selectors';
+import { getFormControlSummary, getFormGroupSummary } from 'ngrx-clean-forms';
 
 export const selectExample = (state: AppState) => state.example;
 

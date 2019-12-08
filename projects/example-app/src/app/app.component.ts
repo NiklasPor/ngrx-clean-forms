@@ -1,12 +1,10 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { FormControlUpdate, FormGroupUpdate } from 'projects/ngrx-clean-forms/src/lib/types';
+import { FormControlUpdate, FormGroupUpdate } from 'ngrx-clean-forms';
 import { AppState } from './+state/app.state';
 import { updateFormGroup, updateSingleFormControl } from './+state/example.actions';
-import { selectFormGroup, selectSingleInput } from './+state/example.selectors';
-import { tap, map } from 'rxjs/operators';
-import { Validators, AbstractControl } from '@angular/forms';
 import { ExampleFormControls } from './+state/example.reducer';
+import { selectFormGroup, selectSingleInput } from './+state/example.selectors';
 
 @Component({
     selector: 'app-root',
