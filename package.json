@@ -5,6 +5,7 @@
         "test-lib": "ng test NgrxCleanForms",
         "lint-lib": "ng lint NgrxCleanForms",
         "publish-lib": "npm publish dist/ngrx-clean-forms",
-        "release-lib": "npm run lint-lib && npm run test-lib -- --watch=false && npm run build-lib && npm run publish-lib"
+        "release-lib": "npm run lint-lib && npm run test-lib -- --watch=false && npm run build-lib && npm run publish-lib",
+        "version-lib": "cd projects/ngrx-clean-forms && npm version"
     }
 }
