@@ -1,11 +1,4 @@
-import {
-    Directive,
-    ElementRef,
-    Inject,
-    Renderer2,
-    Optional,
-    ChangeDetectorRef,
-} from '@angular/core';
+import { Directive, ElementRef, Inject, Optional, Renderer2 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AbstractControlDirective, CONTROL_DIRECTIVE_SELECTOR } from './abstract-control.directive';
 
@@ -18,12 +11,11 @@ export class ValueAccessorConnectorDirective extends AbstractControlDirective<an
     constructor(
         ref: ElementRef,
         r2: Renderer2,
-        cdr: ChangeDetectorRef,
         @Optional()
         @Inject(NG_VALUE_ACCESSOR)
         accessors: ControlValueAccessor[]
     ) {
-        super(ref, r2, cdr);
+        super(ref, r2);
         this.initAccessor(accessors);
     }
 

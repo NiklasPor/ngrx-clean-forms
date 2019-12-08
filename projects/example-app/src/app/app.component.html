@@ -1,3 +1,4 @@
+<h3>Form example:</h3>
 <form ngrxForm [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
     <div>
         <input type="text" ngrxControl="textInput" />
@@ -7,3 +8,6 @@
         <app-custom-input ngrxControl="customInput"></app-custom-input>
     </div>
 </form>
+
+<h3>Single example:</h3>
+<input ngrxControl [controlSummary$]="singleInput$" (controlUpdate)="updateSingleInput($event)" />

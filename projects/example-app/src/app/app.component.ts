@@ -19,7 +19,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {}
 
-    updateSingleInput(controlUpdate: FormControlUpdate<any>) {
+    updateSingleInput(controlUpdate: FormControlUpdate<string>) {
         this.store.dispatch(updateSingleFormControl({ update: controlUpdate }));
     }
 

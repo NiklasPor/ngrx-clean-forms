@@ -4,7 +4,7 @@ import { ExampleFormControls } from './example.reducer';
 
 export const increment = createAction('[Counter Component] Increment');
 export const updateSingleFormControl = createAction(
-    '[Example] Update Single Form',
+    '[Example] Update Single Control',
     props<{ update: FormControlUpdate<string> }>()
 );
 

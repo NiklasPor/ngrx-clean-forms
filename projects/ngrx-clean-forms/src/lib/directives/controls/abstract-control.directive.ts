@@ -1,12 +1,4 @@
-import {
-    ChangeDetectorRef,
-    ElementRef,
-    EventEmitter,
-    Input,
-    OnDestroy,
-    Output,
-    Renderer2,
-} from '@angular/core';
+import { ElementRef, EventEmitter, Input, OnDestroy, Output, Renderer2 } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { FormControlSummary, FormControlUpdate } from '../../types';
 import { takeUntil } from 'rxjs/operators';
@@ -39,11 +31,7 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
 
     private destroy$ = new Subject<void>();
 
-    constructor(
-        protected ref: ElementRef,
-        protected r2: Renderer2,
-        private cdr: ChangeDetectorRef
-    ) {}
+    constructor(protected ref: ElementRef, protected r2: Renderer2) {}
 
     abstract setValue(value: T);
 
@@ -57,7 +45,6 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
 
     updateSummary(summary: FormControlSummary<T>) {
         this.setValue(summary.value);
-        this.cdr.detectChanges();
 
         this.chooseClass(cssClasses.invalid, cssClasses.valid, summary.valid);
         this.chooseClass(cssClasses.dirty, cssClasses.pristine, summary.pristine);
