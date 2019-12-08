@@ -210,3 +210,10 @@ Those classes will be automatically assigned to the controls and forms managed b
 The workflow for adding support to your custom support is the same as for vanilla Angular forms. You'll simply have to implement the [ControlValueAccessor](https://angular.io/api/forms/ControlValueAccessor) interface.
 
 You can also have a look at the `CustomInputComponent` inside the example application of this repository, which shows a simple example implementation.
+
+## Not yet supported features
+
+| Feature            | Status | Description                                                              |
+| ------------------ | ------ | ------------------------------------------------------------------------ |
+| Support `disabled` | WIP    | Support the disabled attribute inside FormControls.                      |
+| Async validators   | -      |  Support the implemenation of async validators, which have side effects. |
