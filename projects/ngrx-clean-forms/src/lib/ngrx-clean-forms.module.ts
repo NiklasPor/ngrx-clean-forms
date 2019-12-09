@@ -9,6 +9,7 @@ import { ValueAccessorConnectorDirective } from './directives/controls/value-acc
 import { FormGroupDirective } from './directives/group/form-group.directive';
 import { RangeInputControlDirective } from './directives/controls/range-input-control.directive';
 import { RadioInputControlDirective } from './directives/controls/radio-input-control.directive';
+import { SelectInputControlDirective } from './directives/controls/select-input-control.directive';
 
 const controlDirectives: Type<AbstractControlDirective<any>>[] = [
     TextInputControlDirective,
@@ -16,6 +17,7 @@ const controlDirectives: Type<AbstractControlDirective<any>>[] = [
     NumberInputControlDirective,
     RadioInputControlDirective,
     RangeInputControlDirective,
+    SelectInputControlDirective,
     ValueAccessorConnectorDirective,
 ];
 
