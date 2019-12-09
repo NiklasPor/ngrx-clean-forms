@@ -1,5 +1,28 @@
 {
     "name": "ngrx-clean-forms",
+    "description": "This packages provides form integration for your state. Errors are abstracted as selectors.",
+    "author": {
+        "name": "Niklas Portmann",
+        "email": "niklaspor@gmail.com"
+    },
+    "repository": {
+        "url": "https://github.com/NiklasPor/ngrx-clean-forms.git",
+        "type": "git"
+    },
+    "homepage": "https://github.com/NiklasPor/ngrx-clean-forms",
+    "bugs": {
+        "email": "niklaspor@gmail.com",
+        "url": "https://github.com/NiklasPor/ngrx-clean-forms/issues"
+    },
+    "keywords": [
+        "ngrx",
+        "forms",
+        "angular",
+        "binding",
+        "state",
+        "typescript",
+        "redux"
+    ],
     "version": "1.0.1",
     "peerDependencies": {
         "@angular/common": "^8.2.0",
