@@ -241,8 +241,8 @@ Inside your template you can then bind the single input:
 
 ## Not yet supported features
 
-| Feature                  | Status | Description                                                              |
-| ------------------------ | ------ | ------------------------------------------------------------------------ |
-| Support `disabled`       | WIP    | Support the disabled attribute inside FormControls.                      |
-| Async validators         | -      |  Support the implemenation of async validators, which have side effects. |
-| `<input type="radio" />` | -      | Support the usage of radio control groups.                               |
+| Feature                  | Status | Description                                                                                                                                                  |
+| ------------------------ | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Support `disabled`       | WIP    | Support the disabled attribute inside FormControls.                                                                                                          |
+| Async validators         | -      |  Support the implemenation of async validators, which have side effects.                                                                                     |
+| `<input type="radio" />` | -      | Support the usage of radio control groups. (For now you can create a [custom component](b#inding-to-custom-input-components), which wraps the radio group. ) |
