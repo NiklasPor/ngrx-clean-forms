@@ -5,6 +5,7 @@ import { TextInputControlDirective } from './../controls/text-input-control.dire
 import { ValueAccessorConnectorDirective } from '../controls/value-accessor-connector.directive';
 import { CheckboxInputControlDirective } from '../controls/checkbox-input-control.directive';
 import { RangeInputControlDirective } from '../controls/range-input-control.directive';
+import { RadioInputControlDirective } from '../controls/radio-input-control.directive';
 
 type directiveQuery = QueryList<AbstractControlDirective<any>>;
 const config = { descendants: true };
@@ -13,6 +14,7 @@ export abstract class ControlChildren {
     @ContentChildren(TextInputControlDirective, config) private textInputs: directiveQuery;
     @ContentChildren(CheckboxInputControlDirective, config) private checkboxInputs: directiveQuery;
     @ContentChildren(NumberInputControlDirective, config) private numberInputs: directiveQuery;
+    @ContentChildren(RadioInputControlDirective, config) private radioInputs: directiveQuery;
     @ContentChildren(RangeInputControlDirective, config) private rangeInputs: directiveQuery;
     @ContentChildren(ValueAccessorConnectorDirective, config) private customInputs: directiveQuery;
 
@@ -20,6 +22,7 @@ export abstract class ControlChildren {
         return [
             this.textInputs,
             this.numberInputs,
+            this.radioInputs,
             this.rangeInputs,
             this.customInputs,
             this.checkboxInputs,

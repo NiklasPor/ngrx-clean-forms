@@ -3,7 +3,7 @@ import { AbstractControlDirective, CONTROL_DIRECTIVE_SELECTOR } from './abstract
 
 @Directive({
     // tslint:disable-next-line: max-line-length
-    selector: `input[type="text"][${CONTROL_DIRECTIVE_SELECTOR}],textarea[${CONTROL_DIRECTIVE_SELECTOR}],input:not([type="checkbox"]):not([type="number"]):not([type="range"])[${CONTROL_DIRECTIVE_SELECTOR}]`,
+    selector: `input[type="text"][${CONTROL_DIRECTIVE_SELECTOR}],textarea[${CONTROL_DIRECTIVE_SELECTOR}],input:not([type="checkbox"]):not([type="number"]):not([type="range"]):not([type="radio"])[${CONTROL_DIRECTIVE_SELECTOR}]`,
 })
 export class TextInputControlDirective extends AbstractControlDirective<string> {
     constructor(ref: ElementRef, r2: Renderer2) {
