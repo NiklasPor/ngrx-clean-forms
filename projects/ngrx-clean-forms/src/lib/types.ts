@@ -36,6 +36,7 @@ export interface FormControlState<T> {
     value: T;
     pristine: boolean;
     untouched: boolean;
+    disabled: boolean;
     validators: Validator<T>[];
 }
 

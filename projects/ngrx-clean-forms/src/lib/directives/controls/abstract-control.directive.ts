@@ -35,6 +35,8 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
 
     abstract setValue(value: T);
 
+    setDisabled?(disabled: boolean);
+
     emitTouched() {
         this.controlUpdate.emit({ untouched: false });
     }
@@ -45,6 +47,7 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
 
     updateSummary(summary: FormControlSummary<T>) {
         this.setValue(summary.value);
+        this.setDisabled(summary.disabled);
 
         this.chooseClass(cssClasses.invalid, cssClasses.valid, summary.valid);
         this.chooseClass(cssClasses.dirty, cssClasses.pristine, summary.pristine);

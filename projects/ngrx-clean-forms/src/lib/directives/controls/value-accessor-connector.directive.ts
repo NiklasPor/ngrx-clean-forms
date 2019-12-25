@@ -34,4 +34,10 @@ export class ValueAccessorConnectorDirective extends AbstractControlDirective<an
             this.accessor.writeValue(value);
         }
     }
+
+    setDisabled(disabled: boolean) {
+        if (this.accessor && this.accessor.setDisabledState) {
+            this.accessor.setDisabledState(disabled);
+        }
+    }
 }

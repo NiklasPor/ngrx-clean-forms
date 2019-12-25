@@ -21,4 +21,8 @@ export class CheckboxInputControlDirective extends AbstractControlDirective<bool
     setValue(value: boolean) {
         this.r2.setProperty(this.ref.nativeElement, 'checked', value);
     }
+
+    setDisabled(disabled: boolean) {
+        this.r2.setProperty(this.ref.nativeElement, 'disabled', disabled);
+    }
 }
