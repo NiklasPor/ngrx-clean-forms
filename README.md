@@ -193,7 +193,7 @@ export const initialState: ExampleState = {
 
 Angular already provides a lot of validators that can be converted and used with this module.
 
-The method `validatorOf<T>(fn: ValidatorFn): Validator<T>` converts a ReactiveForm validator to one that matches the specification of this library:
+The method `validatorOf<T>(fn: ValidatorFn): Validator<T>` converts a ReactiveForm validator to one that matches the specification of this library. Asynchronous validator functions (like `composeAsync`) are **not** usable.
 
 ```typescript
 import { initFormGroup, validatorOf } from 'ngrx-clean-forms';
