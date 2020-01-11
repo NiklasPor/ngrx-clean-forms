@@ -10,7 +10,11 @@ import {
     Validator,
     validatorOf,
 } from 'ngrx-clean-forms';
-import { updateFormGroup, updateSingleFormControl } from './example.actions';
+import {
+    updateFormGroup,
+    updateSingleFormControl,
+    updateStateAccessExampleFormGroup,
+} from './example.actions';
 
 const required: Validator<string> = (control: FormControlState<string>) =>
     control.value.trim().length ? null : { required: true };
@@ -23,9 +27,15 @@ export interface ExampleFormControls {
     customInput: number;
 }
 
+export interface StateAccessExampleFormControls {
+    exampleInput: number;
+}
+
 export interface ExampleState {
     singleControl: FormControlState<string>;
     group: FormGroupState<ExampleFormControls>;
+    stateAccessExampleGroup: FormGroupState<StateAccessExampleFormControls>;
+    forbiddenNumber: number;
 }
 
 export const initialState: ExampleState = {
@@ -37,6 +47,8 @@ export const initialState: ExampleState = {
         checkboxInput: [false],
         customInput: [0],
     }),
+    stateAccessExampleGroup: initFormGroup({ exampleInput: [1] }),
+    forbiddenNumber: 2,
 };
 
 const internalExampleReducer = createReducer(
@@ -48,6 +60,10 @@ const internalExampleReducer = createReducer(
     on(updateFormGroup, (state, props) => ({
         ...state,
         group: reduceFormGroup(state.group, props.update),
+    })),
+    on(updateStateAccessExampleFormGroup, (state, props) => ({
+        ...state,
+        stateAccessExampleGroup: reduceFormGroup(state.stateAccessExampleGroup, props.update),
     }))
 );
 

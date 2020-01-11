@@ -11,3 +11,13 @@
 
 <h3>Single example:</h3>
 <input ngrxControl [controlSummary$]="singleInput$" (controlUpdate)="updateSingleInput($event)" />
+
+<h3>State access example:</h3>
+<small>Forbidden number (from state): {{ forbiddenNumber$ | async }}</small>
+<form
+    ngrxForm
+    [formSummary$]="stateAccessFormGroup$"
+    (formUpdate)="updateStateAccessFormGroup($event)"
+>
+    <input type="number" ngrxControl="exampleInput" />
+</form>
