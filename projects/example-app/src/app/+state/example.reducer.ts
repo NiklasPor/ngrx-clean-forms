@@ -29,9 +29,9 @@ export interface ExampleState {
 }
 
 export const initialState: ExampleState = {
-    singleControl: initFormControl('initial', [required]),
+    singleControl: initFormControl(['initial', [required]]),
     group: initFormGroup({
-        textInput: [''],
+        textInput: { value: '', disabled: true },
         numberInput: [0, [validatorOf(Validators.max(4))]],
         rangeInput: [0],
         checkboxInput: [false],

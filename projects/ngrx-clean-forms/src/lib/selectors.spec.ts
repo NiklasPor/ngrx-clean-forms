@@ -13,7 +13,7 @@ import {
 describe('selectors', () => {
     describe('getFormControlErrors', () => {
         it('should return null for empty validators', () => {
-            const control = initFormControl('');
+            const control = initFormControl({ value: '' });
 
             const result = getFormControlErrors(control);
 
@@ -24,7 +24,7 @@ describe('selectors', () => {
             const validator = () => ({
                 alwaysTrue: true,
             });
-            const control = initFormControl('', [validator]);
+            const control = initFormControl(['', [validator]]);
 
             const expected = {
                 alwaysTrue: true,
@@ -43,7 +43,7 @@ describe('selectors', () => {
                     alwaysFalse: false,
                 }),
             ];
-            const control = initFormControl('', validators);
+            const control = initFormControl(['', validators]);
 
             const expected = {
                 alwaysTrue: true,
@@ -59,7 +59,7 @@ describe('selectors', () => {
         it('should return null for no control errors', () => {
             const group = {
                 controls: {
-                    c1: initFormControl(''),
+                    c1: initFormControl(['']),
                 },
             } as FormGroupState<{ c1: string }>;
 
@@ -75,7 +75,7 @@ describe('selectors', () => {
 
             const group = {
                 controls: {
-                    c1: initFormControl('', [validator]),
+                    c1: initFormControl(['', [validator]]),
                 },
             } as FormGroupState<{ c1: string }>;
 
@@ -101,8 +101,8 @@ describe('selectors', () => {
 
             const group = {
                 controls: {
-                    c1: initFormControl('', [validatorAlwaysTrue]),
-                    c2: initFormControl('', [validatorAlwaysFalse]),
+                    c1: initFormControl(['', [validatorAlwaysTrue]]),
+                    c2: initFormControl(['', [validatorAlwaysFalse]]),
                 },
             } as FormGroupState<{ c1: string; c2: string }>;
 
@@ -128,6 +128,7 @@ describe('selectors', () => {
                 untouched: true,
                 value: '',
                 validators: [],
+                disabled: false,
             };
 
             const expected: FormControlSummary<string> = {
@@ -135,6 +136,7 @@ describe('selectors', () => {
                 untouched: true,
                 value: '',
                 validators: [],
+                disabled: false,
                 errors: null,
                 valid: true,
             };
@@ -156,6 +158,7 @@ describe('selectors', () => {
                 untouched: true,
                 value: '',
                 validators,
+                disabled: false,
             };
 
             const expected: FormControlSummary<string> = {
@@ -163,6 +166,7 @@ describe('selectors', () => {
                 untouched: control.untouched,
                 value: control.value,
                 validators,
+                disabled: false,
                 errors: error,
                 valid: false,
             };

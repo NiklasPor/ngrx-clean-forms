@@ -14,8 +14,8 @@ describe('utils', () => {
 
         it('should map accordingly', () => {
             const input = {
-                c1: initFormControl('a'),
-                c2: initFormControl('b'),
+                c1: initFormControl(['a']),
+                c2: initFormControl(['b']),
             };
 
             const expected = {
@@ -37,7 +37,7 @@ describe('utils', () => {
                 value: control.value,
             }));
 
-            const result = resultFunc(initFormControl(expected.value));
+            const result = resultFunc(initFormControl([expected.value]));
 
             expect(result).toEqual(expected);
         });
@@ -86,6 +86,30 @@ describe('utils', () => {
             }));
 
             const result = resultFunc({ untouched: true } as FormControlState<any>);
+
+            expect(result).toEqual(expected);
+        });
+
+        it('should support disabled property', () => {
+            const expected = { disabled: true };
+
+            const resultFunc = validatorOf(control => ({
+                disabled: control.disabled,
+            }));
+
+            const result = resultFunc({ disabled: true } as FormControlState<any>);
+
+            expect(result).toEqual(expected);
+        });
+
+        it('should support enabled property', () => {
+            const expected = { enabled: true };
+
+            const resultFunc = validatorOf(control => ({
+                enabled: control.enabled,
+            }));
+
+            const result = resultFunc({ disabled: false } as FormControlState<any>);
 
             expect(result).toEqual(expected);
         });

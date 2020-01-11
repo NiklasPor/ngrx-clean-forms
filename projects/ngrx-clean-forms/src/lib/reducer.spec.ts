@@ -5,7 +5,7 @@ import { FormControlUpdate } from 'ngrx-clean-forms/lib/types';
 describe('reducer', () => {
     describe('reduceFormControl', () => {
         it('empty update should do nothing', () => {
-            const control = initFormControl('test');
+            const control = initFormControl(['test']);
 
             const update = {};
 
@@ -15,7 +15,7 @@ describe('reducer', () => {
         });
 
         it('value update should only update value', () => {
-            const control = initFormControl('test');
+            const control = initFormControl(['test']);
 
             const update: FormControlUpdate<string> = {
                 value: 'new',

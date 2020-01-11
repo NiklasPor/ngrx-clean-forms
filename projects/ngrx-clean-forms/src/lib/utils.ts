@@ -26,5 +26,7 @@ export function validatorOf<T>(fn: ValidatorFn): Validator<T> {
             pristine: control.pristine,
             touched: !control.untouched,
             untouched: control.untouched,
+            enabled: !control.disabled,
+            disabled: control.disabled,
         } as AbstractControl);
 }
