@@ -82,6 +82,10 @@ export function getFormGroupSummaryWithErrors<TControls extends FormControls>(
 
     const errors = mergeFormGroupErrors(summary.errors, ...additionalErrors);
 
+    if (errors === null) {
+        return summary;
+    }
+
     const controls = mapFormControlSummaries(summary.controls, (control, key) => {
         const controlErrors = mergeFormControlErrors(control.errors, errors[key]);
 

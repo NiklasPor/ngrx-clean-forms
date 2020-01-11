@@ -425,6 +425,34 @@ describe('selectors', () => {
 
             expect(result).toEqual(expected);
         });
+
+        it('should return summary on null errors', () => {
+            const group = initFormGroup<TestControls>({
+                stringControl: ['initial'],
+            });
+
+            const expected: FormGroupSummary<TestControls> = {
+                controls: {
+                    stringControl: {
+                        value: 'initial',
+                        disabled: false,
+                        pristine: true,
+                        untouched: true,
+                        valid: true,
+                        validators: group.controls.stringControl.validators,
+                        errors: null,
+                    },
+                },
+                errors: null,
+                pristine: true,
+                untouched: true,
+                valid: true,
+            };
+
+            const result = getFormGroupSummaryWithErrors(group);
+
+            expect(result).toEqual(expected);
+        });
     });
 
     describe('mergeFormGroupErrors', () => {
