@@ -51,17 +51,13 @@ export function getFormGroupControlSummaries<TControls extends FormControls>(
 export function getFormGroupPristine<TControls extends FormControls>(
     group: FormGroupState<TControls>
 ): boolean {
-    return Object.values(group.controls)
-        .map(control => control.pristine)
-        .reduce((val1, val2) => val1 && val2);
+    return Object.values(group.controls).every(control => control.pristine);
 }
 
 export function getFormGroupUntouched<TControls extends FormControls>(
     group: FormGroupState<TControls>
 ): boolean {
-    return Object.values(group.controls)
-        .map(control => control.untouched)
-        .reduce((val1, val2) => val1 && val2);
+    return Object.values(group.controls).every(control => control.untouched);
 }
 
 export function getFormGroupSummary<TControls extends FormControls>(
