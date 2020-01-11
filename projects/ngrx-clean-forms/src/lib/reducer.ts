@@ -26,10 +26,12 @@ export function reduceFormGroup<TControls extends FormControls>(
         ...update,
         controls: {
             ...group.controls,
-            ...mapFormControlStates(update.controls, (control, key) => ({
-                ...group.controls[key],
-                ...control,
-            })),
+            ...(update.controls
+                ? mapFormControlStates(update.controls, (control, key) => ({
+                      ...group.controls[key],
+                      ...control,
+                  }))
+                : {}),
         },
     };
 }

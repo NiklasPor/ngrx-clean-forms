@@ -1,8 +1,14 @@
 import { AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
-import { FormGroupControlStates, FormControlState, Validator, FormControls } from './types';
+import {
+    FormGroupControlStates,
+    FormControlState,
+    Validator,
+    FormControls,
+    FormGroupControlUpdates,
+} from './types';
 
 export function mapFormControlStates<TControls extends FormControls, R>(
-    controls: FormGroupControlStates<TControls> | Partial<FormGroupControlStates<TControls>>,
+    controls: FormGroupControlStates<TControls> | Partial<FormGroupControlUpdates<TControls>>,
     mapFunc: (control: FormControlState<any>, key: string) => R
 ): {
     [K in keyof TControls]: R;
