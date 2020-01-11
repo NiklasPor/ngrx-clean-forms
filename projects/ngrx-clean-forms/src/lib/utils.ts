@@ -1,21 +1,51 @@
-import { AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { AbstractControl, ValidatorFn } from '@angular/forms';
 import {
-    FormGroupControlStates,
-    FormControlState,
-    Validator,
     FormControls,
+    FormControlState,
+    FormControlSummary,
+    FormControlUpdate,
+    FormGroupControlStates,
+    FormGroupControlSummaries,
     FormGroupControlUpdates,
+    Validator,
 } from './types';
 
 export function mapFormControlStates<TControls extends FormControls, R>(
-    controls: FormGroupControlStates<TControls> | Partial<FormGroupControlUpdates<TControls>>,
+    controls: FormGroupControlStates<TControls>,
     mapFunc: (control: FormControlState<any>, key: string) => R
+): {
+    [K in keyof TControls]: R;
+} {
+    return mapFormControls<TControls, R>(controls, mapFunc);
+}
+
+export function mapFormControlSummaries<TControls extends FormControls, R>(
+    controls: FormGroupControlSummaries<TControls>,
+    mapFunc: (control: FormControlSummary<any>, key: string) => R
+): {
+    [K in keyof TControls]: R;
+} {
+    return mapFormControls<TControls, R>(controls, mapFunc);
+}
+
+export function mapFormControlUpdates<TControls extends FormControls, R>(
+    controls: FormGroupControlUpdates<TControls>,
+    mapFunc: (control: FormControlUpdate<any>, key: string) => R
+): {
+    [K in keyof TControls]: R;
+} {
+    return mapFormControls<TControls, R>(controls, mapFunc);
+}
+
+export function mapFormControls<TControls extends FormControls, R>(
+    controls: {},
+    mapFunc: (control: {}, key: string) => R
 ): {
     [K in keyof TControls]: R;
 } {
     const result = Object.entries(controls)
         .map(([key, control]) => ({
-            [key]: mapFunc(control as FormControlState<any>, key),
+            [key]: mapFunc(control, key),
         }))
         .reduce((ctrl1, ctrl2) => ({ ...ctrl1, ...ctrl2 }), {});
 

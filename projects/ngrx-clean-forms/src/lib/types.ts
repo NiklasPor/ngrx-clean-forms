@@ -10,12 +10,14 @@ export type FormControlUpdate<T> = Partial<FormControlState<T>>;
 
 export type FormGroupUpdate<TControls extends FormControls> = Modify<
     Partial<FormGroupState<TControls>>,
-    { controls?: Partial<FormGroupControlUpdates<TControls>> }
+    { controls?: FormGroupControlUpdates<TControls> }
 >;
 
-export type FormGroupControlUpdates<TControls extends FormControls> = {
-    [K in keyof TControls]: FormControlUpdate<TControls[K]>;
-};
+export type FormGroupControlUpdates<TControls extends FormControls> = Partial<
+    {
+        [K in keyof TControls]: FormControlUpdate<TControls[K]>;
+    }
+>;
 
 // Initialization
 export type Validator<T> = (control: FormControlState<T>) => FormControlErrors | null;

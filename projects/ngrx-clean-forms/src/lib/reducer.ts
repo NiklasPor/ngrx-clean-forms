@@ -5,7 +5,7 @@ import {
     FormGroupState,
     FormGroupUpdate,
 } from './types';
-import { mapFormControlStates } from './utils';
+import { mapFormControlUpdates } from './utils';
 
 export function reduceFormControl<T>(
     control: FormControlState<T>,
@@ -27,7 +27,7 @@ export function reduceFormGroup<TControls extends FormControls>(
         controls: {
             ...group.controls,
             ...(update.controls
-                ? mapFormControlStates(update.controls, (control, key) => ({
+                ? mapFormControlUpdates(update.controls, (control, key) => ({
                       ...group.controls[key],
                       ...control,
                   }))
