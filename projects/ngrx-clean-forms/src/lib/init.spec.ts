@@ -1,11 +1,12 @@
 import { initFormControl, initFormGroup } from './init';
-import { FormControlState } from './types';
+import { FormControlState, FormGroupState } from './types';
 
 describe('init', () => {
+    const validator = () => null;
+    const value = 'value';
+
     describe('initFormControl', () => {
         describe('initalizeTuple', () => {
-            const value = 'value';
-
             it('["value"] should create a valid form control state', () => {
                 const expected: FormControlState<string> = {
                     value,
@@ -21,8 +22,6 @@ describe('init', () => {
             });
 
             it('["value", [() => null]] should create a valid form control state with validator', () => {
-                const validator = () => null;
-
                 const expected: FormControlState<string> = {
                     value,
                     disabled: false,
@@ -38,8 +37,6 @@ describe('init', () => {
         });
 
         describe('initialUpdate', () => {
-            const value = 'value';
-
             it('{value: value} should create a valid form control state', () => {
                 const expected: FormControlState<string> = {
                     value,
@@ -55,8 +52,6 @@ describe('init', () => {
             });
 
             it('["value", [() => null]] should create a valid form control state with validator', () => {
-                const validator = () => null;
-
                 const expected: FormControlState<string> = {
                     value,
                     disabled: false,
@@ -89,6 +84,42 @@ describe('init', () => {
 
                 expect(result).toEqual(expected);
             });
+        });
+    });
+
+    describe('initFormGroup', () => {
+        it('should create a valid form group (with initializeTuple & initUpdate)', () => {
+            const expected: FormGroupState<{ tuple: string; update: string }> = {
+                controls: {
+                    tuple: {
+                        disabled: false,
+                        pristine: true,
+                        untouched: true,
+                        validators: [validator],
+                        value,
+                    },
+                    update: {
+                        disabled: true,
+                        pristine: false,
+                        untouched: false,
+                        validators: [validator],
+                        value,
+                    },
+                },
+            };
+
+            const result = initFormGroup({
+                tuple: [value, [validator]],
+                update: {
+                    value,
+                    validators: [validator],
+                    disabled: true,
+                    pristine: false,
+                    untouched: false,
+                },
+            });
+
+            expect(result).toEqual(expected);
         });
     });
 });
