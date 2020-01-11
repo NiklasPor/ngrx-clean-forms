@@ -2,11 +2,12 @@
 
 This library contains the necessary tools to integrate the form management into the general state management of an application. While this library was written with the usage of [NgRx](https://ngrx.io/docs) in mind, it has no dependency to it. Therefore it can also be used with other frameworks like [NgXs](https://www.ngxs.io/).
 
-The focus of this library lies on:
+This library excels in the following topics:
 
--   Having a strict typing approach. Therefore the types of your forms will be available throughout the whole interaction with the state.
--   Providing validation errors as a transformation (selector) of the form state.
--   Keeping the data flow explicit and manageable.
+-   Having a strict typing approach. Types of forms will be available throughout the whole interaction with the state.
+-   Providing validation errors and similar attributes as a transformation (selector).
+-   Keeping the data flow transparent and minimalistic.
+-   Providing a single source of truth for a form. Even linking multiple instances of a form to a single form state is possible.
 
 ## Table of Contents
 
@@ -22,6 +23,7 @@ The focus of this library lies on:
     -   [Displaying errors (CSS classes)](#displaying-errors--css-classes-)
     -   [Binding to custom input components](#binding-to-custom-input-components)
     -   [Binding to an input without a form](#binding-to-a-input-without-a-form)
+    -   [Disabling forms / Setting disabled](#disabling-forms-/-setting-disabled)
 -   [Not yet supported features](#not-yet-supported-features)
 
 ## Getting Started
@@ -102,7 +104,7 @@ export const selectFormGroup = createSelector(selectExample, state =>
 
 Just like the `Summary` types there are `Update` types you can utilize for updating the form state.
 
-In `NgRx` we'd create a `Action` supplying the data necessary for the state update.
+In `NgRx` we'd create a `Action`, supplying the data necessary for the state update.
 
 ```typescript
 import { createAction, props } from '@ngrx/store';
@@ -191,7 +193,7 @@ export const initialState: ExampleState = {
 
 Angular already provides a lot of validators that can be converted and used with this module.
 
-The method `validatorOf<T>(fn: ValidatorFn): Validator<T>` converts an Angular validator to one that matches the specification of this library:
+The method `validatorOf<T>(fn: ValidatorFn): Validator<T>` converts a ReactiveForm validator to one that matches the specification of this library:
 
 ```typescript
 import { initFormGroup, validatorOf } from 'ngrx-clean-forms';
@@ -239,14 +241,26 @@ Inside your template you can then bind the single input:
 <input ngrxControl [controlSummary$]="singleInput$" (controlUpdate)="updateSingleInput($event)" />
 ```
 
+### Disabling forms / Setting disabled
+
+To disable a form in the initial state you can simply use `initFormControl` or `initFormGroup` methods. You'll need to use the object initialization instead of the array one:
+
+```typescript
+initFormGroup({
+    textInput: { value: '', disabled: true },
+});
+```
+
+Disabling and enabling forms later can be done by using `FormControlUpdate` or `FormGroupUpdate`. Other attributes, like `untouched` and `pristine`, can also be updated these ways.
+
 ## Not yet supported features
 
-| Feature                  | Status | Description                                                               |
-| ------------------------ | ------ | ------------------------------------------------------------------------- |
-| Support `disabled`       | WIP    | Support the disabled attribute inside FormControls.                       |
-| Async validators         | -      |  Support the implemenation of async validators, which have side effects.  |
-| `<input type="radio" />` | -      | Support the usage of radio control groups. \*                             |
-| `<select>`               | -      | Support the usage of the basic `select` html tag. \*                      |
-| `<select multiple>`      | -      | Support the usage of the `multiple` attribute within the `select` tag. \* |
+| Feature                  | Status               | Description                                                               |
+| ------------------------ | -------------------- | ------------------------------------------------------------------------- |
+| Support `disabled`       | Implemented in 2.0.0 | Support the disabled attribute inside FormControls.                       |
+| Async validators         | -                    |  Support the implemenation of async validators, which have side effects.  |
+| `<input type="radio" />` | -                    | Support the usage of radio control groups. \*                             |
+| `<select>`               | -                    | Support the usage of the basic `select` html tag. \*                      |
+| `<select multiple>`      | -                    | Support the usage of the `multiple` attribute within the `select` tag. \* |
 
 \*For now you can create a [custom component](b#inding-to-custom-input-components), which wraps the unsupported group.
