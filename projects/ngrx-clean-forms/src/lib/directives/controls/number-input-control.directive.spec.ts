@@ -1,35 +1,34 @@
 import { Component, DebugElement } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
-import { FormControlSummary, FormControlUpdate } from '../../types';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { NgrxCleanFormsModule } from '../../ngrx-clean-forms.module';
-import { CheckboxInputControlDirective } from './checkbox-input-control.directive';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { ReplaySubject } from 'rxjs';
 import { initFormControl } from '../../init';
+import { NgrxCleanFormsModule } from '../../ngrx-clean-forms.module';
 import { getFormControlSummary } from '../../selectors';
-import { take } from 'rxjs/operators';
+import { FormControlSummary, FormControlUpdate } from '../../types';
+import { NumberInputControlDirective } from './number-input-control.directive';
 
 @Component({
     selector: 'ngrx-test-component',
     template: `
         <input
             ngrxControl
-            type="checkbox"
+            type="number"
             [controlSummary$]="summary$"
             (controlUpdate)="update($event)"
         />
     `,
 })
 class TestComponent {
-    summary$: ReplaySubject<FormControlSummary<boolean>>;
+    summary$: ReplaySubject<FormControlSummary<number>>;
     update: () => {};
 }
 
-describe('checkboxInputControlDirective', () => {
+describe('numberInputControlDirective', () => {
     let testComponent: ComponentFixture<TestComponent>;
 
     let directiveDebug: DebugElement;
-    let directive: CheckboxInputControlDirective;
+    let directive: NumberInputControlDirective;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -44,36 +43,23 @@ describe('checkboxInputControlDirective', () => {
         testComponent.detectChanges();
 
         directiveDebug = testComponent.debugElement.query(
-            By.directive(CheckboxInputControlDirective)
+            By.directive(NumberInputControlDirective)
         );
 
-        directive = directiveDebug.injector.get(CheckboxInputControlDirective);
+        directive = directiveDebug.injector.get(NumberInputControlDirective);
     });
-    it('value update propagates to child (true)', () => {
-        testComponent.componentInstance.summary$.next(
-            getFormControlSummary(initFormControl([true]))
-        );
+    it('value update propagates to child (5)', () => {
+        testComponent.componentInstance.summary$.next(getFormControlSummary(initFormControl([5])));
 
         // tslint:disable-next-line: no-string-literal
-        const result = directive['ref'].nativeElement.checked;
+        const result = directive['ref'].nativeElement.value;
 
-        expect(result).toBe(true);
-    });
-
-    it('value update propagates to child (false)', () => {
-        testComponent.componentInstance.summary$.next(
-            getFormControlSummary(initFormControl([false]))
-        );
-
-        // tslint:disable-next-line: no-string-literal
-        const result = directive['ref'].nativeElement.checked;
-
-        expect(result).toBe(false);
+        expect(result).toBe('5');
     });
 
     it('disabled update propagates to child (true)', () => {
         testComponent.componentInstance.summary$.next(
-            getFormControlSummary(initFormControl({ value: true, disabled: true }))
+            getFormControlSummary(initFormControl({ value: 5, disabled: true }))
         );
 
         // tslint:disable-next-line: no-string-literal
@@ -84,7 +70,7 @@ describe('checkboxInputControlDirective', () => {
 
     it('disabled update propagates to child (false)', () => {
         testComponent.componentInstance.summary$.next(
-            getFormControlSummary(initFormControl({ value: true, disabled: false }))
+            getFormControlSummary(initFormControl({ value: 5, disabled: false }))
         );
 
         // tslint:disable-next-line: no-string-literal
@@ -94,9 +80,9 @@ describe('checkboxInputControlDirective', () => {
     });
 
     it('value update propagates from child', done => {
-        const value = true;
+        const value = 5;
 
-        const expected: FormControlUpdate<boolean> = {
+        const expected: FormControlUpdate<number> = {
             value,
             pristine: false,
         };
@@ -108,13 +94,13 @@ describe('checkboxInputControlDirective', () => {
 
         directive.onInput({
             target: {
-                checked: value,
+                value,
             },
         } as any);
     });
 
     it('touched update propagates from child', done => {
-        const expected: FormControlUpdate<boolean> = {
+        const expected: FormControlUpdate<number> = {
             untouched: false,
         };
 
