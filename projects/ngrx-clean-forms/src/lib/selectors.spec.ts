@@ -17,34 +17,36 @@ import {
     getFormGroupSummary,
     mergeFormGroupErrors,
     mergeFormControlErrors,
-    getFormGroupSummaryWithErrors,
+    getFormGroupControlSummaries,
 } from './selectors';
 
 describe('selectors', () => {
     describe('getFormControlErrors', () => {
-        it('should return null for empty validators', () => {
+        it('should return [] for empty validators', () => {
             const control = initFormControl({ value: '' });
 
             const result = getFormControlErrors(control);
 
-            expect(result).toBeNull();
+            expect(result).toEqual([]);
         });
 
-        it('should return invalid key', () => {
+        it('should return error', () => {
             const validator = () => ({
                 alwaysTrue: true,
             });
             const control = initFormControl(['', [validator]]);
 
-            const expected = {
-                alwaysTrue: true,
-            };
+            const expected = [
+                {
+                    alwaysTrue: true,
+                },
+            ];
             const result = getFormControlErrors(control);
 
             expect(result).toEqual(expected);
         });
 
-        it('should merge keys', () => {
+        it('should return multiple erros', () => {
             const validators = [
                 () => ({
                     alwaysTrue: true,
@@ -55,10 +57,14 @@ describe('selectors', () => {
             ];
             const control = initFormControl(['', validators]);
 
-            const expected = {
-                alwaysTrue: true,
-                alwaysFalse: false,
-            };
+            const expected = [
+                {
+                    alwaysTrue: true,
+                },
+                {
+                    alwaysFalse: false,
+                },
+            ];
             const result = getFormControlErrors(control);
 
             expect(result).toEqual(expected);
@@ -67,13 +73,11 @@ describe('selectors', () => {
 
     describe('getFormGroupErrors', () => {
         it('should return null for no control errors', () => {
-            const group = {
-                controls: {
-                    c1: initFormControl(['']),
-                },
-            } as FormGroupState<{ c1: string }>;
+            const group = initFormGroup({
+                c1: ['c1'],
+            });
 
-            const result = getFormGroupErrors(group);
+            const result = getFormGroupErrors(getFormGroupControlSummaries(group.controls));
 
             expect(result).toBe(null);
         });
@@ -83,11 +87,9 @@ describe('selectors', () => {
                 alwaysTrue: true,
             });
 
-            const group = {
-                controls: {
-                    c1: initFormControl(['', [validator]]),
-                },
-            } as FormGroupState<{ c1: string }>;
+            const group = initFormGroup({
+                c1: ['c1', [validator]],
+            });
 
             const expected = {
                 c1: {
@@ -95,7 +97,7 @@ describe('selectors', () => {
                 },
             };
 
-            const result = getFormGroupErrors(group);
+            const result = getFormGroupErrors(getFormGroupControlSummaries(group.controls));
 
             expect(result).toEqual(expected);
         });
@@ -109,12 +111,10 @@ describe('selectors', () => {
                 alwaysFalse: false,
             });
 
-            const group = {
-                controls: {
-                    c1: initFormControl(['', [validatorAlwaysTrue]]),
-                    c2: initFormControl(['', [validatorAlwaysFalse]]),
-                },
-            } as FormGroupState<{ c1: string; c2: string }>;
+            const group = initFormGroup({
+                c1: ['', [validatorAlwaysTrue]],
+                c2: ['', [validatorAlwaysFalse]],
+            });
 
             const expected = {
                 c1: {
@@ -125,7 +125,7 @@ describe('selectors', () => {
                 },
             };
 
-            const result = getFormGroupErrors(group);
+            const result = getFormGroupErrors(getFormGroupControlSummaries(group.controls));
 
             expect(result).toEqual(expected);
         });
@@ -260,6 +260,10 @@ describe('selectors', () => {
     });
 
     describe('getFormGroupSummary', () => {
+        interface TestControls {
+            stringControl: string;
+        }
+
         it('all valid should return errors = null & valid = true', () => {
             const group = initFormGroup({
                 c1: [''],
@@ -290,12 +294,7 @@ describe('selectors', () => {
             expect(result.errors).toEqual(expected);
             expect(result.valid).toEqual(false);
         });
-    });
 
-    describe('getFormGroupSummaryWithErrors', () => {
-        interface TestControls {
-            stringControl: string;
-        }
         it('should summarize with error for group + controls', () => {
             const group = initFormGroup<TestControls>({
                 stringControl: [
@@ -340,7 +339,7 @@ describe('selectors', () => {
                 valid: false,
             };
 
-            const result = getFormGroupSummaryWithErrors(group, additionalError);
+            const result = getFormGroupSummary(group, additionalError);
 
             expect(result).toEqual(expected);
         });
@@ -380,7 +379,7 @@ describe('selectors', () => {
                 valid: false,
             };
 
-            const result = getFormGroupSummaryWithErrors(group, additionalError);
+            const result = getFormGroupSummary(group, additionalError);
 
             expect(result).toEqual(expected);
         });
@@ -421,7 +420,7 @@ describe('selectors', () => {
                 valid: false,
             };
 
-            const result = getFormGroupSummaryWithErrors(group);
+            const result = getFormGroupSummary(group);
 
             expect(result).toEqual(expected);
         });
@@ -449,7 +448,7 @@ describe('selectors', () => {
                 valid: true,
             };
 
-            const result = getFormGroupSummaryWithErrors(group);
+            const result = getFormGroupSummary(group);
 
             expect(result).toEqual(expected);
         });

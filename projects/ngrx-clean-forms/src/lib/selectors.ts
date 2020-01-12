@@ -11,19 +11,14 @@ import {
 } from './types';
 import { mapFormControlStates, mapFormControlSummaries } from './utils';
 
-export function getFormControlErrors<T>(control: FormControlState<T>): FormControlErrors | null {
-    const errors = control.validators
-        .map(validator => validator(control))
-        .filter(error => error !== null)
-        .reduce((err1, err2) => ({ ...err1, ...err2 }), {});
-
-    return Object.keys(errors).length ? errors : null;
+export function getFormControlErrors<T>(control: FormControlState<T>): FormControlErrors[] {
+    return control.validators.map(validator => validator(control));
 }
 
 export function getFormGroupErrors<TControls extends FormControls>(
-    group: FormGroupState<TControls>
+    summaries: FormGroupControlSummaries<TControls>
 ): FormGroupErrors<TControls> | null {
-    const errors = mapFormControlStates(group.controls, control => getFormControlErrors(control));
+    const errors = mapFormControlSummaries(summaries, summary => summary.errors);
 
     Object.entries(errors)
         .filter(([_, value]) => value === null)
@@ -32,8 +27,11 @@ export function getFormGroupErrors<TControls extends FormControls>(
     return Object.keys(errors).length ? errors : null;
 }
 
-export function getFormControlSummary<T>(control: FormControlState<T>): FormControlSummary<T> {
-    const errors = getFormControlErrors(control);
+export function getFormControlSummary<T>(
+    control: FormControlState<T>,
+    ...additionalErrors: FormControlErrors[]
+): FormControlSummary<T> {
+    const errors = mergeFormControlErrors(...getFormControlErrors(control), ...additionalErrors);
 
     return {
         ...control,
@@ -43,9 +41,14 @@ export function getFormControlSummary<T>(control: FormControlState<T>): FormCont
 }
 
 export function getFormGroupControlSummaries<TControls extends FormControls>(
-    controls: FormGroupControlStates<TControls>
+    controls: FormGroupControlStates<TControls>,
+    ...additionalErrors: FormGroupErrors<TControls>[]
 ): FormGroupControlSummaries<TControls> {
-    return mapFormControlStates(controls, control => getFormControlSummary(control));
+    const additionalError = mergeFormGroupErrors(...additionalErrors);
+
+    return mapFormControlStates(controls, (control, key) =>
+        getFormControlSummary(control, additionalError ? additionalError[key] : null)
+    );
 }
 
 export function getFormGroupPristine<TControls extends FormControls>(
@@ -61,44 +64,16 @@ export function getFormGroupUntouched<TControls extends FormControls>(
 }
 
 export function getFormGroupSummary<TControls extends FormControls>(
-    group: FormGroupState<TControls>
-): FormGroupSummary<TControls> {
-    const errors = getFormGroupErrors(group);
-
-    return {
-        controls: getFormGroupControlSummaries(group.controls),
-        pristine: getFormGroupPristine(group),
-        untouched: getFormGroupUntouched(group),
-        errors,
-        valid: errors === null,
-    };
-}
-
-export function getFormGroupSummaryWithErrors<TControls extends FormControls>(
     group: FormGroupState<TControls>,
     ...additionalErrors: FormGroupErrors<TControls>[]
 ): FormGroupSummary<TControls> {
-    const summary = getFormGroupSummary(group);
-
-    const errors = mergeFormGroupErrors(summary.errors, ...additionalErrors);
-
-    if (errors === null) {
-        return summary;
-    }
-
-    const controls = mapFormControlSummaries(summary.controls, (control, key) => {
-        const controlErrors = mergeFormControlErrors(control.errors, errors[key]);
-
-        return {
-            ...control,
-            errors: controlErrors,
-            valid: controlErrors === null,
-        };
-    });
+    const summaries = getFormGroupControlSummaries(group.controls, ...additionalErrors);
+    const errors = getFormGroupErrors(summaries);
 
     return {
-        ...summary,
-        controls,
+        controls: summaries,
+        pristine: getFormGroupPristine(group),
+        untouched: getFormGroupUntouched(group),
         errors,
         valid: errors === null,
     };

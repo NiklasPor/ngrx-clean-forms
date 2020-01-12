@@ -1,10 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import {
-    FormGroupErrors,
-    getFormControlSummary,
-    getFormGroupSummary,
-    getFormGroupSummaryWithErrors,
-} from 'ngrx-clean-forms';
+import { FormGroupErrors, getFormControlSummary, getFormGroupSummary } from 'ngrx-clean-forms';
 import { AppState } from './app.state';
 import { StateAccessExampleFormControls } from './example.reducer';
 
@@ -36,5 +31,5 @@ export const selectStateAccessExampleGroup = createSelector(
     selectExample,
     selectForbiddenNumberError,
     (state, forbiddenNumberError) =>
-        getFormGroupSummaryWithErrors(state.stateAccessExampleGroup, forbiddenNumberError)
+        getFormGroupSummary(state.stateAccessExampleGroup, forbiddenNumberError)
 );
