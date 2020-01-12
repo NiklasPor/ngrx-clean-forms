@@ -10,17 +10,19 @@ import { FormGroupSummary } from '../../types';
 import { TextInputControlDirective } from '../controls/text-input-control.directive';
 import { FormGroupUpdate } from './../../types';
 import { FormGroupDirective } from './form-group.directive';
+import { initFormControl } from 'ngrx-clean-forms/lib/init';
 
 @Component({
     template: `
         <div ngrxForm [formSummary$]="formSummary$" (formUpdate)="update($event)">
-            <input ngrxControl="control" />
+            <input *ngIf="showInput" ngrxControl="control" />
         </div>
     `,
 })
 class TestComponent {
     formSummary$: ReplaySubject<FormGroupSummary<{ control: string }>>;
     update: (update) => void;
+    showInput = true;
 }
 
 describe('FormGroupDirective', () => {
@@ -51,6 +53,20 @@ describe('FormGroupDirective', () => {
 
     it('should create an instance', () => {
         expect(directive).toBeTruthy();
+    });
+
+    it('should not crash without children', () => {
+        expect(() => {
+            testComponent.componentInstance.showInput = false;
+            testComponent.detectChanges();
+
+            testComponent.componentInstance.formSummary$.next(
+                getFormGroupSummary(initFormGroup({ control: [''] }))
+            );
+
+            // tslint:disable-next-line: no-string-literal
+            expect(directive['getChildren']().length).toBe(0);
+        }).not.toThrow();
     });
 
     it('should propagate update to child', () => {
