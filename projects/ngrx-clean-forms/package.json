@@ -23,7 +23,7 @@
         "typescript",
         "redux"
     ],
-    "version": "2.1.5",
+    "version": "2.1.6",
     "peerDependencies": {
         "@angular/common": "^8.2.0",
         "@angular/core": "^8.2.0"
