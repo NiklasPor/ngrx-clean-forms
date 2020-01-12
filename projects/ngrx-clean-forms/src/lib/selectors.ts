@@ -79,7 +79,7 @@ export function getFormGroupSummary<TControls extends FormControls>(
     };
 }
 
-export function mergeFormControlErrors(...errors: FormControlErrors[]) {
+export function mergeFormControlErrors(...errors: FormControlErrors[]): FormControlErrors | null {
     return errors.reduce((e1, e2) => {
         if (!e1 && !e2) {
             return null;
@@ -102,7 +102,7 @@ export function mergeFormControlErrors(...errors: FormControlErrors[]) {
 
 export function mergeFormGroupErrors<TControls extends FormControls>(
     ...errors: FormGroupErrors<TControls>[]
-): FormGroupErrors<TControls> {
+): FormGroupErrors<TControls> | null {
     return errors.reduce((group1, group2) => {
         if (!group1 && !group2) {
             return null;
