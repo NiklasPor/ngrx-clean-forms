@@ -1,24 +1,23 @@
-import { mapFormControlStates, validatorOf } from './utils';
 import { initFormControl, initFormGroup } from './init';
 import {
+    getFormControlErrors,
+    getFormControlSummary,
+    getFormGroupControlSummaries,
+    getFormGroupErrors,
+    getFormGroupPristine,
+    getFormGroupSummary,
+    getFormGroupUntouched,
+    mergeFormControlErrors,
+    mergeFormGroupErrors,
+} from './selectors';
+import {
+    FormControlErrors,
     FormControlState,
-    FormGroupState,
     FormControlSummary,
     FormGroupErrors,
-    FormControlErrors,
+    FormGroupState,
     FormGroupSummary,
 } from './types';
-import {
-    getFormControlErrors,
-    getFormGroupErrors,
-    getFormControlSummary,
-    getFormGroupPristine,
-    getFormGroupUntouched,
-    getFormGroupSummary,
-    mergeFormGroupErrors,
-    mergeFormControlErrors,
-    getFormGroupControlSummaries,
-} from './selectors';
 
 describe('selectors', () => {
     describe('getFormControlErrors', () => {
@@ -182,6 +181,68 @@ describe('selectors', () => {
             };
 
             const result = getFormControlSummary(control);
+
+            expect(result).toEqual(expected);
+        });
+
+        it('should return valid = false, errors = errors, controls for additional errors', () => {
+            const additionalError = {
+                additionalError: true,
+            };
+
+            const control: FormControlState<string> = {
+                pristine: true,
+                untouched: true,
+                value: '',
+                validators: [],
+                disabled: false,
+            };
+
+            const expected: FormControlSummary<string> = {
+                pristine: control.pristine,
+                untouched: control.untouched,
+                value: control.value,
+                validators: [],
+                disabled: false,
+                errors: additionalError,
+                valid: false,
+            };
+
+            const result = getFormControlSummary(control, additionalError);
+
+            expect(result).toEqual(expected);
+        });
+
+        it('should merge errors with additional errors', () => {
+            const additionalError = {
+                additionalError: true,
+            };
+
+            const error = {
+                alwaysTrue: true,
+            };
+
+            const validators = [() => error];
+
+            const control: FormControlState<string> = {
+                pristine: true,
+                untouched: true,
+                value: '',
+                validators,
+                disabled: false,
+            };
+
+            const expected: FormControlSummary<string> = {
+                pristine: control.pristine,
+                untouched: control.untouched,
+                value: control.value,
+                validators,
+                disabled: false,
+                errors: { alwaysTrue: true, additionalError: true },
+                valid: false,
+            };
+
+            const result = getFormControlSummary(control, additionalError);
 
             expect(result).toEqual(expected);
         });
