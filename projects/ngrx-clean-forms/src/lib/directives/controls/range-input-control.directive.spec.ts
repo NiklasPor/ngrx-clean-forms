@@ -98,6 +98,26 @@ describe('RangeInputControlDirective', () => {
         } as any);
     });
 
+    it('empty value update propagates from child as null', done => {
+        const value = '';
+
+        const expected: FormControlUpdate<number> = {
+            value: null,
+            pristine: false,
+        };
+
+        directive.controlUpdate.subscribe(result => {
+            expect(result).toEqual(expected);
+            done();
+        });
+
+        directive.onInput({
+            target: {
+                value,
+            },
+        } as any);
+    });
+
     it('touched update propagates from child', done => {
         const expected: FormControlUpdate<number> = {
             untouched: false,
