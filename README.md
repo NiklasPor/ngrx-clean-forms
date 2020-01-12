@@ -20,6 +20,7 @@ This library excels in the following topics:
 -   [Additional Resources](#additional-resources)
     -   [Adding validators](#adding-validators)
     -   [Using the Angular forms validators](#using-the-angular-forms-validators)
+    -   [Adding custom (state based) validation](<#adding-custom-(state-based)-validation>)
     -   [Displaying errors (CSS classes)](#displaying-errors--css-classes-)
     -   [Binding to custom input components](#binding-to-custom-input-components)
     -   [Binding to an input without a form](#binding-to-a-input-without-a-form)
@@ -206,6 +207,35 @@ export const initialState: ExampleState = {
     }),
 };
 ```
+
+### Adding custom (state based) validation
+
+There are scenarios where a simple validation of a control isn't enough. The validation of a control (or group) can depend on external state / attributes. Therefore the `getFormGroupSummary` and `getFormControlSummary` are able to receive multiple additional errors, which will be added to the existing errors.
+
+An example validating a number against a variable in the state. This can be also found in the example application:
+
+```typescript
+export const selectForbiddenNumberError = createSelector(
+    selectExample,
+    (state): FormGroupErrors<StateAccessExampleFormControls> =>
+        state.forbiddenNumber === state.stateAccessExampleGroup.controls.exampleInput.value
+            ? {
+                  exampleInput: {
+                      externalNumberError: true,
+                  },
+              }
+            : null
+);
+
+export const selectStateAccessExampleGroup = createSelector(
+    selectExample,
+    selectForbiddenNumberError,
+    (state, forbiddenNumberError) =>
+        getFormGroupSummary(state.stateAccessExampleGroup, forbiddenNumberError)
+);
+```
+
+This variant of validation should only be used, when the `validators` array isn't enough.
 
 ### Displaying errors (CSS classes)
 
