@@ -12,6 +12,7 @@ This library excels in the following topics:
 -   Providing validation errors and similar attributes as a transformation (selector).
 -   Keeping the data flow transparent and minimalistic.
 -   Providing a single source of truth for a form. Even linking multiple instances of a form to a single form state is possible.
+-   High test coverage and stability.
 
 ## Table of Contents
 
