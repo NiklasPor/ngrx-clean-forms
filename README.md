@@ -249,7 +249,7 @@ This library utilizes the same error classes as angular. Excerpt from the Angula
 
 -   `.ng-valid`
 -   `.ng-invalid`
--   `.ng-pending`
+-   ~~`.ng-pending`~~
 -   `.ng-pristine`
 -   `.ng-dirty`
 -   `.ng-untouched`
