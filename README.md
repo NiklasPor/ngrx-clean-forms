@@ -1,3 +1,7 @@
+[![npm version](https://badge.fury.io/js/ngrx-clean-forms.svg)](https://badge.fury.io/js/ngrx-clean-forms)
+[![codecov](https://codecov.io/gh/NiklasPor/ngrx-clean-forms/branch/master/graph/badge.svg)](https://codecov.io/gh/NiklasPor/ngrx-clean-forms)
+![license](https://img.shields.io/npm/l/ngrx-clean-forms)
+
 # ngrx-clean-forms
 
 This library contains the necessary tools to integrate the form management into the general state management of an application. While this library was written with the usage of [NgRx](https://ngrx.io/docs) in mind, it has no dependency to it. Therefore it can also be used with other frameworks like [NgXs](https://www.ngxs.io/).

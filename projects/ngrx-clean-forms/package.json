@@ -1,5 +1,6 @@
 {
     "name": "ngrx-clean-forms",
+    "license": "MIT",
     "description": "This packages provides form integration for your state. Errors are abstracted as selectors.",
     "author": {
         "name": "Niklas Portmann",
