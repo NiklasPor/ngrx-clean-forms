@@ -23,7 +23,8 @@ This library excels in the following topics:
     -   [Adding custom (state based) validation](<#adding-custom-(state-based)-validation>)
     -   [Displaying errors (CSS classes)](#displaying-errors--css-classes-)
     -   [Binding to custom input components](#binding-to-custom-input-components)
-    -   [Binding to an input without a form](#binding-to-a-input-without-a-form)
+    -   [Binding to an input without a form](#binding-to-an-input-without-a-form)
+    -   [Binding multiple html forms to the same state](#binding-multiple-html-forms-to-the-same-state)
     -   [Disabling forms / Setting disabled](#disabling-forms-/-setting-disabled)
 -   [Not yet supported features](#not-yet-supported-features)
 
@@ -270,6 +271,10 @@ Inside your template you can then bind the single input:
 ```html
 <input ngrxControl [controlSummary$]="singleInput$" (controlUpdate)="updateSingleInput($event)" />
 ```
+
+### Binding multiple html forms to the same state
+
+It's possible without any restrictions. The example app shows an example under the headline _duplicate form_. (The value type of the form controls must still match with the types defined in your type definition.)
 
 ### Disabling forms / Setting disabled
 

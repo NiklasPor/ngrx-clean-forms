@@ -21,3 +21,11 @@
 >
     <input type="number" ngrxControl="exampleInput" />
 </form>
+
+<h3>Duplicate form example:</h3>
+<form ngrxForm [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+    <div>
+        <input type="range" ngrxControl="numberInput" />
+        <app-custom-input ngrxControl="rangeInput"></app-custom-input>
+    </div>
+</form>
