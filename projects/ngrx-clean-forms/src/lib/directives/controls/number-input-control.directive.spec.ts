@@ -48,6 +48,7 @@ describe('numberInputControlDirective', () => {
 
         directive = directiveDebug.injector.get(NumberInputControlDirective);
     });
+
     it('value update propagates to child (5)', () => {
         testComponent.componentInstance.summary$.next(getFormControlSummary(initFormControl([5])));
 
@@ -55,6 +56,17 @@ describe('numberInputControlDirective', () => {
         const result = directive['ref'].nativeElement.value;
 
         expect(result).toBe('5');
+    });
+
+    it('null value update propagates to child as empty string', () => {
+        testComponent.componentInstance.summary$.next(
+            getFormControlSummary(initFormControl([null]))
+        );
+
+        // tslint:disable-next-line: no-string-literal
+        const result = directive['ref'].nativeElement.value;
+
+        expect(result).toBe('');
     });
 
     it('disabled update propagates to child (true)', () => {
@@ -84,6 +96,26 @@ describe('numberInputControlDirective', () => {
 
         const expected: FormControlUpdate<number> = {
             value,
+            pristine: false,
+        };
+
+        directive.controlUpdate.subscribe(result => {
+            expect(result).toEqual(expected);
+            done();
+        });
+
+        directive.onInput({
+            target: {
+                value,
+            },
+        } as any);
+    });
+
+    it('empty value update propagates from child as null', done => {
+        const value = '';
+
+        const expected: FormControlUpdate<number> = {
+            value: null,
             pristine: false,
         };
 

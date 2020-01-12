@@ -46,6 +46,7 @@ describe('RangeInputControlDirective', () => {
 
         directive = directiveDebug.injector.get(RangeInputControlDirective);
     });
+
     it('value update propagates to child (5)', () => {
         testComponent.componentInstance.summary$.next(getFormControlSummary(initFormControl([5])));
 
