@@ -29,3 +29,13 @@
         <app-custom-input ngrxControl="rangeInput"></app-custom-input>
     </div>
 </form>
+
+<h3>Error display example:</h3>
+<form ngrxForm [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+    <div>
+        <input type="number" ngrxControl="numberInput" />
+        <small *ngIf="(formGroup$ | async)?.errors?.numberInput">
+            {{ (formGroup$ | async).errors.numberInput | json }}
+        </small>
+    </div>
+</form>

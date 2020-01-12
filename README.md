@@ -14,14 +14,15 @@ This library excels in the following topics:
 -   [Getting Started](#getting-started)
     -   [Import the NgrxCleanFormsModule](#import-the-ngrxcleanformsmodule)
     -   [Add the form state to your state managment](#add-the-form-state-to-your-state-managment)
-    -   [Accessing the form state & errors](#accessing-the-form-state---errors)
-    -   [Updating (reducing) the form state](#updating--reducing--the-form-state)
+    -   [Accessing the form state & errors](#accessing-the-form-state-&-errors)
+    -   [Updating (reducing) the form state](<#updating-(reducing)-the-form-state>)
     -   [Binding your HTML form to your state](#binding-your-html-form-to-your-state)
 -   [Additional Resources](#additional-resources)
     -   [Adding validators](#adding-validators)
     -   [Using the Angular forms validators](#using-the-angular-forms-validators)
     -   [Adding custom (state based) validation](<#adding-custom-(state-based)-validation>)
-    -   [Displaying errors (CSS classes)](#displaying-errors--css-classes-)
+    -   [Displaying errors (CSS classes)](<#displaying-errors-(css-classes)>)
+    -   [Displaying errors (values)](<#displaying-errors-(values)>)
     -   [Binding to custom input components](#binding-to-custom-input-components)
     -   [Binding to an input without a form](#binding-to-an-input-without-a-form)
     -   [Binding multiple html forms to the same state](#binding-multiple-html-forms-to-the-same-state)
@@ -252,6 +253,23 @@ This library utilizes the same error classes as angular. Excerpt from the Angula
 
 Those classes will be automatically assigned to the controls and forms managed by this library.
 
+### Displaying errors (values)
+
+The errors of form groups and controls are accessible by using the `FormGroupSummary` and `FormControlSummary`.
+
+This snippet from the example app displays the error, if it is set. Regular applications would have probably an error message inside the `<small>`.
+
+```html
+<form ngrxForm [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+    <div>
+        <input type="number" ngrxControl="numberInput" />
+        <small *ngIf="(formGroup$ | async)?.errors?.numberInput">
+            {{ (formGroup$ | async).errors.numberInput | json }}
+        </small>
+    </div>
+</form>
+```
+
 ### Binding to custom input components
 
 The workflow for adding support to your custom support is the same as for vanilla Angular forms. You'll simply have to implement the [ControlValueAccessor](https://angular.io/api/forms/ControlValueAccessor) interface.
@@ -272,7 +290,7 @@ Inside your template you can then bind the single input:
 <input ngrxControl [controlSummary$]="singleInput$" (controlUpdate)="updateSingleInput($event)" />
 ```
 
-### Binding multiple html forms to the same state
+### Binding multiple HTML forms to the same state
 
 It's possible without any restrictions. The example app shows an example under the headline _duplicate form_. (The value type of the form controls must still match with the types defined in your type definition.)
 
@@ -290,12 +308,12 @@ Disabling and enabling forms later can be done by using `FormControlUpdate` or `
 
 ## Not yet supported features
 
-| Feature                  | Status               | Description                                                               |
-| ------------------------ | -------------------- | ------------------------------------------------------------------------- |
-| Support `disabled`       | Implemented in 2.0.0 | Support the disabled attribute inside FormControls.                       |
-| Async validators         | -                    |  Support the implemenation of async validators, which have side effects.  |
-| `<input type="radio" />` | -                    | Support the usage of radio control groups. \*                             |
-| `<select>`               | -                    | Support the usage of the basic `select` html tag. \*                      |
-| `<select multiple>`      | -                    | Support the usage of the `multiple` attribute within the `select` tag. \* |
+| Feature                  | Status               | Description                                                                                                                                                                                          |
+| ------------------------ | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Support `disabled`       | Implemented in 2.0.0 | Support the disabled attribute inside FormControls.                                                                                                                                                  |
+| Async validators         | -                    |  Support the implemenation of async validators, which have side effects. _Can currently be implemented using the `additionalErrors` parameter of `getFormGroupSummary` and `getFormControlSummary`._ |
+| `<input type="radio" />` | -                    | Support the usage of radio control groups. \*                                                                                                                                                        |
+| `<select>`               | -                    | Support the usage of the basic `select` html tag. \*                                                                                                                                                 |
+| `<select multiple>`      | -                    | Support the usage of the `multiple` attribute within the `select` tag. \*                                                                                                                            |
 
 \*For now you can create a [custom component](b#inding-to-custom-input-components), which wraps the unsupported group.
