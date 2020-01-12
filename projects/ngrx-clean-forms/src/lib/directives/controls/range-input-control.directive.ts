@@ -8,7 +8,7 @@ export class RangeInputControlDirective extends AbstractControlDirective<number>
         super(ref, r2);
     }
 
-    @HostListener('input', ['$event']) onChange($event: Event) {
+    @HostListener('input', ['$event']) onInput($event: Event) {
         const value = ($event.target as HTMLInputElement).value;
         this.emitValue(value === '' ? null : parseFloat(value));
     }
