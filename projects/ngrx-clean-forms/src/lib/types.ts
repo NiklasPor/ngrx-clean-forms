@@ -19,6 +19,13 @@ export type FormGroupControlUpdates<TControls extends FormControls> = Partial<
     }
 >;
 
+export type FormArrayControlUpdates<T> = FormControlUpdate<T>[];
+
+export type FormArrayUpdate<T> = Modify<
+    Partial<FormArrayState<T>>,
+    { controls?: FormArrayControlUpdates<T> }
+>;
+
 // Initialization
 export type Validator<T> = (control: FormControlState<T>) => FormControlErrors | null;
 

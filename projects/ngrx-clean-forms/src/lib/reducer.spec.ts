@@ -1,7 +1,12 @@
-import { initFormControl, initFormGroup } from './init';
-import { reduceFormControl, reduceFormGroup } from './reducer';
-import { FormControlUpdate } from 'ngrx-clean-forms/lib/types';
-import { FormGroupUpdate, FormGroupState } from './types';
+import { initFormArray, initFormControl, initFormGroup } from './init';
+import { reduceFormArray, reduceFormControl, reduceFormGroup } from './reducer';
+import {
+    FormArrayState,
+    FormArrayUpdate,
+    FormGroupState,
+    FormGroupUpdate,
+    FormControlUpdate,
+} from './types';
 
 describe('reducer', () => {
     describe('reduceFormControl', () => {
@@ -30,6 +35,26 @@ describe('reducer', () => {
             const result = reduceFormControl(control, update);
 
             expect(result).toEqual(expected);
+        });
+
+        it('undefined update should do nothing', () => {
+            const control = initFormControl(['test']);
+
+            const update = undefined;
+
+            const result = reduceFormControl(control, update);
+
+            expect(result).toEqual(control);
+        });
+
+        it('null update should do nothing', () => {
+            const control = initFormControl(['test']);
+
+            const update = null;
+
+            const result = reduceFormControl(control, update);
+
+            expect(result).toEqual(control);
         });
     });
 
@@ -77,6 +102,47 @@ describe('reducer', () => {
             };
 
             const result = reduceFormGroup(group, update);
+
+            expect(result).toEqual(expected);
+        });
+    });
+
+    describe('reduceFormArray', () => {
+        [{}, undefined, null].forEach(update => {
+            it(`${JSON.stringify(update)} update should do nothing`, () => {
+                const array = initFormArray([['value]']]);
+
+                const result = reduceFormArray(array, update);
+
+                expect(result).toEqual(array);
+            });
+        });
+
+        it('array update should only update affected', () => {
+            const value = 'value';
+            const pristine = false;
+
+            const controlUpdate: FormControlUpdate<string> = {
+                value,
+                pristine,
+            };
+
+            const array = initFormArray([['1'], ['2'], ['3'], ['4']]);
+
+            const update: FormArrayUpdate<string> = {
+                controls: [null, controlUpdate, null],
+            };
+
+            const expected: FormArrayState<string> = {
+                controls: [
+                    initFormControl(['1']),
+                    initFormControl({ value, pristine }),
+                    initFormControl(['3']),
+                    initFormControl(['4']),
+                ],
+            };
+
+            const result = reduceFormArray(array, update);
 
             expect(result).toEqual(expected);
         });
