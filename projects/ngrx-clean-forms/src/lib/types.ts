@@ -22,15 +22,17 @@ export type FormGroupControlUpdates<TControls extends FormControls> = Partial<
 // Initialization
 export type Validator<T> = (control: FormControlState<T>) => FormControlErrors | null;
 
-export type FormControlInitializeTuple<T> = [T, Validator<T>[]?];
+export type FormControlInit<T> = FormControlInitTuple<T> | FormControlInitUpdate<T>;
 
-export type FormGroupInitialize<TControls extends FormControls> = {
-    [K in keyof TControls]:
-        | FormControlInitializeTuple<TControls[K]>
-        | FormControlInitialUpdate<TControls[K]>;
+export type FormControlInitTuple<T> = [T, Validator<T>[]?];
+
+export type FormGroupInit<TControls extends FormControls> = {
+    [K in keyof TControls]: FormControlInit<TControls[K]>;
 };
 
-export interface FormControlInitialUpdate<T> extends FormControlUpdate<T> {
+export type FormArrayInit<T> = FormControlInit<T>[];
+
+export interface FormControlInitUpdate<T> extends FormControlUpdate<T> {
     value: T;
 }
 
@@ -42,6 +44,8 @@ export interface FormControlErrors {
 export type FormGroupErrors<TControls extends FormControls> = {
     [K in keyof Partial<TControls>]: FormControlErrors;
 };
+
+export type FormArrayErrors = FormControlErrors[];
 
 // States
 export interface FormControlState<T extends any> {
@@ -60,6 +64,10 @@ export interface FormGroupState<TControls extends FormControls> {
     controls: FormGroupControlStates<TControls>;
 }
 
+export interface FormArrayState<T> {
+    controls: FormControlState<T>[];
+}
+
 // Summaries
 export interface FormControlSummary<T> extends FormControlState<T> {
     errors: FormControlErrors;
@@ -74,6 +82,16 @@ export interface FormGroupSummary<TControls extends FormControls>
     extends FormGroupState<TControls> {
     controls: FormGroupControlSummaries<TControls>;
     errors: FormGroupErrors<TControls>;
+    valid: boolean;
+    pristine: boolean;
+    untouched: boolean;
+}
+
+export type FormArrayControlSummaries<T> = FormControlSummary<T>[];
+
+export interface FormArraySummary<T> extends FormArrayState<T> {
+    controls: FormArrayControlSummaries<T>;
+    errors: FormArrayErrors;
     valid: boolean;
     pristine: boolean;
     untouched: boolean;

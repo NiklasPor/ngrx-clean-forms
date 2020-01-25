@@ -1,5 +1,6 @@
-import { initFormControl, initFormGroup } from './init';
-import { FormControlState, FormGroupState } from './types';
+import { initFormControl, initFormGroup, initFormArray } from './init';
+import { FormControlState, FormGroupState, FormArrayState } from './types';
+import { ValidatorFn } from '@angular/forms';
 
 describe('init', () => {
     const validator = () => null;
@@ -118,6 +119,52 @@ describe('init', () => {
                     untouched: false,
                 },
             });
+
+            expect(result).toEqual(expected);
+        });
+    });
+
+    describe('initFormArray', () => {
+        it('should create valid form group with initTuple', () => {
+            const expected: FormArrayState<string> = {
+                controls: [
+                    {
+                        value,
+                        validators: [validator],
+                        disabled: false,
+                        pristine: true,
+                        untouched: true,
+                    },
+                ],
+            };
+
+            const result = initFormArray([[value, [validator]]]);
+
+            expect(result).toEqual(expected);
+        });
+
+        it('should create valid form group with initUpdate', () => {
+            const expected: FormArrayState<string> = {
+                controls: [
+                    {
+                        value,
+                        validators: [validator],
+                        disabled: true,
+                        pristine: false,
+                        untouched: false,
+                    },
+                ],
+            };
+
+            const result = initFormArray([
+                {
+                    value,
+                    validators: [validator],
+                    disabled: true,
+                    pristine: false,
+                    untouched: false,
+                },
+            ]);
 
             expect(result).toEqual(expected);
         });

@@ -1,16 +1,18 @@
 import { reduceFormControl } from './reducer';
 import {
-    FormControlInitializeTuple,
-    FormControlInitialUpdate,
+    FormControlInitTuple,
+    FormControlInitUpdate,
     FormControls,
     FormControlState,
     FormGroupControlStates,
-    FormGroupInitialize,
+    FormGroupInit,
     FormGroupState,
+    FormArrayInit,
+    FormArrayState,
 } from './types';
 
 export function initFormControl<T>(
-    initial: FormControlInitializeTuple<T> | FormControlInitialUpdate<T>
+    initial: FormControlInitTuple<T> | FormControlInitUpdate<T>
 ): FormControlState<T> {
     return Array.isArray(initial)
         ? initFormControlFromTuple(initial)
@@ -18,7 +20,7 @@ export function initFormControl<T>(
 }
 
 export function initFormGroup<TControls extends FormControls>(
-    controls: FormGroupInitialize<TControls>
+    controls: FormGroupInit<TControls>
 ): FormGroupState<TControls> {
     return {
         controls: Object.entries(controls)
@@ -31,7 +33,13 @@ export function initFormGroup<TControls extends FormControls>(
     };
 }
 
-function initFormControlFromTuple<T>([value, validators]: FormControlInitializeTuple<
+export function initFormArray<T>(initial: FormArrayInit<T>): FormArrayState<T> {
+    return {
+        controls: initial.map(init => initFormControl(init)),
+    };
+}
+
+function initFormControlFromTuple<T>([value, validators]: FormControlInitTuple<
     T
 >): FormControlState<T> {
     validators = validators || [];
@@ -39,7 +47,7 @@ function initFormControlFromTuple<T>([value, validators]: FormControlInitializeT
 }
 
 function initFormControlFromUpdate<T = any>(
-    initialUpdate: FormControlInitialUpdate<T>
+    initialUpdate: FormControlInitUpdate<T>
 ): FormControlState<T> {
     return reduceFormControl(
         {
