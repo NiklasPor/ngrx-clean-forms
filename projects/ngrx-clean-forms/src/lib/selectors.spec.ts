@@ -1,4 +1,4 @@
-import { initFormControl, initFormGroup } from './init';
+import { initFormControl, initFormGroup, initFormArray } from './init';
 import {
     getFormControlErrors,
     getFormControlSummary,
@@ -9,6 +9,12 @@ import {
     getFormGroupUntouched,
     mergeFormControlErrors,
     mergeFormGroupErrors,
+    getFormArrayErrors,
+    getFormArraySummary,
+    getFormArrayControlSummaries,
+    getFormArrayPristine,
+    getFormArrayUntouched,
+    mergeFormArrayErrors,
 } from './selectors';
 import {
     FormControlErrors,
@@ -17,6 +23,9 @@ import {
     FormGroupErrors,
     FormGroupState,
     FormGroupSummary,
+    FormArrayState,
+    FormArrayErrors,
+    FormArraySummary,
 } from './types';
 
 describe('selectors', () => {
@@ -125,6 +134,62 @@ describe('selectors', () => {
             };
 
             const result = getFormGroupErrors(getFormGroupControlSummaries(group.controls));
+
+            expect(result).toEqual(expected);
+        });
+    });
+
+    describe('getFormArrayErrors', () => {
+        it('should return null for no control errors', () => {
+            const array = initFormArray([['c1']]);
+
+            const result = getFormArrayErrors(getFormArrayControlSummaries(array.controls));
+
+            expect(result).toBe(null);
+        });
+
+        it('should return control + error', () => {
+            const validator = () => ({
+                alwaysTrue: true,
+            });
+
+            const array = initFormArray([['c1', [validator]]]);
+
+            const expected = [
+                {
+                    alwaysTrue: true,
+                },
+            ];
+
+            const result = getFormArrayErrors(getFormArrayControlSummaries(array.controls));
+
+            expect(result).toEqual(expected);
+        });
+
+        it('should return multiple controls + errors', () => {
+            const validatorAlwaysTrue = () => ({
+                alwaysTrue: true,
+            });
+
+            const validatorAlwaysFalse = () => ({
+                alwaysFalse: false,
+            });
+
+            const group = initFormArray([
+                ['', [validatorAlwaysTrue]],
+                ['', [validatorAlwaysFalse]],
+            ]);
+
+            const expected = [
+                {
+                    alwaysTrue: true,
+                },
+                {
+                    alwaysFalse: false,
+                },
+            ];
+
+            const result = getFormArrayErrors(getFormArrayControlSummaries(group.controls));
 
             expect(result).toEqual(expected);
         });
@@ -284,6 +349,42 @@ describe('selectors', () => {
         });
     });
 
+    describe('getFormArrayPristine', () => {
+        it('all controls pristine should return true', () => {
+            const array = {
+                controls: [
+                    {
+                        pristine: true,
+                    } as FormControlState<any>,
+                    {
+                        pristine: true,
+                    } as FormControlState<any>,
+                ],
+            };
+
+            const result = getFormArrayPristine(array);
+
+            expect(result).toEqual(true);
+        });
+
+        it('one control dirty should return false', () => {
+            const array = {
+                controls: [
+                    {
+                        pristine: true,
+                    } as FormControlState<any>,
+                    {
+                        pristine: false,
+                    } as FormControlState<any>,
+                ],
+            };
+
+            const result = getFormArrayPristine(array);
+
+            expect(result).toEqual(false);
+        });
+    });
+
     describe('getFormGroupUntouched', () => {
         it('all controls untouched should return true', () => {
             const group = {
@@ -315,6 +416,42 @@ describe('selectors', () => {
             } as FormGroupState<any>;
 
             const result = getFormGroupUntouched(group);
+
+            expect(result).toEqual(false);
+        });
+    });
+
+    describe('getFormArrayUntouched', () => {
+        it('all controls untouched should return true', () => {
+            const array = {
+                controls: [
+                    {
+                        untouched: true,
+                    } as FormControlState<any>,
+                    {
+                        untouched: true,
+                    } as FormControlState<any>,
+                ],
+            };
+
+            const result = getFormArrayUntouched(array);
+
+            expect(result).toEqual(true);
+        });
+
+        it('one control touched should return false', () => {
+            const array = {
+                controls: [
+                    {
+                        untouched: true,
+                    } as FormControlState<any>,
+                    {
+                        untouched: false,
+                    } as FormControlState<any>,
+                ],
+            };
+
+            const result = getFormArrayUntouched(array);
 
             expect(result).toEqual(false);
         });
@@ -510,6 +647,176 @@ describe('selectors', () => {
             };
 
             const result = getFormGroupSummary(group);
+
+            expect(result).toEqual(expected);
+        });
+    });
+
+    describe('getFormArraySummary', () => {
+        it('all valid should return errors = null & valid = true', () => {
+            const group = initFormArray([['']]);
+
+            const result = getFormGroupSummary(group);
+
+            expect(result.errors).toEqual(null);
+            expect(result.valid).toEqual(true);
+        });
+
+        it('one error should return errors & valid = false', () => {
+            const error = {
+                alwaysTrue: true,
+            };
+
+            const group = initFormArray([['', [() => error]], ['']]);
+
+            const expected = [null, error];
+
+            const result = getFormArraySummary(group);
+
+            expect(result.errors).toEqual(expected);
+            expect(result.valid).toEqual(false);
+        });
+
+        it('should summarize with error for array + controls', () => {
+            const validator = () => ({
+                controlError: true,
+            });
+
+            const array = initFormArray([['initial', [validator]]]);
+
+            const additionalError: FormArrayErrors = [
+                {
+                    externalError: true,
+                },
+            ];
+
+            const expected: FormArraySummary<string> = {
+                controls: [
+                    {
+                        value: 'initial',
+                        disabled: false,
+                        pristine: true,
+                        untouched: true,
+                        valid: false,
+                        validators: array.controls[0].validators,
+                        errors: {
+                            externalError: true,
+                            controlError: true,
+                        },
+                    },
+                ],
+                errors: [
+                    {
+                        externalError: true,
+                        controlError: true,
+                    },
+                ],
+                pristine: true,
+                untouched: true,
+                valid: false,
+            };
+
+            const result = getFormArraySummary(array, additionalError);
+
+            expect(result).toEqual(expected);
+        });
+
+        it('should set valid on control & array accordingly - only additional error', () => {
+            const array = initFormArray([['initial']]);
+
+            const additionalError: FormArrayErrors = [
+                {
+                    externalError: true,
+                },
+            ];
+
+            const expected: FormArraySummary<string> = {
+                controls: [
+                    {
+                        value: 'initial',
+                        disabled: false,
+                        pristine: true,
+                        untouched: true,
+                        valid: false,
+                        validators: array.controls[0].validators,
+                        errors: {
+                            externalError: true,
+                        },
+                    },
+                ],
+                errors: [
+                    {
+                        externalError: true,
+                    },
+                ],
+                pristine: true,
+                untouched: true,
+                valid: false,
+            };
+
+            const result = getFormArraySummary(array, additionalError);
+
+            expect(result).toEqual(expected);
+        });
+
+        it('should set valid on control & array accordingly - only form error', () => {
+            const validator = () => ({
+                stringError: true,
+            });
+
+            const array = initFormArray([['initial', [validator]]]);
+
+            const expected: FormArraySummary<string> = {
+                controls: [
+                    {
+                        value: 'initial',
+                        disabled: false,
+                        pristine: true,
+                        untouched: true,
+                        valid: false,
+                        validators: array.controls[0].validators,
+                        errors: {
+                            stringError: true,
+                        },
+                    },
+                ],
+                errors: [
+                    {
+                        stringError: true,
+                    },
+                ],
+                pristine: true,
+                untouched: true,
+                valid: false,
+            };
+
+            const result = getFormArraySummary(array);
+
+            expect(result).toEqual(expected);
+        });
+
+        it('should return summary on null errors', () => {
+            const array = initFormArray([['initial']]);
+
+            const expected: FormArraySummary<string> = {
+                controls: [
+                    {
+                        value: 'initial',
+                        disabled: false,
+                        pristine: true,
+                        untouched: true,
+                        valid: true,
+                        validators: array.controls[0].validators,
+                        errors: null,
+                    },
+                ],
+                errors: null,
+                pristine: true,
+                untouched: true,
+                valid: true,
+            };
+
+            const result = getFormArraySummary(array);
 
             expect(result).toEqual(expected);
         });
@@ -769,6 +1076,51 @@ describe('selectors', () => {
             const result = mergeFormControlErrors(error1, error2, error3);
 
             expect(result).toEqual(expected);
+        });
+    });
+
+    fdescribe('mergeFormArrayErrors', () => {
+        it('should merge multiple errors', () => {
+            const firstError = {
+                first: 'first',
+            };
+
+            const secondError = {
+                second: 'second',
+            };
+
+            const thirdError = {
+                third: 'third',
+            };
+
+            const expected = [
+                {
+                    ...firstError,
+                    ...secondError,
+                },
+                thirdError,
+            ];
+
+            const result = mergeFormArrayErrors([firstError], [secondError, thirdError]);
+
+            expect(result).toEqual(expected);
+        });
+
+        it('null, null should return null', () => {
+            const errors = [null, null];
+
+            const result = mergeFormArrayErrors(errors);
+
+            expect(result).toBeNull();
+        });
+
+        it('null, error & null, null, null should return null, error, null', () => {
+            const error = { error: 'error' };
+            const errors = [null, error];
+
+            const result = mergeFormArrayErrors([null, null, null], errors);
+
+            expect(result).toEqual([...errors, null]);
         });
     });
 });
