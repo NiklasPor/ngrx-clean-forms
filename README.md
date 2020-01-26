@@ -158,7 +158,7 @@ export class ExampleComponent {
 `component.html`:
 
 ```html
-<form ngrxForm [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+<form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
     <input type="text" ngrxControl="textInput" />
     <input type="number" ngrxControl="numberInput" />
 </form>
@@ -265,7 +265,7 @@ The errors of form groups and controls are accessible by using the `FormGroupSum
 This snippet from the example app displays the error, if it is set. Regular applications would have probably an error message inside the `<small>`.
 
 ```html
-<form ngrxForm [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+<form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
     <div>
         <input type="number" ngrxControl="numberInput" />
         <small *ngIf="(formGroup$ | async)?.errors?.numberInput">
