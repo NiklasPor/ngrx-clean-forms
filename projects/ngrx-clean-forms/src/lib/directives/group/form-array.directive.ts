@@ -11,10 +11,11 @@ export class FormArrayDirective extends AbstractFormDirective<
     FormArrayUpdate<any>
 > {
     emitUpdate(update: FormControlUpdate<any>, key: string) {
-        console.log('array');
-        console.log(update);
-        console.log(key);
         const index = parseInt(key, 10);
         const controls = new Array(index + 1);
+
+        controls[index] = update;
+
+        this.formUpdate.next({ controls });
     }
 }

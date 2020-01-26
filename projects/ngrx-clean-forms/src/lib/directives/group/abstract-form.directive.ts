@@ -1,12 +1,12 @@
-import { AfterViewInit, Directive, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { combineLatest, merge, Observable, ReplaySubject, Subject } from 'rxjs';
-import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { map, switchMap, takeUntil } from 'rxjs/operators';
 import {
     FormArraySummary,
+    FormArrayUpdate,
     FormControlUpdate,
     FormGroupSummary,
     FormGroupUpdate,
-    FormArrayUpdate,
 } from '../../types';
 import { AbstractControlDirective } from '../controls/abstract-control.directive';
 import { ControlChildren } from './control-children';
@@ -42,8 +42,7 @@ export abstract class AbstractFormDirective<Summary extends FormSummary, Update 
                         )
                     )
                 ),
-                switchMap(children => merge(...children)),
-                tap(console.log)
+                switchMap(children => merge(...children))
             )
             .subscribe(([update, key]) => this.emitUpdate(update, key));
 
