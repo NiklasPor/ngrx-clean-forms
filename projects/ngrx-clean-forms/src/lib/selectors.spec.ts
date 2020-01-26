@@ -667,9 +667,9 @@ describe('selectors', () => {
                 alwaysTrue: true,
             };
 
-            const group = initFormArray([['', [() => error]], ['']]);
+            const group = initFormArray([[''], ['', [() => error]], ['']]);
 
-            const expected = [null, error];
+            const expected = [null, error, null];
 
             const result = getFormArraySummary(group);
 
