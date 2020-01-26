@@ -11,6 +11,7 @@ export class TextInputControlDirective extends AbstractControlDirective<string> 
     }
 
     @HostListener('input') onInput($event: Event) {
+        console.log($event);
         const value = ($event.target as HTMLInputElement).value;
         this.emitValue(value);
     }

@@ -1,5 +1,5 @@
 <h3>Form example:</h3>
-<form ngrxForm [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+<form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
     <div>
         <input type="text" ngrxControl="textInput" />
         <input type="number" ngrxControl="numberInput" />
@@ -15,7 +15,7 @@
 <h3>State access example:</h3>
 <small>Forbidden number (from state): {{ forbiddenNumber$ | async }}</small>
 <form
-    ngrxForm
+    ngrxFormGroup
     [formSummary$]="stateAccessFormGroup$"
     (formUpdate)="updateStateAccessFormGroup($event)"
 >
@@ -23,7 +23,7 @@
 </form>
 
 <h3>Duplicate form example:</h3>
-<form ngrxForm [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+<form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
     <div>
         <input type="range" ngrxControl="numberInput" />
         <app-custom-input ngrxControl="rangeInput"></app-custom-input>
@@ -31,7 +31,7 @@
 </form>
 
 <h3>Error display example:</h3>
-<form ngrxForm [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+<form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
     <div>
         <input type="number" ngrxControl="numberInput" />
         <small *ngIf="(formGroup$ | async)?.errors?.numberInput">
@@ -41,7 +41,7 @@
 </form>
 
 <h3>Form array:</h3>
-<form ngrxForm [formSummary$]="formArray$" (formUpdate)="updateFormArray($event)">
+<form ngrxFormArray [formSummary$]="formArray$" (formUpdate)="updateFormArray($event)">
     <div>
         <button type="button" (click)="addControlToArray()">Add Input</button>
         <input *ngFor="let key of (formArray$ | async).keys" [ngrxControl]="key" type="text" />
