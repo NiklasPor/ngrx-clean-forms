@@ -1,47 +1,62 @@
 import { AfterViewInit, Directive, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
-import { Observable, Subscription, Subject } from 'rxjs';
-import { FormGroupSummary, FormGroupUpdate } from '../../types';
+import { combineLatest, merge, Observable, ReplaySubject, Subject } from 'rxjs';
+import { map, switchMap, takeUntil } from 'rxjs/operators';
+import {
+    FormArraySummary,
+    FormControlUpdate,
+    FormGroupSummary,
+    FormGroupUpdate,
+} from '../../types';
+import { AbstractControlDirective } from '../controls/abstract-control.directive';
 import { ControlChildren } from './control-children';
-import { takeUntil, first } from 'rxjs/operators';
 
-type controls = any;
+type FormSummary = FormGroupSummary<any> | FormArraySummary<any>;
 
 @Directive({
     selector: '[ngrxForm]',
 })
 export class FormGroupDirective extends ControlChildren implements AfterViewInit, OnDestroy {
     @Input('formSummary$')
-    set setFormSummary$(formSummary$: Observable<FormGroupSummary<controls>>) {
-        this.destroy$.complete();
-
-        this.formSummary$ = formSummary$;
-        this.formSummary$
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(summary => this.updateSummary(summary));
+    set setFormSummary$(inputSummary$: Observable<FormSummary>) {
+        this.unsubscribeFormSummary$.next();
+        inputSummary$
+            .pipe(takeUntil(this.unsubscribeFormSummary$))
+            .subscribe(summary => this.formSummary$.next(summary));
     }
 
-    @Output() formUpdate = new EventEmitter<FormGroupUpdate<controls>>();
+    @Output() formUpdate = new EventEmitter<FormGroupUpdate<FormSummary>>();
 
-    formSummary$: Observable<FormGroupSummary<controls>>;
-    destroy$ = new Subject<void>();
+    formSummary$ = new ReplaySubject<FormSummary>(1);
+    unsubscribeFormSummary$ = new Subject<void>();
 
     ngAfterViewInit() {
-        this.getChildren().forEach(control => {
-            control.controlUpdate.subscribe(update =>
-                this.formUpdate.next({ controls: { [control.controlKey]: update } })
-            );
-        });
+        const children$ = this.getChildren();
 
-        this.formSummary$.pipe(first()).subscribe(summary => this.updateSummary(summary));
+        children$
+            .pipe(
+                map(children =>
+                    children.map(child =>
+                        child.controlUpdate.pipe(
+                            map((update): [typeof update, string] => [update, child.controlKey])
+                        )
+                    )
+                ),
+                switchMap(children => merge(...children))
+            )
+            .subscribe(([update, key]) => this.emitUpdate(update, key));
+
+        combineLatest(children$, this.formSummary$).subscribe(([children, summary]) =>
+            this.updateChildren(children, summary)
+        );
     }
 
     ngOnDestroy() {
-        this.destroy$.complete();
+        this.unsubscribeFormSummary$.next();
+        this.unsubscribeFormSummary$.complete();
+        this.formSummary$.complete();
     }
 
-    updateSummary(summary: FormGroupSummary<controls>) {
-        const children = this.getChildren();
-
+    updateChildren(children: AbstractControlDirective<any>[], summary: FormSummary) {
         if (!children.length) {
             return;
         }
@@ -49,5 +64,9 @@ export class FormGroupDirective extends ControlChildren implements AfterViewInit
         children.forEach(control => {
             control.updateSummary(summary.controls[control.controlKey]);
         });
+    }
+
+    emitUpdate(update: FormControlUpdate<any>, key: string) {
+        this.formUpdate.next({ controls: { [key]: update } });
     }
 }

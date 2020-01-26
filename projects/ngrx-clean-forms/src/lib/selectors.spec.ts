@@ -705,6 +705,7 @@ describe('selectors', () => {
                         },
                     },
                 ],
+                keys: [0],
                 errors: [
                     {
                         externalError: true,
@@ -744,6 +745,7 @@ describe('selectors', () => {
                         },
                     },
                 ],
+                keys: [0],
                 errors: [
                     {
                         externalError: true,
@@ -780,6 +782,7 @@ describe('selectors', () => {
                         },
                     },
                 ],
+                keys: [0],
                 errors: [
                     {
                         stringError: true,
@@ -810,6 +813,7 @@ describe('selectors', () => {
                         errors: null,
                     },
                 ],
+                keys: [0],
                 errors: null,
                 pristine: true,
                 untouched: true,
@@ -1079,7 +1083,7 @@ describe('selectors', () => {
         });
     });
 
-    fdescribe('mergeFormArrayErrors', () => {
+    describe('mergeFormArrayErrors', () => {
         it('should merge multiple errors', () => {
             const firstError = {
                 first: 'first',

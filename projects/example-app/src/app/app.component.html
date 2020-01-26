@@ -39,3 +39,11 @@
         </small>
     </div>
 </form>
+
+<h3>Form array:</h3>
+<form ngrxForm [formSummary$]="formArray$" (formUpdate)="updateFormArray($event)">
+    <div>
+        <button type="button" (click)="addControlToArray()">Add Input</button>
+        <input *ngFor="let key of (formArray$ | async).keys" [ngrxControl]="key" type="text" />
+    </div>
+</form>

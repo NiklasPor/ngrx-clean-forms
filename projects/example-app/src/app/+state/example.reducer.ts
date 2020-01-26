@@ -1,16 +1,21 @@
 import { Validators } from '@angular/forms';
 import { createReducer, on } from '@ngrx/store';
 import {
+    FormArrayState,
     FormControlState,
     FormGroupState,
+    initFormArray,
     initFormControl,
     initFormGroup,
+    reduceFormArray,
     reduceFormControl,
     reduceFormGroup,
     Validator,
     validatorOf,
 } from 'ngrx-clean-forms';
 import {
+    addControlToArray,
+    updateFormArray,
     updateFormGroup,
     updateSingleFormControl,
     updateStateAccessExampleFormGroup,
@@ -19,7 +24,7 @@ import {
 const required: Validator<string> = (control: FormControlState<string>) =>
     control.value.trim().length ? null : { required: true };
 
-export interface ExampleFormControls {
+export interface ExampleGroupControls {
     textInput: string;
     numberInput: number;
     rangeInput: number;
@@ -33,7 +38,8 @@ export interface StateAccessExampleFormControls {
 
 export interface ExampleState {
     singleControl: FormControlState<string>;
-    group: FormGroupState<ExampleFormControls>;
+    group: FormGroupState<ExampleGroupControls>;
+    array: FormArrayState<string>;
     stateAccessExampleGroup: FormGroupState<StateAccessExampleFormControls>;
     forbiddenNumber: number;
 }
@@ -47,20 +53,37 @@ export const initialState: ExampleState = {
         checkboxInput: [false],
         customInput: [0],
     }),
+    array: initFormArray([['first'], ['second']]),
     stateAccessExampleGroup: initFormGroup({ exampleInput: [1] }),
     forbiddenNumber: 2,
 };
 
 const internalExampleReducer = createReducer(
     initialState,
-    on(updateSingleFormControl, (state, props) => ({
+
+    on(updateSingleFormControl, (state, { update }) => ({
         ...state,
-        singleControl: reduceFormControl(state.singleControl, props.update),
+        singleControl: reduceFormControl(state.singleControl, update),
     })),
-    on(updateFormGroup, (state, props) => ({
+
+    on(updateFormGroup, (state, { update }) => ({
         ...state,
-        group: reduceFormGroup(state.group, props.update),
+        group: reduceFormGroup(state.group, update),
     })),
+
+    on(updateFormArray, (state, { update }) => ({
+        ...state,
+        array: reduceFormArray(state.array, update),
+    })),
+
+    on(addControlToArray, state => ({
+        ...state,
+        array: {
+            ...state.array,
+            controls: [...state.array.controls, initFormControl(['new'])],
+        },
+    })),
+
     on(updateStateAccessExampleFormGroup, (state, props) => ({
         ...state,
         stateAccessExampleGroup: reduceFormGroup(state.stateAccessExampleGroup, props.update),

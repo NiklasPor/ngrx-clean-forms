@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { FormControlUpdate, FormGroupUpdate } from 'ngrx-clean-forms';
+import { FormArrayUpdate, FormControlUpdate, FormGroupUpdate } from 'ngrx-clean-forms';
 import { AppState } from './+state/app.state';
 import * as ExampleActions from './+state/example.actions';
+import { ExampleGroupControls, StateAccessExampleFormControls } from './+state/example.reducer';
 import * as ExampleSelectors from './+state/example.selectors';
-import { ExampleFormControls, StateAccessExampleFormControls } from './+state/example.reducer';
 
 @Component({
     selector: 'app-root',
@@ -16,6 +16,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     formGroup$ = this.store.select(ExampleSelectors.selectFormGroup);
     stateAccessFormGroup$ = this.store.select(ExampleSelectors.selectStateAccessExampleGroup);
     forbiddenNumber$ = this.store.select(ExampleSelectors.selectForbiddenNumber);
+    formArray$ = this.store.select(ExampleSelectors.selectArray);
 
     constructor(private store: Store<AppState>) {}
 
@@ -25,12 +26,20 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.store.dispatch(ExampleActions.updateSingleFormControl({ update: controlUpdate }));
     }
 
-    updateFormGroup(update: FormGroupUpdate<ExampleFormControls>) {
+    updateFormGroup(update: FormGroupUpdate<ExampleGroupControls>) {
         this.store.dispatch(ExampleActions.updateFormGroup({ update }));
+    }
+
+    updateFormArray(update: FormArrayUpdate<string>) {
+        this.store.dispatch(ExampleActions.updateFormArray({ update }));
     }
 
     updateStateAccessFormGroup(update: FormGroupUpdate<StateAccessExampleFormControls>) {
         this.store.dispatch(ExampleActions.updateStateAccessExampleFormGroup({ update }));
+    }
+
+    addControlToArray() {
+        this.store.dispatch(ExampleActions.addControlToArray());
     }
 
     ngAfterViewInit() {}

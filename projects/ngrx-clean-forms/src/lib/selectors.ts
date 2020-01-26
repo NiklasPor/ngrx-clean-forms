@@ -94,6 +94,10 @@ export function getFormArrayUntouched<T>(array: FormArrayState<T>): boolean {
     return array.controls.every(control => control.untouched);
 }
 
+export function getFormArrayKeys<T>(array: FormArrayState<T>): number[] {
+    return array.controls.map((_, i) => i);
+}
+
 export function getFormGroupSummary<TControls extends FormControls>(
     group: FormGroupState<TControls>,
     ...additionalErrors: FormGroupErrors<TControls>[]
@@ -119,6 +123,7 @@ export function getFormArraySummary<T>(
 
     return {
         controls: summaries,
+        keys: getFormArrayKeys(array),
         pristine: getFormArrayPristine(array),
         untouched: getFormArrayUntouched(array),
         errors,

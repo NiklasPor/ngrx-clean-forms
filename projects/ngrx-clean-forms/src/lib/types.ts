@@ -98,6 +98,7 @@ export type FormArrayControlSummaries<T> = FormControlSummary<T>[];
 
 export interface FormArraySummary<T> extends FormArrayState<T> {
     controls: FormArrayControlSummaries<T>;
+    keys: number[];
     errors: FormArrayErrors;
     valid: boolean;
     pristine: boolean;

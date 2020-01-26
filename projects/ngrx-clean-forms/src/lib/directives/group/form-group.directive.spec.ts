@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ReplaySubject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { first, take } from 'rxjs/operators';
 import { initFormGroup } from '../../init';
 import { NgrxCleanFormsModule } from '../../ngrx-clean-forms.module';
 import { getFormGroupSummary } from '../../selectors';
@@ -10,7 +10,6 @@ import { FormGroupSummary } from '../../types';
 import { TextInputControlDirective } from '../controls/text-input-control.directive';
 import { FormGroupUpdate } from './../../types';
 import { FormGroupDirective } from './form-group.directive';
-import { initFormControl } from 'ngrx-clean-forms/lib/init';
 
 @Component({
     template: `
@@ -56,7 +55,7 @@ describe('FormGroupDirective', () => {
     });
 
     it('should not crash without children', () => {
-        expect(() => {
+        expect(async () => {
             testComponent.componentInstance.showInput = false;
             testComponent.detectChanges();
 
@@ -65,7 +64,11 @@ describe('FormGroupDirective', () => {
             );
 
             // tslint:disable-next-line: no-string-literal
-            expect(directive['getChildren']().length).toBe(0);
+            const children = await directive['getChildren']()
+                .pipe(first())
+                .toPromise();
+
+            expect(children.length).toBe(0);
         }).not.toThrow();
     });
 

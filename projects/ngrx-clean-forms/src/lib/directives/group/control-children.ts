@@ -7,6 +7,8 @@ import { CheckboxInputControlDirective } from '../controls/checkbox-input-contro
 import { RangeInputControlDirective } from '../controls/range-input-control.directive';
 import { RadioInputControlDirective } from '../controls/radio-input-control.directive';
 import { SelectInputControlDirective } from '../controls/select-input-control.directive';
+import { map, startWith } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
 
 type directiveQuery = QueryList<AbstractControlDirective<any>>;
 const config = { descendants: true };
@@ -21,7 +23,7 @@ export abstract class ControlChildren {
     @ContentChildren(ValueAccessorConnectorDirective, config) private customInputs: directiveQuery;
 
     protected getChildren() {
-        return [
+        const queries$ = [
             this.textInputs,
             this.numberInputs,
             this.radioInputs,
@@ -30,8 +32,21 @@ export abstract class ControlChildren {
             this.customInputs,
             this.checkboxInputs,
         ]
-            .filter(query => query !== undefined)
-            .map(query => query.toArray())
-            .reduce((q1, q2) => [...q1, ...q2], []);
+            .filter(Boolean)
+            .map(query => {
+                return this.convertToObservable(query);
+            });
+
+        return combineLatest(queries$).pipe(
+            map(queries => queries.reduce((q1, q2) => [...q1, ...q2], []))
+        );
+    }
+
+    private convertToObservable(query: directiveQuery) {
+        return query.changes.pipe(
+            map(() => query),
+            startWith(query),
+            map(list => list.toArray())
+        );
     }
 }

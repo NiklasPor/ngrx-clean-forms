@@ -1,6 +1,5 @@
-import { initFormControl, initFormGroup, initFormArray } from './init';
-import { FormControlState, FormGroupState, FormArrayState } from './types';
-import { ValidatorFn } from '@angular/forms';
+import { initFormArray, initFormControl, initFormGroup } from './init';
+import { FormArrayState, FormControlState, FormGroupState } from './types';
 
 describe('init', () => {
     const validator = () => null;

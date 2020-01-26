@@ -2,6 +2,7 @@ import { Component, Directive, forwardRef } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { first } from 'rxjs/operators';
 import { NgrxCleanFormsModule } from '../../ngrx-clean-forms.module';
 import { CheckboxInputControlDirective } from '../controls/checkbox-input-control.directive';
 import { NumberInputControlDirective } from '../controls/number-input-control.directive';
@@ -142,5 +143,10 @@ async function getChildDirectivesForComponent(childTemplate: string) {
         .query(By.directive(TestDirective))
         .injector.get(TestDirective);
 
-    return directive.testGetChildren();
+    const children = await directive
+        .testGetChildren()
+        .pipe(first())
+        .toPromise();
+
+    return children;
 }
