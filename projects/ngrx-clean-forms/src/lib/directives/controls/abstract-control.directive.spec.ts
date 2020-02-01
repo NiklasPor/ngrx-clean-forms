@@ -12,7 +12,7 @@ import { TextInputControlDirective } from './text-input-control.directive';
     selector: 'ngrx-test-component',
     template: `
         <input
-            ngrxControl
+            ngrxFormControl
             type="text"
             [controlSummary$]="summary$"
             (controlUpdate)="update($event)"
