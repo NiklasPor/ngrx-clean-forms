@@ -12,7 +12,7 @@
         "build-example": "npm run build-lib && ng build ExampleApp",
         "publish-example": "surge dist/ExampleApp example.nrgx-clean-forms.surge.sh",
         "release-example": "npm run build-example && npm run publish-example",
-        "release-all": "npm run release-lib npm run release-example"
+        "release-all": "npm run release-lib && npm run release-example"
     },
     "dependencies": {
         "@angular/animations": "~8.2.0",
