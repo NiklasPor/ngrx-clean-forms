@@ -90,6 +90,9 @@ export type FormGroupControlStates<TControls extends FormControls> = {
     [K in keyof TControls]: FormControlState<TControls[K]>;
 };
 
+/**
+ * A FormGroup can contain multiple FormControls of different types, associated to a key.
+ */
 export interface FormGroupState<TControls extends FormControls> extends FormGroupBase<TControls> {
     /**
      * An object containing all controls of this group.
@@ -98,7 +101,7 @@ export interface FormGroupState<TControls extends FormControls> extends FormGrou
 }
 
 /**
- * A
+ * A FormArray can contain any number of FormControls.
  */
 export interface FormArrayState<T> extends FormArrayBase<T> {
     /**
