@@ -32,8 +32,18 @@ export interface FormArrayUpdate<T> extends FormArrayBase<T> {
 // Initialization
 export type Validator<T> = (control: FormControlState<T>) => FormControlErrors | null;
 
+/**
+ * Can be either of:
+ * - `FormControlInitTuple`
+ * - `FormControlInitUpdate`
+ */
 export type FormControlInit<T> = FormControlInitTuple<T> | FormControlInitUpdate<T>;
 
+/**
+ * A shorthand to create a new FormControl.
+ * - [0]: Initial value of the control.
+ * - [1]: Validator array. Optional.
+ */
 export type FormControlInitTuple<T> = [T, Validator<T>[]?];
 
 export type FormGroupInit<TControls extends FormControls> = {
@@ -42,7 +52,15 @@ export type FormGroupInit<TControls extends FormControls> = {
 
 export type FormArrayInit<T> = FormControlInit<T>[];
 
+/**
+ * Explicit type to create a new FormControl.
+ *
+ * Identical to FormControlUpdate, except for `value` which is a required attribute here.
+ */
 export interface FormControlInitUpdate<T> extends FormControlUpdate<T> {
+    /**
+     * Initial value of the control.
+     */
     value: T;
 }
 
