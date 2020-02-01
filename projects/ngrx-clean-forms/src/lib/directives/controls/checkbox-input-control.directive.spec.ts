@@ -13,7 +13,7 @@ import { take } from 'rxjs/operators';
     selector: 'ngrx-test-component',
     template: `
         <input
-            ngrxControl
+            ngrxFormControl
             type="checkbox"
             [controlSummary$]="summary$"
             (controlUpdate)="update($event)"

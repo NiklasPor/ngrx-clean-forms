@@ -159,8 +159,8 @@ export class ExampleComponent {
 
 ```html
 <form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
-    <input type="text" ngrxControl="textInput" />
-    <input type="number" ngrxControl="numberInput" />
+    <input type="text" ngrxFormControl="textInput" />
+    <input type="number" ngrxFormControl="numberInput" />
 </form>
 ```
 
@@ -267,7 +267,7 @@ This snippet from the example app displays the error, if it is set. Regular appl
 ```html
 <form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
     <div>
-        <input type="number" ngrxControl="numberInput" />
+        <input type="number" ngrxFormControl="numberInput" />
         <small *ngIf="(formGroup$ | async)?.errors?.numberInput">
             {{ (formGroup$ | async).errors.numberInput | json }}
         </small>
@@ -292,7 +292,11 @@ To bind to a input which is not contained in a form you'll have to complete the 
 Inside your template you can then bind the single input:
 
 ```html
-<input ngrxControl [controlSummary$]="singleInput$" (controlUpdate)="updateSingleInput($event)" />
+<input
+    ngrxFormControl
+    [controlSummary$]="singleInput$"
+    (controlUpdate)="updateSingleInput($event)"
+/>
 ```
 
 ### Binding multiple HTML forms to the same state

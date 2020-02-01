@@ -14,7 +14,7 @@ import { FormGroupDirective } from './form-group.directive';
 @Component({
     template: `
         <div ngrxFormGroup [formSummary$]="formSummary$" (formUpdate)="update($event)">
-            <input *ngIf="showInput" ngrxControl="control" />
+            <input *ngIf="showInput" ngrxFormControl="control" />
         </div>
     `,
 })

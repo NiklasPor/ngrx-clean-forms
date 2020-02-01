@@ -12,7 +12,7 @@ import { RangeInputControlDirective } from './range-input-control.directive';
     selector: 'ngrx-test-component',
     template: `
         <input
-            ngrxControl
+            ngrxFormControl
             type="range"
             [controlSummary$]="summary$"
             (controlUpdate)="update($event)"
