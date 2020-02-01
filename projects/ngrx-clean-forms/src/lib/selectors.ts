@@ -98,6 +98,13 @@ export function getFormArrayKeys<T>(array: FormArrayState<T>): number[] {
     return array.controls.map((_, i) => i);
 }
 
+/**
+ * Creates a `FormGroupSummary` from the given `FormGroupState`.
+ * It is possible to add additional errors.
+ *
+ * @param group The input `FormGroupState`. Used to create the `FormGroupSummary`.
+ * @param additionalErrors An array of additional `FormGroupErrors`, which will be merged into the errors of the group and of each control.
+ */
 export function getFormGroupSummary<TControls extends FormControls>(
     group: FormGroupState<TControls>,
     ...additionalErrors: FormGroupErrors<TControls>[]
@@ -114,6 +121,13 @@ export function getFormGroupSummary<TControls extends FormControls>(
     };
 }
 
+/**
+ * Creates a `FormArraySummary` from the given `FormArrayState`.
+ * It is possible to add additional errors.
+ *
+ * @param array The input `FormArrayState`. Used to create the `FormArraySummary`.
+ * @param additionalErrors An array of additional `FormArrayErrors`, which will be merged into the errors of the array and of each control.
+ */
 export function getFormArraySummary<T>(
     array: FormArrayState<T>,
     ...additionalErrors: FormArrayErrors[]
