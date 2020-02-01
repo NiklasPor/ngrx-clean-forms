@@ -39,8 +39,8 @@ export type Validator<T> = (control: FormControlState<T>) => FormControlErrors |
 
 /**
  * Can be either of:
- * - `FormControlInitTuple`
- * - `FormControlInitUpdate`
+ * @see `FormControlInitTuple`
+ * @see `FormControlInitUpdate`
  */
 export type FormControlInit<T> = FormControlInitTuple<T> | FormControlInitUpdate<T>;
 
@@ -51,10 +51,18 @@ export type FormControlInit<T> = FormControlInitTuple<T> | FormControlInitUpdate
  */
 export type FormControlInitTuple<T> = [T, Validator<T>[]?];
 
+/**
+ * An object of keys and associated `FormControlInit`.
+ * @see `FormControlInit`
+ */
 export type FormGroupInit<TControls extends FormControls> = {
     [K in keyof TControls]: FormControlInit<TControls[K]>;
 };
 
+/**
+ * An array of `FormControlInit`.
+ * @see `FormControlInit`
+ */
 export type FormArrayInit<T> = FormControlInit<T>[];
 
 /**
