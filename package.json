@@ -10,7 +10,7 @@
         "version-lib": "cd projects/ngrx-clean-forms && npm version",
         "publish-codecov-lib": "codecov -t $npm_config_ngrx_clean_forms_codecov",
         "build-example": "npm run build-lib && ng build ExampleApp",
-        "publish-example": "surge dist/ExampleApp example.nrgx-clean-forms.surge.sh",
+        "publish-example": "surge dist/ExampleApp example.ngrx-clean-forms.surge.sh",
         "release-example": "npm run build-example && npm run publish-example",
         "release-all": "npm run release-lib && npm run release-example"
     },
