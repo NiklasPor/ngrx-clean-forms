@@ -70,6 +70,11 @@ export function validatorOf<T>(fn: ValidatorFn): Validator<T> {
         } as AbstractControl);
 }
 
+/**
+ * Merges an array of `FormControlErrors`.
+ * Returns null if all errors are null.
+ * @param errors An array of `FormControlErrors` which will be merged into a single `FormControlErrors` value.
+ */
 export function mergeFormControlErrors(...errors: FormControlErrors[]): FormControlErrors | null {
     return errors.reduce((e1, e2) => {
         if (!e1 && !e2) {
@@ -91,6 +96,34 @@ export function mergeFormControlErrors(...errors: FormControlErrors[]): FormCont
     }, null);
 }
 
+/**
+ * Merges an array of errors.
+ * The different child control errors will also be merged.
+ * Returns null if all errors are null.
+ * @param errors Multiple errors to be merged.
+ *
+ * @example
+ * // Merge of:
+ * {
+ *   stringControl: {
+ *     firstError: 'firstError'
+ *   }
+ * },
+ * {
+ *   stringControl: {
+ *     secondError: 'secondError'
+ *   }
+ * }
+ *
+ * // Will result in:
+ * {
+ *   stringControl: {
+ *     firstError: 'firstError',
+ *     secondError: 'secondError'
+ *   }
+ * }
+ *
+ */
 export function mergeFormGroupErrors<TControls extends FormControls>(
     ...errors: FormGroupErrors<TControls>[]
 ): FormGroupErrors<TControls> | null {
@@ -126,6 +159,34 @@ export function mergeFormGroupErrors<TControls extends FormControls>(
     }, null);
 }
 
+/**
+ * Merges an array of errors.
+ * Errors at each index will also be merged.
+ * Returns null if all errors are null.
+ * @param errors Multiple errors to be merged.
+ *
+ * @example
+ * // Merge of:
+ * [
+ *   {
+ *     firstError: 'firstError'
+ *   }
+ * ],
+ * [
+ *   stringControl: {
+ *     secondError: 'secondError'
+ *   }
+ * ]
+ *
+ * // Will result in:
+ * [
+ *   {
+ *     firstError: 'firstError',
+ *     secondError: 'secondError'
+ *   }
+ * ]
+ *
+ */
 export function mergeFormArrayErrors(...errors: FormArrayErrors[]): FormArrayErrors | null {
     const mergedErrors = errors
         .filter(Boolean)
