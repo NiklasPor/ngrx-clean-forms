@@ -39,6 +39,13 @@ export function getFormArrayErrors<T>(
     return errors.filter(Boolean).length ? errors : null;
 }
 
+/**
+ * Creates a `FormControlSummary` from the given `FormControlState`.
+ * It is possible to add additional errors.
+ *
+ * @param control The `FormControlState` which is used to create the `FormControlSummary`.
+ * @param additionalErrors An array of `FormControlErrors` which will be merged into the errors of the control.
+ */
 export function getFormControlSummary<T>(
     control: FormControlState<T>,
     ...additionalErrors: FormControlErrors[]
