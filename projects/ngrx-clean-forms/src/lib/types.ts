@@ -30,6 +30,11 @@ export interface FormArrayUpdate<T> extends FormArrayBase<T> {
 }
 
 // Initialization
+/**
+ * A FormControl validator.
+ *
+ * @param control A FormControl which the validator will be applied on.
+ */
 export type Validator<T> = (control: FormControlState<T>) => FormControlErrors | null;
 
 /**
