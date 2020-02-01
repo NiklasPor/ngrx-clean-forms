@@ -1,4 +1,4 @@
-import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidatorFn, Validators } from '@angular/forms';
 import {
     FormControls,
     FormControlState,
@@ -13,6 +13,34 @@ import {
     FormControlErrors,
 } from './types';
 
+/**
+ * Maps an object of control states to a value given by the `mapFunc`.
+ *
+ * @param controls Object which contains keys and associated control update.
+ * @param mapFunc Mapper function to convert the update.
+ *
+ * @example
+ * // Mapping of:
+ * const controls = {
+ *  firstControl: {
+ *    value: 'firstValue',
+ *    ...
+ *  },
+ *  secondControl: {
+ *    value: 'secondValue',
+ *    ...
+ *  },
+ * }
+ *
+ * // With the function:
+ * const mapFunc = (control) => control.value
+ *
+ * // Will result in:
+ * const result = {
+ *  firstControl: 'firstValue',
+ *  secondControl: 'secondValue'
+ * }
+ */
 export function mapFormControlStates<TControls extends FormControls, R>(
     controls: FormGroupControlStates<TControls>,
     mapFunc: (control: FormControlState<any>, key: string) => R
@@ -22,6 +50,34 @@ export function mapFormControlStates<TControls extends FormControls, R>(
     return mapFormControls<TControls, R>(controls, mapFunc);
 }
 
+/**
+ * Maps an object of control summaries to a value given by the `mapFunc`.
+ *
+ * @param controls Object which contains keys and associated control summaries.
+ * @param mapFunc Mapper function to convert the update.
+ *
+ * @example
+ * // Mapping of:
+ * const controls = {
+ *  firstControl: {
+ *    value: 'firstValue',
+ *    ...
+ *  },
+ *  secondControl: {
+ *    value: 'secondValue',
+ *    ...
+ *  },
+ * }
+ *
+ * // With the function:
+ * const mapFunc = (control) => control.value
+ *
+ * // Will result in:
+ * const result = {
+ *  firstControl: 'firstValue',
+ *  secondControl: 'secondValue'
+ * }
+ */
 export function mapFormControlSummaries<TControls extends FormControls, R>(
     controls: FormGroupControlSummaries<TControls>,
     mapFunc: (control: FormControlSummary<any>, key: string) => R
@@ -31,6 +87,34 @@ export function mapFormControlSummaries<TControls extends FormControls, R>(
     return mapFormControls<TControls, R>(controls, mapFunc);
 }
 
+/**
+ * Maps an object of control updates to a value given by the `mapFunc`.
+ *
+ * @param controls Object which contains keys and associated control updates.
+ * @param mapFunc Mapper function to convert the update.
+ *
+ * @example
+ * // Mapping of:
+ * const controls = {
+ *  firstControl: {
+ *    value: 'firstValue',
+ *    ...
+ *  },
+ *  secondControl: {
+ *    value: 'secondValue',
+ *    ...
+ *  },
+ * }
+ *
+ * // With the function:
+ * const mapFunc = (control) => control.value
+ *
+ * // Will result in:
+ * const result = {
+ *  firstControl: 'firstValue',
+ *  secondControl: 'secondValue'
+ * }
+ */
 export function mapFormControlUpdates<TControls extends FormControls, R>(
     controls: FormGroupControlUpdates<TControls>,
     mapFunc: (control: FormControlUpdate<any>, key: string) => R
@@ -57,6 +141,14 @@ export function mapFormControls<TControls extends FormControls, R>(
     };
 }
 
+/**
+ * Converts an Angular validator for the usage with this framework.
+ * Does **not** support asynchronous validators.
+ *
+ * Only a subset of properties is available for the Angular validators:
+ * `value, dirty, pristine, touched, untouched, enabled, disabled`
+ * @param fn Angular validator function..
+ */
 export function validatorOf<T>(fn: ValidatorFn): Validator<T> {
     return (control: FormControlState<T>) =>
         fn({
