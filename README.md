@@ -313,6 +313,45 @@ initFormGroup({
 
 Disabling and enabling forms later can be done by using `FormControlUpdate` or `FormGroupUpdate`. Other attributes, like `untouched` and `pristine`, can also be updated these ways.
 
+### Utilizing FormArrays
+
+A FormArray is a simple array of controls. All of its controls are of the same type.
+
+#### Initialization:
+
+```typescript
+initFormArray([['first'], ['second']]);
+```
+
+#### Summary:
+
+```typescript
+getFormArraySummary(state.array))
+```
+
+#### Updating / Reducing:
+
+```typescript
+reduceFormArray(state.array, update);
+```
+
+#### Dynamically adding controls:
+
+```typescript
+array: {
+    ...state.array,
+    controls: [...state.array.controls, initFormControl(['new'])],
+}
+```
+
+#### Binding inside the template:
+
+```html
+<form ngrxFormArray [formSummary$]="formArray$" (formUpdate)="updateFormArray($event)">
+    <input *ngFor="let key of (formArray$ | async).keys" [ngrxControl]="key" type="text" />
+</form>
+```
+
 ## Not yet supported features
 
 | Feature                  | Status               | Description                                                                                                                                                                                          |
