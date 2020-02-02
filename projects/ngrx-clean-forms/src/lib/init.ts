@@ -9,16 +9,34 @@ import {
     FormGroupState,
     FormArrayInit,
     FormArrayState,
+    FormControlInit,
 } from './types';
 
-export function initFormControl<T>(
-    initial: FormControlInitTuple<T> | FormControlInitUpdate<T>
-): FormControlState<T> {
+/**
+ * Initializes a new `FormControlState`.
+ * @see `FormControlInit`
+ *
+ * @example
+ * initFormControl(['value', [validator]])
+ * initFormControl({value: 'value', validators: [validator], disabled: true, ...})
+ */
+export function initFormControl<T>(initial: FormControlInit<T>): FormControlState<T> {
     return Array.isArray(initial)
         ? initFormControlFromTuple(initial)
         : initFormControlFromUpdate(initial);
 }
 
+/**
+ * Initializes a new `FormGroupState`.
+ * @param controls An object containing control initializations.
+ * @see `FormGroupInit`
+ *
+ * @example
+ * initFormGroup({
+ *  firstControl: ['firstValue', [validator]],
+ *  secondControl: {value: 'value', validators: [validator], disabled: true, ...}
+ * })
+ */
 export function initFormGroup<TControls extends FormControls>(
     controls: FormGroupInit<TControls>
 ): FormGroupState<TControls> {
@@ -33,6 +51,17 @@ export function initFormGroup<TControls extends FormControls>(
     };
 }
 
+/**
+ * Initializes a new `FormArrayState`.
+ * @param controls An object containing control initializations.
+ * @see `FormArrayInit`
+ *
+ * @example
+ * initFormArray([
+ *  ['firstValue', [validator]],
+ *  {value: 'value', validators: [validator], disabled: true, ...}
+ * ])
+ */
 export function initFormArray<T>(initial: FormArrayInit<T>): FormArrayState<T> {
     return {
         controls: initial.map(init => initFormControl(init)),

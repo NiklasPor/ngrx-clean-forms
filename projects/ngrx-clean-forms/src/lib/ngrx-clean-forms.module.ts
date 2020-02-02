@@ -4,6 +4,13 @@ import { controlDirectives } from './directives/controls/control-directives';
 import { FormGroupDirective } from './directives/group/form-group.directive';
 import { FormArrayDirective } from './directives/group/form-array.directive';
 
+/**
+ * This module represents the entry point of ngrx-clean-forms.
+ * It provides all necessary directives for the usage inside templates.
+ *
+ * - [npm](https://www.npmjs.com/package/ngrx-clean-forms)
+ * - [documentation](https://github.com/NiklasPor/ngrx-clean-forms)
+ */
 @NgModule({
     declarations: [FormGroupDirective, FormArrayDirective, ...controlDirectives],
     imports: [CommonModule],
