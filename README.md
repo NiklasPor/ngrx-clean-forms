@@ -18,23 +18,24 @@ This library excels in the following topics:
 
 ## Table of Contents
 
--   [Getting Started](#getting-started)
-    -   [Import the NgrxCleanFormsModule](#import-the-ngrxcleanformsmodule)
-    -   [Add the form state to your state managment](#add-the-form-state-to-your-state-managment)
-    -   [Accessing the form state & errors](#accessing-the-form-state-&-errors)
-    -   [Updating (reducing) the form state](#updating-reducing-the-form-state)
-    -   [Binding your HTML form to your state](#binding-your-html-form-to-your-state)
--   [Additional Resources](#additional-resources)
-    -   [Adding validators](#adding-validators)
-    -   [Using the Angular forms validators](#using-the-angular-forms-validators)
-    -   [Adding custom (state based) validation](#adding-custom-state-based-validation)
-    -   [Displaying errors (CSS classes)](#displaying-errors-css-classes)
-    -   [Displaying errors (values)](#displaying-errors-values)
-    -   [Binding to custom input components](#binding-to-custom-input-components)
-    -   [Binding to an input without a form](#binding-to-an-input-without-a-form)
-    -   [Binding multiple html forms to the same state](#binding-multiple-html-forms-to-the-same-state)
-    -   [Disabling forms / Setting disabled](#disabling-forms-/-setting-disabled)
--   [Not yet supported features](#not-yet-supported-features)
+* [Getting Started](#getting-started)
+	* [Import the NgrxCleanFormsModule](#import-the-ngrxcleanformsmodule)
+	* [Add the form state to your state managment](#add-the-form-state-to-your-state-managment)
+	* [Accessing the form state & errors](#accessing-the-form-state-errors)
+	* [Updating (reducing) the form state](#updating-reducing-the-form-state)
+	* [Binding your HTML form to your state](#binding-your-html-form-to-your-state)
+* [Additional Resources](#additional-resources)
+	* [Adding validators](#adding-validators)
+	* [Using the Angular forms validators](#using-the-angular-forms-validators)
+	* [Adding custom (state based) validation](#adding-custom-state-based-validation)
+	* [Displaying errors (CSS classes)](#displaying-errors-css-classes)
+	* [Displaying errors (values)](#displaying-errors-values)
+	* [Binding to custom input components](#binding-to-custom-input-components)
+	* [Binding to an input without a form](#binding-to-an-input-without-a-form)
+	* [Binding multiple HTML forms to the same state](#binding-multiple-html-forms-to-the-same-state)
+	* [Disabling forms / Setting disabled](#disabling-forms-setting-disabled)
+	* [Utilizing FormArrays](#utilizing-formarrays)
+* [Not yet supported features](#not-yet-supported-features)
 
 ## Getting Started
 
@@ -317,25 +318,25 @@ Disabling and enabling forms later can be done by using `FormControlUpdate` or `
 
 A FormArray is a simple array of controls. All of its controls are of the same type.
 
-#### Initialization:
+**Initialization:**
 
 ```typescript
 initFormArray([['first'], ['second']]);
 ```
 
-#### Summary:
+**Summary:**
 
 ```typescript
 getFormArraySummary(state.array))
 ```
 
-#### Updating / Reducing:
+**Updating / Reducing:**
 
 ```typescript
 reduceFormArray(state.array, update);
 ```
 
-#### Dynamically adding controls:
+**Dynamically adding controls:**
 
 ```typescript
 array: {
@@ -344,7 +345,7 @@ array: {
 }
 ```
 
-#### Binding inside the template:
+**Binding inside the template:**
 
 ```html
 <form ngrxFormArray [formSummary$]="formArray$" (formUpdate)="updateFormArray($event)">
