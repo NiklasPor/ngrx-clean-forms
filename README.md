@@ -6,6 +6,8 @@
 
 This library contains the necessary tools to integrate the form management into the general state management of an application. While this library was written with the usage of [NgRx](https://ngrx.io/docs) in mind, it has no dependency to it. Therefore it can also be used with other frameworks like [NgXs](https://www.ngxs.io/).
 
+[Live example.](http://example.nrgx-clean-forms.surge.sh/)
+
 This library excels in the following topics:
 
 -   Having a strict typing approach. Types of forms will be available throughout the whole interaction with the state.
@@ -310,6 +312,45 @@ initFormGroup({
 ```
 
 Disabling and enabling forms later can be done by using `FormControlUpdate` or `FormGroupUpdate`. Other attributes, like `untouched` and `pristine`, can also be updated these ways.
+
+### Utilizing FormArrays
+
+A FormArray is a simple array of controls. All of its controls are of the same type.
+
+#### Initialization:
+
+```typescript
+initFormArray([['first'], ['second']]);
+```
+
+#### Summary:
+
+```typescript
+getFormArraySummary(state.array))
+```
+
+#### Updating / Reducing:
+
+```typescript
+reduceFormArray(state.array, update);
+```
+
+#### Dynamically adding controls:
+
+```typescript
+array: {
+    ...state.array,
+    controls: [...state.array.controls, initFormControl(['new'])],
+}
+```
+
+#### Binding inside the template:
+
+```html
+<form ngrxFormArray [formSummary$]="formArray$" (formUpdate)="updateFormArray($event)">
+    <input *ngFor="let key of (formArray$ | async).keys" [ngrxControl]="key" type="text" />
+</form>
+```
 
 ## Not yet supported features
 
