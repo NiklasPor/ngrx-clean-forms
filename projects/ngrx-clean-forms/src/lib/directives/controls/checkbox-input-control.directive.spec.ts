@@ -15,7 +15,7 @@ import { take } from 'rxjs/operators';
         <input
             ngrxFormControl
             type="checkbox"
-            [controlSummary$]="summary$"
+            [controlSummary]="summary$ | async"
             (controlUpdate)="update($event)"
         />
     `,
@@ -54,6 +54,8 @@ describe('checkboxInputControlDirective', () => {
             getFormControlSummary(initFormControl([true]))
         );
 
+        testComponent.detectChanges();
+
         // tslint:disable-next-line: no-string-literal
         const result = directive['ref'].nativeElement.checked;
 
@@ -64,6 +66,8 @@ describe('checkboxInputControlDirective', () => {
         testComponent.componentInstance.summary$.next(
             getFormControlSummary(initFormControl([false]))
         );
+
+        testComponent.detectChanges();
 
         // tslint:disable-next-line: no-string-literal
         const result = directive['ref'].nativeElement.checked;
@@ -76,6 +80,8 @@ describe('checkboxInputControlDirective', () => {
             getFormControlSummary(initFormControl({ value: true, disabled: true }))
         );
 
+        testComponent.detectChanges();
+
         // tslint:disable-next-line: no-string-literal
         const result = directive['ref'].nativeElement.disabled;
 
@@ -86,6 +92,8 @@ describe('checkboxInputControlDirective', () => {
         testComponent.componentInstance.summary$.next(
             getFormControlSummary(initFormControl({ value: true, disabled: false }))
         );
+
+        testComponent.detectChanges();
 
         // tslint:disable-next-line: no-string-literal
         const result = directive['ref'].nativeElement.disabled;

@@ -1,7 +1,11 @@
 <div class="container">
     <div>
         <h3>Form example:</h3>
-        <form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+        <form
+            ngrxFormGroup
+            [formSummary]="formGroup$ | async"
+            (formUpdate)="updateFormGroup($event)"
+        >
             <div>
                 <input type="text" ngrxFormControl="textInput" />
                 <input type="number" ngrxFormControl="numberInput" />
@@ -14,7 +18,7 @@
         <h3>Single example:</h3>
         <input
             ngrxFormControl
-            [controlSummary$]="singleInput$"
+            [controlSummary]="singleInput$ | async"
             (controlUpdate)="updateSingleInput($event)"
         />
 
@@ -22,14 +26,18 @@
         <small>Forbidden number (from state): {{ forbiddenNumber$ | async }}</small>
         <form
             ngrxFormGroup
-            [formSummary$]="stateAccessFormGroup$"
+            [formSummary]="stateAccessFormGroup$ | async"
             (formUpdate)="updateStateAccessFormGroup($event)"
         >
             <input type="number" ngrxFormControl="exampleInput" />
         </form>
 
         <h3>Duplicate form example:</h3>
-        <form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+        <form
+            ngrxFormGroup
+            [formSummary]="formGroup$ | async"
+            (formUpdate)="updateFormGroup($event)"
+        >
             <div>
                 <input type="range" ngrxFormControl="numberInput" />
                 <app-custom-input ngrxFormControl="rangeInput"></app-custom-input>
@@ -37,7 +45,11 @@
         </form>
 
         <h3>Error display example:</h3>
-        <form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+        <form
+            ngrxFormGroup
+            [formSummary]="formGroup$ | async"
+            (formUpdate)="updateFormGroup($event)"
+        >
             <div>
                 <input type="number" ngrxFormControl="numberInput" />
                 <small *ngIf="(formGroup$ | async)?.errors?.numberInput">
@@ -47,7 +59,11 @@
         </form>
 
         <h3>Form array:</h3>
-        <form ngrxFormArray [formSummary$]="formArray$" (formUpdate)="updateFormArray($event)">
+        <form
+            ngrxFormArray
+            [formSummary]="formArray$ | async"
+            (formUpdate)="updateFormArray($event)"
+        >
             <div>
                 <button type="button" (click)="addControlToArray()">Add Input</button>
                 <input
@@ -60,7 +76,11 @@
 
         <h3>Throttle: 500ms</h3>
         <p>State value: {{ (formGroup$ | async).controls.rangeInput.value }}</p>
-        <form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+        <form
+            ngrxFormGroup
+            [formSummary]="formGroup$ | async"
+            (formUpdate)="updateFormGroup($event)"
+        >
             <input
                 type="range"
                 ngrxFormControl="rangeInput"

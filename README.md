@@ -162,7 +162,7 @@ export class ExampleComponent {
 `component.html`:
 
 ```html
-<form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+<form ngrxFormGroup [formSummary]="formGroup$ | async" (formUpdate)="updateFormGroup($event)">
     <input type="text" ngrxFormControl="textInput" />
     <input type="number" ngrxFormControl="numberInput" />
 </form>
@@ -269,7 +269,7 @@ The errors of form groups and controls are accessible by using the `FormGroupSum
 This snippet from the example app displays the error, if it is set. Regular applications would have probably an error message inside the `<small>`.
 
 ```html
-<form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+<form ngrxFormGroup [formSummary]="formGroup | async" (formUpdate)="updateFormGroup($event)">
     <div>
         <input type="number" ngrxFormControl="numberInput" />
         <small *ngIf="(formGroup$ | async)?.errors?.numberInput">
@@ -298,7 +298,7 @@ Inside your template you can then bind the single input:
 ```html
 <input
     ngrxFormControl
-    [controlSummary$]="singleInput$"
+    [controlSummary]="summary$ | async"
     (controlUpdate)="updateSingleInput($event)"
 />
 ```
@@ -353,7 +353,7 @@ array: {
 **Binding inside the template:**
 
 ```html
-<form ngrxFormArray [formSummary$]="formArray$" (formUpdate)="updateFormArray($event)">
+<form ngrxFormArray [formSummary]="formArray | async" (formUpdate)="updateFormArray($event)">
     <input *ngFor="let key of (formArray$ | async).keys" [ngrxFormControl]="key" type="text" />
 </form>
 ```

@@ -14,7 +14,7 @@ import { RangeInputControlDirective } from './range-input-control.directive';
         <input
             ngrxFormControl
             type="range"
-            [controlSummary$]="summary$"
+            [controlSummary]="summary$ | async"
             (controlUpdate)="update($event)"
         />
     `,
@@ -49,6 +49,7 @@ describe('RangeInputControlDirective', () => {
 
     it('value update propagates to child (5)', () => {
         testComponent.componentInstance.summary$.next(getFormControlSummary(initFormControl([5])));
+        testComponent.detectChanges();
 
         // tslint:disable-next-line: no-string-literal
         const result = directive['ref'].nativeElement.value;
@@ -60,6 +61,7 @@ describe('RangeInputControlDirective', () => {
         testComponent.componentInstance.summary$.next(
             getFormControlSummary(initFormControl({ value: 5, disabled: true }))
         );
+        testComponent.detectChanges();
 
         // tslint:disable-next-line: no-string-literal
         const result = directive['ref'].nativeElement.disabled;
@@ -71,6 +73,7 @@ describe('RangeInputControlDirective', () => {
         testComponent.componentInstance.summary$.next(
             getFormControlSummary(initFormControl({ value: 5, disabled: false }))
         );
+        testComponent.detectChanges();
 
         // tslint:disable-next-line: no-string-literal
         const result = directive['ref'].nativeElement.disabled;

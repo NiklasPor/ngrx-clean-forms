@@ -14,7 +14,7 @@ import { TextInputControlDirective } from './text-input-control.directive';
         <input
             ngrxFormControl
             type="text"
-            [controlSummary$]="summary$"
+            [controlSummary]="summary$ | async"
             (controlUpdate)="update($event)"
         />
     `,
@@ -24,7 +24,7 @@ class TestComponent {
     update: () => {};
 }
 
-describe('TextInputControlDirective', () => {
+describe('AbstractControlDirective', () => {
     const moduleFormsConfig: FormsConfig = {
         distinctWritesOnly: true,
         throttleTime: 111111111111,
@@ -59,6 +59,8 @@ describe('TextInputControlDirective', () => {
                 pristine: true,
             });
 
+            testComponent.detectChanges();
+
             // tslint:disable-next-line: no-string-literal
             const isPristine = directive['ref'].nativeElement.classList.contains('ng-pristine');
             // tslint:disable-next-line: no-string-literal
@@ -73,6 +75,8 @@ describe('TextInputControlDirective', () => {
                 ...getFormControlSummary(initFormControl([''])),
                 pristine: false,
             });
+
+            testComponent.detectChanges();
 
             // tslint:disable-next-line: no-string-literal
             const isPristine = directive['ref'].nativeElement.classList.contains('ng-pristine');
@@ -89,6 +93,8 @@ describe('TextInputControlDirective', () => {
                 valid: true,
             });
 
+            testComponent.detectChanges();
+
             // tslint:disable-next-line: no-string-literal
             const isValid = directive['ref'].nativeElement.classList.contains('ng-valid');
             // tslint:disable-next-line: no-string-literal
@@ -103,6 +109,8 @@ describe('TextInputControlDirective', () => {
                 ...getFormControlSummary(initFormControl([''])),
                 valid: false,
             });
+
+            testComponent.detectChanges();
 
             // tslint:disable-next-line: no-string-literal
             const isValid = directive['ref'].nativeElement.classList.contains('ng-valid');
@@ -119,6 +127,8 @@ describe('TextInputControlDirective', () => {
                 untouched: true,
             });
 
+            testComponent.detectChanges();
+
             // tslint:disable-next-line: no-string-literal
             const isUntouched = directive['ref'].nativeElement.classList.contains('ng-untouched');
             // tslint:disable-next-line: no-string-literal
@@ -133,6 +143,8 @@ describe('TextInputControlDirective', () => {
                 ...getFormControlSummary(initFormControl([''])),
                 untouched: false,
             });
+
+            testComponent.detectChanges();
 
             // tslint:disable-next-line: no-string-literal
             const isUntouched = directive['ref'].nativeElement.classList.contains('ng-untouched');

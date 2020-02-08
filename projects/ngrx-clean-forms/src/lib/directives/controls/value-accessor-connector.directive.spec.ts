@@ -14,7 +14,7 @@ import { ValueAccessorConnectorDirective } from './value-accessor-connector.dire
     template: `
         <ngrx-input-test
             ngrxFormControl
-            [controlSummary$]="summary$"
+            [controlSummary]="summary$ | async"
             (controlUpdate)="update($event)"
         ></ngrx-input-test>
     `,
@@ -97,6 +97,8 @@ describe('ValueAccessorConnectorDirective', () => {
             getFormControlSummary(initFormControl(['5']))
         );
 
+        testComponent.detectChanges();
+
         const result = testInputComponent.value;
 
         expect(result).toBe('5');
@@ -106,6 +108,8 @@ describe('ValueAccessorConnectorDirective', () => {
         testComponent.componentInstance.summary$.next(
             getFormControlSummary(initFormControl({ value: '5', disabled: true }))
         );
+
+        testComponent.detectChanges();
 
         const result = testInputComponent.disabled;
 
@@ -148,10 +152,12 @@ describe('ValueAccessorConnectorDirective', () => {
             testComponent.componentInstance.summary$.next(
                 getFormControlSummary(initFormControl({ value: '5' }))
             );
+            testComponent.detectChanges();
 
             testComponent.componentInstance.summary$.next(
                 getFormControlSummary(initFormControl({ value: '5' }))
             );
+            testComponent.detectChanges();
 
             expect(spy).toHaveBeenCalledTimes(1);
         });
@@ -162,10 +168,12 @@ describe('ValueAccessorConnectorDirective', () => {
             testComponent.componentInstance.summary$.next(
                 getFormControlSummary(initFormControl({ value: '5' }))
             );
+            testComponent.detectChanges();
 
             testComponent.componentInstance.summary$.next(
                 getFormControlSummary(initFormControl({ value: '6' }))
             );
+            testComponent.detectChanges();
 
             expect(spy).toHaveBeenCalledTimes(2);
         });
@@ -178,10 +186,12 @@ describe('ValueAccessorConnectorDirective', () => {
             testComponent.componentInstance.summary$.next(
                 getFormControlSummary(initFormControl({ value }))
             );
+            testComponent.detectChanges();
 
             testComponent.componentInstance.summary$.next(
                 getFormControlSummary(initFormControl({ value }))
             );
+            testComponent.detectChanges();
 
             expect(spy).toHaveBeenCalledTimes(1);
         });
@@ -195,10 +205,12 @@ describe('ValueAccessorConnectorDirective', () => {
             testComponent.componentInstance.summary$.next(
                 getFormControlSummary(initFormControl({ value }))
             );
+            testComponent.detectChanges();
 
             testComponent.componentInstance.summary$.next(
                 getFormControlSummary(initFormControl({ value }))
             );
+            testComponent.detectChanges();
 
             expect(spy).toHaveBeenCalledTimes(2);
         });
