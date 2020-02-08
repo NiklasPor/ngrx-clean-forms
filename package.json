@@ -1,7 +1,7 @@
 {
     "scripts": {
         "start": "npm run build-lib && ng serve",
-        "build-lib": "cp ./README.md ./projects/ngrx-clean-forms/README.md && ng build NgrxCleanForms && rm ./projects/ngrx-clean-forms/README.md",
+        "build-lib": "npm run generate-toc && cp ./README.md ./projects/ngrx-clean-forms/README.md && ng build NgrxCleanForms && rm ./projects/ngrx-clean-forms/README.md",
         "test-lib": "ng test NgrxCleanForms",
         "test-lib:coverage": "npm run test-lib -- --watch=false --codeCoverage=true",
         "test-lib:publish": "npm run test-lib:coverage && npm run publish-codecov-lib",
