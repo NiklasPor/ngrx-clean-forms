@@ -41,7 +41,7 @@ import {
  *  secondControl: 'secondValue'
  * }
  */
-export function mapFormControlStates<TControls extends FormControls, R>(
+export function mapFormGroupControlStates<TControls extends FormControls, R>(
     controls: FormGroupControlStates<TControls>,
     mapFunc: (control: FormControlState<any>, key: string) => R
 ): {
@@ -78,7 +78,7 @@ export function mapFormControlStates<TControls extends FormControls, R>(
  *  secondControl: 'secondValue'
  * }
  */
-export function mapFormControlSummaries<TControls extends FormControls, R>(
+export function mapFormGroupControlSummaries<TControls extends FormControls, R>(
     controls: FormGroupControlSummaries<TControls>,
     mapFunc: (control: FormControlSummary<any>, key: string) => R
 ): {
@@ -115,7 +115,7 @@ export function mapFormControlSummaries<TControls extends FormControls, R>(
  *  secondControl: 'secondValue'
  * }
  */
-export function mapFormControlUpdates<TControls extends FormControls, R>(
+export function mapFormGroupControlUpdates<TControls extends FormControls, R>(
     controls: FormGroupControlUpdates<TControls>,
     mapFunc: (control: FormControlUpdate<any>, key: string) => R
 ): {
