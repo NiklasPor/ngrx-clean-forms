@@ -3,6 +3,23 @@ export interface FormControls {
     [key: string]: any;
 }
 
+/**
+ * Config from NgrxCleanForms.
+ * For details of the different attributes view the TSDoc of specific attributes.
+ */
+export interface FormsConfig {
+    /**
+     * Number of how many milliseconds needs to pass between individual updates of a `FormControl`.
+     * There is no delay on the first update and also always an update after the delay.
+     */
+    throttleTime: number;
+    /**
+     * Specifies whether only distinct values should be written to a `FormControl`.
+     * Only applies to custom inputs added with `ControlValueAccessor`. Prevents update loops and uses `JSON.stringfy()` for comparison.
+     */
+    distinctWritesOnly: boolean;
+}
+
 // tslint:disable-next-line: no-empty-interface
 export interface FormGroupBase<TControls extends FormControls> {}
 

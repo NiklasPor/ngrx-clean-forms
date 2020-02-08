@@ -35,6 +35,7 @@ This library excels in the following topics:
 	* [Binding multiple HTML forms to the same state](#binding-multiple-html-forms-to-the-same-state)
 	* [Disabling forms / Setting disabled](#disabling-forms-setting-disabled)
 	* [Utilizing FormArrays](#utilizing-formarrays)
+	* [Additional configuration and throttling](#additional-configuration-and-throttling)
 * [Not yet supported features](#not-yet-supported-features)
 
 ## Getting Started
@@ -351,6 +352,33 @@ array: {
 <form ngrxFormArray [formSummary$]="formArray$" (formUpdate)="updateFormArray($event)">
     <input *ngFor="let key of (formArray$ | async).keys" [ngrxControl]="key" type="text" />
 </form>
+```
+
+### Additional configuration and throttling
+
+You can provide an additional configuration to the `NgrxFormsModule` using the `.withConfig()` method:
+
+```typescript
+import { NgrxCleanFormsModule } from 'ngrx-clean-forms';
+
+NgrxCleanFormsModule.withConfig({
+    throttleTime: 15,
+}),
+```
+
+The following config attributes can be passed:
+
+-   `throttleTime`: Number of how many milliseconds needs to pass between individual updates of a `FormControl`. There is no delay on the first update and also always an update after the delay. **Default:** `15`.
+-   `distinctWritesOnly`: Specifies whether only distinct values should be written to a `FormControl`. Only applies to custom inputs added with `ControlValueAccessor`. Prevents update loops and uses `JSON.stringfy()` for comparison. **Default:** `true`.
+
+The configuration for an individual `FormControl` can also be overridden with the `[controlConfig]` input:
+
+```ts
+<input
+    type="range"
+    ngrxControl="rangeInput"
+    [controlConfig]="{ throttleTime: 500 }"
+/>
 ```
 
 ## Not yet supported features
