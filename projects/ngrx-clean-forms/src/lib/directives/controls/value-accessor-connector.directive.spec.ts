@@ -13,7 +13,7 @@ import { ValueAccessorConnectorDirective } from './value-accessor-connector.dire
     selector: 'ngrx-test-component',
     template: `
         <ngrx-input-test
-            ngrxControl
+            ngrxFormControl
             [controlSummary$]="summary$"
             (controlUpdate)="update($event)"
         ></ngrx-input-test>

@@ -3,17 +3,17 @@
         <h3>Form example:</h3>
         <form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
             <div>
-                <input type="text" ngrxControl="textInput" />
-                <input type="number" ngrxControl="numberInput" />
-                <input type="range" ngrxControl="rangeInput" />
-                <input type="checkbox" ngrxControl="checkboxInput" />
-                <app-custom-input ngrxControl="customInput"></app-custom-input>
+                <input type="text" ngrxFormControl="textInput" />
+                <input type="number" ngrxFormControl="numberInput" />
+                <input type="range" ngrxFormControl="rangeInput" />
+                <input type="checkbox" ngrxFormControl="checkboxInput" />
+                <app-custom-input ngrxFormControl="customInput"></app-custom-input>
             </div>
         </form>
 
         <h3>Single example:</h3>
         <input
-            ngrxControl
+            ngrxFormControl
             [controlSummary$]="singleInput$"
             (controlUpdate)="updateSingleInput($event)"
         />
@@ -25,21 +25,21 @@
             [formSummary$]="stateAccessFormGroup$"
             (formUpdate)="updateStateAccessFormGroup($event)"
         >
-            <input type="number" ngrxControl="exampleInput" />
+            <input type="number" ngrxFormControl="exampleInput" />
         </form>
 
         <h3>Duplicate form example:</h3>
         <form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
             <div>
-                <input type="range" ngrxControl="numberInput" />
-                <app-custom-input ngrxControl="rangeInput"></app-custom-input>
+                <input type="range" ngrxFormControl="numberInput" />
+                <app-custom-input ngrxFormControl="rangeInput"></app-custom-input>
             </div>
         </form>
 
         <h3>Error display example:</h3>
         <form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
             <div>
-                <input type="number" ngrxControl="numberInput" />
+                <input type="number" ngrxFormControl="numberInput" />
                 <small *ngIf="(formGroup$ | async)?.errors?.numberInput">
                     {{ (formGroup$ | async).errors.numberInput | json }}
                 </small>
@@ -52,7 +52,7 @@
                 <button type="button" (click)="addControlToArray()">Add Input</button>
                 <input
                     *ngFor="let key of (formArray$ | async).keys"
-                    [ngrxControl]="key"
+                    [ngrxFormControl]="key"
                     type="text"
                 />
             </div>
@@ -61,7 +61,11 @@
         <h3>Throttle: 500ms</h3>
         <p>State value: {{ (formGroup$ | async).controls.rangeInput.value }}</p>
         <form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
-            <input type="range" ngrxControl="rangeInput" [controlConfig]="{ throttleTime: 500 }" />
+            <input
+                type="range"
+                ngrxFormControl="rangeInput"
+                [controlConfig]="{ throttleTime: 500 }"
+            />
         </form>
     </div>
     <div>

@@ -21,7 +21,7 @@ const cssClasses = {
     untouched: 'ng-untouched',
 };
 
-export const CONTROL_DIRECTIVE_SELECTOR = `ngrxControl`;
+export const CONTROL_DIRECTIVE_SELECTOR = `ngrxFormControl`;
 
 export abstract class AbstractControlDirective<T> implements OnDestroy {
     @Input(CONTROL_DIRECTIVE_SELECTOR)

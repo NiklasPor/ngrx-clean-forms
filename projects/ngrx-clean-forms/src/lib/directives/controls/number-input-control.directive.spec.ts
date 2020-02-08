@@ -12,7 +12,7 @@ import { NumberInputControlDirective } from './number-input-control.directive';
     selector: 'ngrx-test-component',
     template: `
         <input
-            ngrxControl
+            ngrxFormControl
             type="number"
             [controlSummary$]="summary$"
             (controlUpdate)="update($event)"
