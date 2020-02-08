@@ -57,6 +57,12 @@
                 />
             </div>
         </form>
+
+        <h3>Throttle: 500ms</h3>
+        <p>State value: {{ (formGroup$ | async).controls.rangeInput.value }}</p>
+        <form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+            <input type="range" ngrxControl="rangeInput" [controlConfig]="{ throttleTime: 500 }" />
+        </form>
     </div>
     <div>
         <h3>The following is the current state.</h3>

@@ -20,7 +20,6 @@ export class CustomInputComponent implements ControlValueAccessor {
 
     writeValue(value: any): void {
         this.value = value;
-        this.onChange(this.value);
     }
 
     registerOnChange(fn: any): void {
