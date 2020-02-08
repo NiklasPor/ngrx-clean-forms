@@ -5,7 +5,6 @@ export interface FormControls {
 
 export interface FormsConfig {
     throttleTime: number;
-    distinctOnly: boolean;
 }
 
 // tslint:disable-next-line: no-empty-interface

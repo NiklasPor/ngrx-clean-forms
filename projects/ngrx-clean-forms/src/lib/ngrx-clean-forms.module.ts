@@ -4,13 +4,7 @@ import { controlDirectives } from './directives/controls/control-directives';
 import { FormGroupDirective } from './directives/group/form-group.directive';
 import { FormArrayDirective } from './directives/group/form-array.directive';
 import { FormsConfig } from './types';
-
-export const CONFIG_TOKEN = new InjectionToken<FormsConfig>('NGRX_CLEAN_FORMS_CONFIG');
-
-const defaultConfig: FormsConfig = {
-    throttleTime: 1000,
-    distinctOnly: true,
-};
+import { defaultConfig, CONFIG_TOKEN } from './config';
 
 /**
  * This module represents the entry point of ngrx-clean-forms.

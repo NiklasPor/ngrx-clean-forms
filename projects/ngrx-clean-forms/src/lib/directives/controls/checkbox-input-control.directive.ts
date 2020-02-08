@@ -1,6 +1,6 @@
 import { Directive, ElementRef, HostListener, Renderer2, Inject } from '@angular/core';
 import { AbstractControlDirective, CONTROL_DIRECTIVE_SELECTOR } from './abstract-control.directive';
-import { CONFIG_TOKEN } from '../../ngrx-clean-forms.module';
+import { CONFIG_TOKEN } from '../../config';
 import { FormsConfig } from '../../types';
 
 @Directive({

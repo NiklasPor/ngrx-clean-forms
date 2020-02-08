@@ -10,7 +10,9 @@ import { CustomInputComponent } from './custom-input/custom-input.component';
 @NgModule({
     declarations: [AppComponent, CustomInputComponent],
     imports: [
-        NgrxCleanFormsModule,
+        NgrxCleanFormsModule.withConfig({
+            throttleTime: 15,
+        }),
         BrowserModule,
         StoreModule.forRoot({ example: exampleReducer }),
         StoreDevtoolsModule.instrument({ maxAge: 25 }),

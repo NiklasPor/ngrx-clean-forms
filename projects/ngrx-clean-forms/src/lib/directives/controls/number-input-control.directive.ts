@@ -1,7 +1,7 @@
 import { Directive, ElementRef, HostListener, Renderer2, Inject } from '@angular/core';
 import { AbstractControlDirective, CONTROL_DIRECTIVE_SELECTOR } from './abstract-control.directive';
 import { FormsConfig } from '../../types';
-import { CONFIG_TOKEN } from '../../ngrx-clean-forms.module';
+import { CONFIG_TOKEN } from '../../config';
 @Directive({
     selector: `input[type="number"][${CONTROL_DIRECTIVE_SELECTOR}]`,
 })

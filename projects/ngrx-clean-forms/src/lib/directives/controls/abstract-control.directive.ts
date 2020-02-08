@@ -1,24 +1,15 @@
 import {
     ElementRef,
     EventEmitter,
+    Inject,
     Input,
     OnDestroy,
     Output,
     Renderer2,
-    Inject,
 } from '@angular/core';
-import { Observable, Subject, ReplaySubject, merge, asyncScheduler, Subscription } from 'rxjs';
+import { merge, Observable, Subject, Subscription } from 'rxjs';
 import { FormControlSummary, FormControlUpdate, FormsConfig } from '../../types';
-import {
-    takeUntil,
-    share,
-    debounceTime,
-    auditTime,
-    throttleTime,
-    tap,
-    distinctUntilChanged,
-} from 'rxjs/operators';
-import { CONFIG_TOKEN } from '../../ngrx-clean-forms.module';
+import { CONFIG_TOKEN, throttle } from './../../config';
 
 const cssClasses = {
     invalid: 'ng-invalid',
@@ -32,12 +23,15 @@ const cssClasses = {
 export const CONTROL_DIRECTIVE_SELECTOR = `ngrxControl`;
 
 export abstract class AbstractControlDirective<T> implements OnDestroy {
+    @Input(CONTROL_DIRECTIVE_SELECTOR)
+    controlKey?: string;
+
     @Input('controlSummary$')
     set setControlSummary$(controlSummary$: Observable<FormControlSummary<T>>) {
         this.summarySubscription.unsubscribe();
-        this.summarySubscription = controlSummary$.subscribe(summary =>
-            this.updateSummary(summary)
-        );
+        this.summarySubscription = controlSummary$.subscribe(summary => {
+            this.updateSummary(summary);
+        });
     }
 
     @Input('config')
@@ -49,16 +43,12 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
 
         this.updateSubscription.unsubscribe();
         this.updateSubscription = merge(
-            this.touched$.pipe(
-                this.touchedDistinct(config.distinctOnly),
-                this.throttle(config.throttleTime)
-            ),
-            this.value$.pipe(
-                this.valueDistinct(config.distinctOnly),
-                this.throttle(config.throttleTime)
-            )
+            this.touched$.pipe(throttle(config)),
+            this.value$.pipe(throttle(config))
         ).subscribe(value => this.controlUpdate.emit(value));
     }
+
+    @Output() controlUpdate = new EventEmitter<FormControlUpdate<T>>(true);
 
     constructor(
         protected ref: ElementRef,
@@ -67,33 +57,12 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
     ) {
         this.setConfig = {};
     }
+
     private touched$ = new Subject<FormControlUpdate<T>>();
     private value$ = new Subject<FormControlUpdate<T>>();
 
     private summarySubscription = new Subscription();
     private updateSubscription = new Subscription();
-
-    @Input(CONTROL_DIRECTIVE_SELECTOR)
-    controlKey?: string;
-
-    @Output() controlUpdate = new EventEmitter<FormControlUpdate<T>>();
-
-    private readonly touchedDistinct = (enable: boolean) =>
-        distinctUntilChanged<{ untouched: boolean }>(
-            (first, second) => !enable || first.untouched === second.untouched
-        );
-
-    private readonly valueDistinct = (enable: boolean) =>
-        distinctUntilChanged<{ value: T; pristine: false }>(
-            (first, second) =>
-                !enable || (first.value === second.value && first.pristine === second.pristine)
-        );
-
-    private readonly throttle = (time: number) =>
-        throttleTime(time, asyncScheduler, {
-            leading: true,
-            trailing: true,
-        });
 
     abstract setValue(value: T);
 

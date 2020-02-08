@@ -1,7 +1,7 @@
 import { Directive, ElementRef, Inject, Optional, Renderer2 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AbstractControlDirective, CONTROL_DIRECTIVE_SELECTOR } from './abstract-control.directive';
-import { CONFIG_TOKEN } from '../../ngrx-clean-forms.module';
+import { CONFIG_TOKEN } from '../../config';
 import { FormsConfig } from '../../types';
 
 @Directive({
@@ -9,6 +9,7 @@ import { FormsConfig } from '../../types';
 })
 export class ValueAccessorConnectorDirective extends AbstractControlDirective<any> {
     accessor: ControlValueAccessor;
+    lastValue: string;
 
     constructor(
         ref: ElementRef,
@@ -32,15 +33,31 @@ export class ValueAccessorConnectorDirective extends AbstractControlDirective<an
         this.accessor.registerOnTouched(() => super.emitTouched());
     }
 
-    setValue(value: number) {
-        if (this.accessor) {
-            this.accessor.writeValue(value);
+    setValue(value: any) {
+        if (!this.accessor) {
+            return;
         }
+
+        if (this.equalsLastValue(value)) {
+            return;
+        }
+
+        this.accessor.writeValue(value);
     }
 
     setDisabled(disabled: boolean) {
         if (this.accessor && this.accessor.setDisabledState) {
             this.accessor.setDisabledState(disabled);
+        }
+    }
+
+    equalsLastValue(value: any) {
+        try {
+            const valueString = JSON.stringify(value);
+            this.lastValue = valueString;
+            return valueString === this.lastValue;
+        } catch {
+            return false;
         }
     }
 }
