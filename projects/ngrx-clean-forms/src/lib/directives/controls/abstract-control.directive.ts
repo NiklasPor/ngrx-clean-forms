@@ -27,12 +27,13 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
     @Input(CONTROL_DIRECTIVE_SELECTOR)
     controlKey?: string;
 
-    @Input('controlSummary$')
-    set setControlSummary$(controlSummary$: Observable<FormControlSummary<T>>) {
-        this.summarySubscription.unsubscribe();
-        this.summarySubscription = controlSummary$.subscribe(summary => {
-            this.updateSummary(summary);
-        });
+    @Input('controlSummary')
+    set setControlSummary(controlSummary: FormControlSummary<T>) {
+        if (!controlSummary) {
+            return;
+        }
+
+        this.updateSummary(controlSummary);
     }
 
     @Input('controlConfig')

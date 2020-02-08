@@ -17,18 +17,18 @@ type FormUpdate = FormGroupUpdate<any> | FormArrayUpdate<any>;
 export abstract class AbstractFormDirective<Summary extends FormSummary, Update extends FormUpdate>
     extends ControlChildren
     implements AfterViewInit, OnDestroy {
-    @Input('formSummary$')
-    set setFormSummary$(inputSummary$: Observable<Summary>) {
-        this.unsubscribeFormSummary$.next();
-        inputSummary$
-            .pipe(takeUntil(this.unsubscribeFormSummary$))
-            .subscribe(summary => this.formSummary$.next(summary));
+    @Input('formSummary')
+    set setFormSummary(summary: Summary) {
+        if (!summary) {
+            return;
+        }
+
+        this.formSummary$.next(summary);
     }
 
     @Output() formUpdate = new EventEmitter<Update>();
 
     formSummary$ = new ReplaySubject<FormSummary>(1);
-    unsubscribeFormSummary$ = new Subject<void>();
 
     ngAfterViewInit() {
         const children$ = this.getChildren();
@@ -52,8 +52,6 @@ export abstract class AbstractFormDirective<Summary extends FormSummary, Update 
     }
 
     ngOnDestroy() {
-        this.unsubscribeFormSummary$.next();
-        this.unsubscribeFormSummary$.complete();
         this.formSummary$.complete();
     }
 

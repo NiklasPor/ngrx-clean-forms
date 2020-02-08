@@ -13,7 +13,7 @@ import { FormGroupDirective } from './form-group.directive';
 
 @Component({
     template: `
-        <div ngrxFormGroup [formSummary$]="formSummary$" (formUpdate)="update($event)">
+        <div ngrxFormGroup [formSummary]="formSummary$ | async" (formUpdate)="update($event)">
             <input *ngIf="showInput" ngrxFormControl="control" />
         </div>
     `,
@@ -36,7 +36,7 @@ describe('FormGroupDirective', () => {
         });
 
         testComponent = TestBed.createComponent(TestComponent);
-        testComponent.componentInstance.formSummary$ = new ReplaySubject(1);
+        testComponent.componentInstance.formSummary$ = new ReplaySubject(1, undefined);
         testComponent.componentInstance.update = () => {};
 
         testComponent.detectChanges();
@@ -79,6 +79,8 @@ describe('FormGroupDirective', () => {
         testComponent.componentInstance.formSummary$.next(
             getFormGroupSummary(initFormGroup({ control: [value] }))
         );
+
+        testComponent.detectChanges();
 
         expect(spy).toHaveBeenCalledWith(value);
     });
