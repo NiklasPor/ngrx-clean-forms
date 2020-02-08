@@ -10,6 +10,8 @@ import { defaultConfig, CONFIG_TOKEN } from './config';
  * This module represents the entry point of ngrx-clean-forms.
  * It provides all necessary directives for the usage inside templates.
  *
+ * The `.withConfig()` method can be used to pass a config to the module.
+ *
  * - [npm](https://www.npmjs.com/package/ngrx-clean-forms)
  * - [documentation](https://github.com/NiklasPor/ngrx-clean-forms)
  */
@@ -25,6 +27,17 @@ import { defaultConfig, CONFIG_TOKEN } from './config';
     ],
 })
 export class NgrxCleanFormsModule {
+    /**
+     * Creates a new module with the given config. Missing values will be set with default values.
+     *
+     * @param config A partial `FormsConfig` object, supplying config paramters.
+     *
+     * @example
+     * NgrxCleanFormsModule.withConfig({
+     *   throttleTime: 15,
+     * }),
+     *
+     */
     static withConfig(config: Partial<FormsConfig>): ModuleWithProviders {
         return {
             ngModule: NgrxCleanFormsModule,
