@@ -36,7 +36,7 @@ describe('control-children', () => {
 
     it(`should support checkboxInput`, async () => {
         const childDirectives = await getChildDirectivesForComponent(`
-            <input type="checkbox" ngrxControl/>
+            <input type="checkbox" ngrxFormControl/>
         `);
 
         expect(childDirectives.find(d => d instanceof CheckboxInputControlDirective)).toBeDefined();
@@ -44,7 +44,7 @@ describe('control-children', () => {
 
     it(`should support numberInput`, async () => {
         const childDirectives = await getChildDirectivesForComponent(`
-            <input type="number" ngrxControl />
+            <input type="number" ngrxFormControl />
         `);
 
         expect(childDirectives.find(d => d instanceof NumberInputControlDirective)).toBeDefined();
@@ -55,7 +55,7 @@ describe('control-children', () => {
 
         try {
             const childDirectives = await getChildDirectivesForComponent(`
-                <input type="radio" ngrxControl />
+                <input type="radio" ngrxFormControl />
             `);
         } catch (e) {
             error = e;
@@ -66,7 +66,7 @@ describe('control-children', () => {
 
     it(`should support rangeInput`, async () => {
         const childDirectives = await getChildDirectivesForComponent(`
-            <input type="range" ngrxControl />
+            <input type="range" ngrxFormControl />
         `);
 
         expect(childDirectives.find(d => d instanceof RangeInputControlDirective)).toBeDefined();
@@ -77,7 +77,7 @@ describe('control-children', () => {
 
         try {
             const childDirectives = await getChildDirectivesForComponent(`
-                <select ngrxControl>
+                <select ngrxFormControl>
                 </select>
             `);
         } catch (e) {
@@ -89,7 +89,7 @@ describe('control-children', () => {
 
     it(`should support textInput`, async () => {
         const childDirectives = await getChildDirectivesForComponent(`
-            <input type="text" ngrxControl />
+            <input type="text" ngrxFormControl />
         `);
 
         expect(childDirectives.find(d => d instanceof TextInputControlDirective)).toBeDefined();
@@ -97,7 +97,7 @@ describe('control-children', () => {
 
     it(`should support default input`, async () => {
         const childDirectives = await getChildDirectivesForComponent(`
-            <input ngrxControl />
+            <input ngrxFormControl />
         `);
 
         expect(childDirectives.find(d => d instanceof TextInputControlDirective)).toBeDefined();
@@ -105,7 +105,7 @@ describe('control-children', () => {
 
     it(`should support valueAccessor`, async () => {
         const childDirectives = await getChildDirectivesForComponent(`
-            <ngrx-custom-input  ngrxControl>
+            <ngrx-custom-input  ngrxFormControl>
             </ngrx-custom-input>
         `);
 

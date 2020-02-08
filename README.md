@@ -36,6 +36,9 @@ This library excels in the following topics:
 	* [Disabling forms / Setting disabled](#disabling-forms-setting-disabled)
 	* [Utilizing FormArrays](#utilizing-formarrays)
 	* [Additional configuration and throttling](#additional-configuration-and-throttling)
+* [Changelog](#changelog)
+	* [4.0.0](#400)
+	* [3.1.0](#310)
 * [Not yet supported features](#not-yet-supported-features)
 
 ## Getting Started
@@ -162,9 +165,9 @@ export class ExampleComponent {
 `component.html`:
 
 ```html
-<form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
-    <input type="text" ngrxControl="textInput" />
-    <input type="number" ngrxControl="numberInput" />
+<form ngrxFormGroup [formSummary]="formGroup$ | async" (formUpdate)="updateFormGroup($event)">
+    <input type="text" ngrxFormControl="textInput" />
+    <input type="number" ngrxFormControl="numberInput" />
 </form>
 ```
 
@@ -269,9 +272,9 @@ The errors of form groups and controls are accessible by using the `FormGroupSum
 This snippet from the example app displays the error, if it is set. Regular applications would have probably an error message inside the `<small>`.
 
 ```html
-<form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+<form ngrxFormGroup [formSummary]="formGroup | async" (formUpdate)="updateFormGroup($event)">
     <div>
-        <input type="number" ngrxControl="numberInput" />
+        <input type="number" ngrxFormControl="numberInput" />
         <small *ngIf="(formGroup$ | async)?.errors?.numberInput">
             {{ (formGroup$ | async).errors.numberInput | json }}
         </small>
@@ -296,7 +299,11 @@ To bind to a input which is not contained in a form you'll have to complete the 
 Inside your template you can then bind the single input:
 
 ```html
-<input ngrxControl [controlSummary$]="singleInput$" (controlUpdate)="updateSingleInput($event)" />
+<input
+    ngrxFormControl
+    [controlSummary]="summary$ | async"
+    (controlUpdate)="updateSingleInput($event)"
+/>
 ```
 
 ### Binding multiple HTML forms to the same state
@@ -349,8 +356,8 @@ array: {
 **Binding inside the template:**
 
 ```html
-<form ngrxFormArray [formSummary$]="formArray$" (formUpdate)="updateFormArray($event)">
-    <input *ngFor="let key of (formArray$ | async).keys" [ngrxControl]="key" type="text" />
+<form ngrxFormArray [formSummary]="formArray | async" (formUpdate)="updateFormArray($event)">
+    <input *ngFor="let key of (formArray$ | async).keys" [ngrxFormControl]="key" type="text" />
 </form>
 ```
 
@@ -376,10 +383,35 @@ The configuration for an individual `FormControl` can also be overridden with th
 ```ts
 <input
     type="range"
-    ngrxControl="rangeInput"
+    ngrxFormControl="rangeInput"
     [controlConfig]="{ throttleTime: 500 }"
 />
 ```
+
+## Changelog
+
+### 4.0.0
+
+**Breaking Changes:**
+
+-   Renamed `ngrxControl` directive to `ngrxFormControl``
+-   Directive input `formSummary$` was changed to `formSummary` and now receives the summary instead of an Observable.
+    -   Migration: Replace `[formSummary$]="form$"` with `[formSummary]="form$ | async"`
+-   Directive input `controlSummary$` was changed to `controlSummary`.
+    -   **Migration:** Replace `[controlSummary$]="control$"` with `[controlSummary]="control$ | async`.
+-   Reduced public available API.
+-   Renamed `mapFormControlStates()` to `mapFormGroupControlStates()`.
+-   Renamed `mapFormControlUpdates()` to `mapFormGroupControlUpdates()`.
+-   Renamed `mapFormControlSummaries()` to `mapFormGroupControlSummaries()`.
+
+### 3.1.0
+
+**New features:**
+
+-   `NgrxCleanFormsModule.withConfig()` method for passing a config.
+-   `ngrxFormControl` now supports the additional input`[controlConfig]="{..}` for passing a overriding config.
+-   `throttleTime` config parameter for passing the value outputs of every `FormControl`. No data is lost while throttling.
+-   `distinctWritesOnly` config parameter for disabling the distinct write value checks. This only applies to custom inputs.
 
 ## Not yet supported features
 

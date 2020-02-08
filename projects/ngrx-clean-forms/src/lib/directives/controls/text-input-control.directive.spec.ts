@@ -12,9 +12,9 @@ import { TextInputControlDirective } from './text-input-control.directive';
     selector: 'ngrx-test-component',
     template: `
         <input
-            ngrxControl
+            ngrxFormControl
             type="text"
-            [controlSummary$]="summary$"
+            [controlSummary]="summary$ | async"
             (controlUpdate)="update($event)"
         />
     `,
@@ -50,6 +50,7 @@ describe('TextInputControlDirective', () => {
         testComponent.componentInstance.summary$.next(
             getFormControlSummary(initFormControl(['5']))
         );
+        testComponent.detectChanges();
 
         // tslint:disable-next-line: no-string-literal
         const result = directive['ref'].nativeElement.value;
@@ -61,6 +62,7 @@ describe('TextInputControlDirective', () => {
         testComponent.componentInstance.summary$.next(
             getFormControlSummary(initFormControl({ value: '5', disabled: true }))
         );
+        testComponent.detectChanges();
 
         // tslint:disable-next-line: no-string-literal
         const result = directive['ref'].nativeElement.disabled;
@@ -72,6 +74,7 @@ describe('TextInputControlDirective', () => {
         testComponent.componentInstance.summary$.next(
             getFormControlSummary(initFormControl({ value: '5', disabled: false }))
         );
+        testComponent.detectChanges();
 
         // tslint:disable-next-line: no-string-literal
         const result = directive['ref'].nativeElement.disabled;

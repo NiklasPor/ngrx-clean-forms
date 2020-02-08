@@ -12,9 +12,9 @@ import { NumberInputControlDirective } from './number-input-control.directive';
     selector: 'ngrx-test-component',
     template: `
         <input
-            ngrxControl
+            ngrxFormControl
             type="number"
-            [controlSummary$]="summary$"
+            [controlSummary]="summary$ | async"
             (controlUpdate)="update($event)"
         />
     `,
@@ -51,6 +51,7 @@ describe('numberInputControlDirective', () => {
 
     it('value update propagates to child (5)', () => {
         testComponent.componentInstance.summary$.next(getFormControlSummary(initFormControl([5])));
+        testComponent.detectChanges();
 
         // tslint:disable-next-line: no-string-literal
         const result = directive['ref'].nativeElement.value;
@@ -62,6 +63,7 @@ describe('numberInputControlDirective', () => {
         testComponent.componentInstance.summary$.next(
             getFormControlSummary(initFormControl([null]))
         );
+        testComponent.detectChanges();
 
         // tslint:disable-next-line: no-string-literal
         const result = directive['ref'].nativeElement.value;
@@ -73,6 +75,7 @@ describe('numberInputControlDirective', () => {
         testComponent.componentInstance.summary$.next(
             getFormControlSummary(initFormControl({ value: 5, disabled: true }))
         );
+        testComponent.detectChanges();
 
         // tslint:disable-next-line: no-string-literal
         const result = directive['ref'].nativeElement.disabled;
@@ -84,6 +87,7 @@ describe('numberInputControlDirective', () => {
         testComponent.componentInstance.summary$.next(
             getFormControlSummary(initFormControl({ value: 5, disabled: false }))
         );
+        testComponent.detectChanges();
 
         // tslint:disable-next-line: no-string-literal
         const result = directive['ref'].nativeElement.disabled;

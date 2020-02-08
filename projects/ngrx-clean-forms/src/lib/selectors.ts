@@ -14,8 +14,8 @@ import {
     FormArrayState,
 } from './types';
 import {
-    mapFormControlStates,
-    mapFormControlSummaries,
+    mapFormGroupControlStates,
+    mapFormGroupControlSummaries,
     mergeFormGroupErrors,
     mergeFormControlErrors,
     mergeFormArrayErrors,
@@ -28,7 +28,7 @@ export function getFormControlErrors<T>(control: FormControlState<T>): FormContr
 export function getFormGroupErrors<TControls extends FormControls>(
     summaries: FormGroupControlSummaries<TControls>
 ): FormGroupErrors<TControls> | null {
-    const errors = mapFormControlSummaries(summaries, summary => summary.errors);
+    const errors = mapFormGroupControlSummaries(summaries, summary => summary.errors);
 
     Object.entries(errors)
         .filter(([_, value]) => value === null)
@@ -71,7 +71,7 @@ export function getFormGroupControlSummaries<TControls extends FormControls>(
 ): FormGroupControlSummaries<TControls> {
     const additionalError = mergeFormGroupErrors(...additionalErrors);
 
-    return mapFormControlStates(controls, (control, key) =>
+    return mapFormGroupControlStates(controls, (control, key) =>
         getFormControlSummary(control, additionalError ? additionalError[key] : null)
     );
 }

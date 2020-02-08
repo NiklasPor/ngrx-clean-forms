@@ -1,5 +1,5 @@
 import {
-    mapFormControlStates,
+    mapFormGroupControlStates,
     validatorOf,
     mergeFormGroupErrors,
     mergeFormControlErrors,
@@ -9,11 +9,11 @@ import { initFormControl } from './init';
 import { FormControlState, FormGroupErrors, FormControlErrors } from './types';
 
 describe('utils', () => {
-    describe('mapFormControlStates', () => {
+    describe('mapFormGroupControlStates', () => {
         it('should return {} for {}', () => {
             const input = {};
 
-            const result = mapFormControlStates(input, () => 'test');
+            const result = mapFormGroupControlStates(input, () => 'test');
 
             expect(result).toEqual({});
         });
@@ -29,7 +29,7 @@ describe('utils', () => {
                 c2: 'b',
             };
 
-            const result = mapFormControlStates(input, control => control.value);
+            const result = mapFormGroupControlStates(input, control => control.value);
 
             expect(result).toEqual(expected);
         });

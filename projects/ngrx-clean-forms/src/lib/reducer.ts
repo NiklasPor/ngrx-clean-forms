@@ -7,7 +7,7 @@ import {
     FormArrayState,
     FormArrayUpdate,
 } from './types';
-import { mapFormControlUpdates } from './utils';
+import { mapFormGroupControlUpdates } from './utils';
 
 /**
  * Returns a `FormControlState` which represents the input state with the applied update.
@@ -51,7 +51,7 @@ export function reduceFormGroup<TControls extends FormControls>(
         controls: {
             ...group.controls,
             ...(update.controls
-                ? mapFormControlUpdates(update.controls, (control, key) => ({
+                ? mapFormGroupControlUpdates(update.controls, (control, key) => ({
                       ...group.controls[key],
                       ...control,
                   }))
