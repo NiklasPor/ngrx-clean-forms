@@ -7,7 +7,8 @@ import {
     Output,
     Renderer2,
 } from '@angular/core';
-import { merge, Observable, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, merge, Observable, Subject, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { FormControlSummary, FormControlUpdate, FormsConfig } from '../../types';
 import { CONFIG_TOKEN, throttle } from './../../config';
 
@@ -34,18 +35,14 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
         });
     }
 
-    @Input('config')
+    @Input('controlConfig')
     set setConfig(inputConfig: Partial<FormsConfig>) {
         const config = {
             ...this.injectedConfig,
             ...inputConfig,
         };
 
-        this.updateSubscription.unsubscribe();
-        this.updateSubscription = merge(
-            this.touched$.pipe(throttle(config)),
-            this.value$.pipe(throttle(config))
-        ).subscribe(value => this.controlUpdate.emit(value));
+        this.config$.next(config);
     }
 
     @Output() controlUpdate = new EventEmitter<FormControlUpdate<T>>(true);
@@ -55,14 +52,20 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
         protected r2: Renderer2,
         @Inject(CONFIG_TOKEN) private injectedConfig: FormsConfig
     ) {
-        this.setConfig = {};
+        this.config$
+            .pipe(
+                switchMap(config =>
+                    merge(this.touched$.pipe(throttle(config)), this.value$.pipe(throttle(config)))
+                )
+            )
+            .subscribe(value => this.controlUpdate.emit(value));
     }
 
     private touched$ = new Subject<FormControlUpdate<T>>();
     private value$ = new Subject<FormControlUpdate<T>>();
+    protected config$ = new BehaviorSubject<FormsConfig>(this.injectedConfig);
 
     private summarySubscription = new Subscription();
-    private updateSubscription = new Subscription();
 
     abstract setValue(value: T);
 
@@ -97,6 +100,8 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
 
     ngOnDestroy() {
         this.summarySubscription.unsubscribe();
-        this.updateSubscription.unsubscribe();
+        this.config$.complete();
+        this.touched$.complete();
+        this.value$.complete();
     }
 }

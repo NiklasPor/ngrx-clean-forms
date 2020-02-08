@@ -1,8 +1,8 @@
 import { Directive, ElementRef, Inject, Optional, Renderer2 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { AbstractControlDirective, CONTROL_DIRECTIVE_SELECTOR } from './abstract-control.directive';
 import { CONFIG_TOKEN } from '../../config';
 import { FormsConfig } from '../../types';
+import { AbstractControlDirective, CONTROL_DIRECTIVE_SELECTOR } from './abstract-control.directive';
 
 @Directive({
     selector: `[${CONTROL_DIRECTIVE_SELECTOR}]`,
@@ -38,7 +38,7 @@ export class ValueAccessorConnectorDirective extends AbstractControlDirective<an
             return;
         }
 
-        if (this.equalsLastValue(value)) {
+        if (this.config$.value.distinctWritesOnly && this.equalsLastValue(value)) {
             return;
         }
 
@@ -54,8 +54,10 @@ export class ValueAccessorConnectorDirective extends AbstractControlDirective<an
     equalsLastValue(value: any) {
         try {
             const valueString = JSON.stringify(value);
+            const isEqual = valueString === this.lastValue;
+
             this.lastValue = valueString;
-            return valueString === this.lastValue;
+            return isEqual;
         } catch {
             return false;
         }

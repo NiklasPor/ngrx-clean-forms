@@ -7,6 +7,7 @@ export const CONFIG_TOKEN = new InjectionToken<FormsConfig>('NGRX_CLEAN_FORMS_CO
 
 export const defaultConfig: FormsConfig = {
     throttleTime: 20,
+    distinctWritesOnly: true,
 };
 
 export const throttle = (config: FormsConfig) =>
