@@ -1,14 +1,20 @@
 {
     "scripts": {
         "start": "npm run build-lib && ng serve",
-        "build-lib": "cp ./README.md ./projects/ngrx-clean-forms/README.md && ng build NgrxCleanForms && rm ./projects/ngrx-clean-forms/README.md",
+        "build-lib": "npm run generate-toc && cp ./README.md ./projects/ngrx-clean-forms/README.md && ng build NgrxCleanForms && rm ./projects/ngrx-clean-forms/README.md",
         "test-lib": "ng test NgrxCleanForms",
         "test-lib:coverage": "npm run test-lib -- --watch=false --codeCoverage=true",
+        "test-lib:publish": "npm run test-lib:coverage && npm run publish-codecov-lib",
         "lint-lib": "ng lint NgrxCleanForms",
         "publish-lib": "npm publish dist/ngrx-clean-forms",
         "release-lib": "npm run lint-lib && npm run test-lib:coverage && npm run build-lib && npm run publish-codecov-lib && npm run publish-lib",
         "version-lib": "cd projects/ngrx-clean-forms && npm version",
-        "publish-codecov-lib": "codecov -t $npm_config_ngrx_clean_forms_codecov"
+        "publish-codecov-lib": "codecov -t $npm_config_ngrx_clean_forms_codecov",
+        "build-example": "npm run build-lib && ng build ExampleApp",
+        "publish-example": "surge dist/ExampleApp example.ngrx-clean-forms.surge.sh",
+        "release-example": "npm run build-example && npm run publish-example",
+        "release-all": "npm run release-lib && npm run release-example",
+        "generate-toc": "toc-md README.md README.md"
     },
     "dependencies": {
         "@angular/animations": "~8.2.0",
@@ -32,9 +38,10 @@
         "@angular/cli": "~8.2.0",
         "@angular/compiler-cli": "~8.2.0",
         "@angular/language-service": "~8.2.0",
-        "@types/node": "~8.9.4",
+        "@toc/markdown": "0.0.4",
         "@types/jasmine": "~3.3.8",
         "@types/jasminewd2": "~2.0.3",
+        "@types/node": "~8.9.4",
         "codelyzer": "^5.0.0",
         "jasmine-core": "~3.4.0",
         "jasmine-spec-reporter": "~4.2.1",

@@ -6,6 +6,8 @@
 
 This library contains the necessary tools to integrate the form management into the general state management of an application. While this library was written with the usage of [NgRx](https://ngrx.io/docs) in mind, it has no dependency to it. Therefore it can also be used with other frameworks like [NgXs](https://www.ngxs.io/).
 
+[Live example.](http://example.nrgx-clean-forms.surge.sh/)
+
 This library excels in the following topics:
 
 -   Having a strict typing approach. Types of forms will be available throughout the whole interaction with the state.
@@ -17,21 +19,21 @@ This library excels in the following topics:
 ## Table of Contents
 
 -   [Getting Started](#getting-started)
-    -   [Import the NgrxCleanFormsModule](#import-the-ngrxcleanformsmodule)
-    -   [Add the form state to your state managment](#add-the-form-state-to-your-state-managment)
-    -   [Accessing the form state & errors](#accessing-the-form-state-&-errors)
-    -   [Updating (reducing) the form state](#updating-reducing-the-form-state)
-    -   [Binding your HTML form to your state](#binding-your-html-form-to-your-state)
+    _ [Import the NgrxCleanFormsModule](#import-the-ngrxcleanformsmodule)
+    _ [Add the form state to your state managment](#add-the-form-state-to-your-state-managment)
+    _ [Accessing the form state & errors](#accessing-the-form-state-errors)
+    _ [Updating (reducing) the form state](#updating-reducing-the-form-state) \* [Binding your HTML form to your state](#binding-your-html-form-to-your-state)
 -   [Additional Resources](#additional-resources)
-    -   [Adding validators](#adding-validators)
-    -   [Using the Angular forms validators](#using-the-angular-forms-validators)
-    -   [Adding custom (state based) validation](#adding-custom-state-based-validation)
-    -   [Displaying errors (CSS classes)](#displaying-errors-css-classes)
-    -   [Displaying errors (values)](#displaying-errors-values)
-    -   [Binding to custom input components](#binding-to-custom-input-components)
-    -   [Binding to an input without a form](#binding-to-an-input-without-a-form)
-    -   [Binding multiple html forms to the same state](#binding-multiple-html-forms-to-the-same-state)
-    -   [Disabling forms / Setting disabled](#disabling-forms-/-setting-disabled)
+    _ [Adding validators](#adding-validators)
+    _ [Using the Angular forms validators](#using-the-angular-forms-validators)
+    _ [Adding custom (state based) validation](#adding-custom-state-based-validation)
+    _ [Displaying errors (CSS classes)](#displaying-errors-css-classes)
+    _ [Displaying errors (values)](#displaying-errors-values)
+    _ [Binding to custom input components](#binding-to-custom-input-components)
+    _ [Binding to an input without a form](#binding-to-an-input-without-a-form)
+    _ [Binding multiple HTML forms to the same state](#binding-multiple-html-forms-to-the-same-state)
+    _ [Disabling forms / Setting disabled](#disabling-forms-setting-disabled)
+    _ [Utilizing FormArrays](#utilizing-formarrays) \* [Additional configuration and throttling](#additional-configuration-and-throttling)
 -   [Not yet supported features](#not-yet-supported-features)
 
 ## Getting Started
@@ -314,6 +316,72 @@ initFormGroup({
 ```
 
 Disabling and enabling forms later can be done by using `FormControlUpdate` or `FormGroupUpdate`. Other attributes, like `untouched` and `pristine`, can also be updated these ways.
+
+### Utilizing FormArrays
+
+A FormArray is a simple array of controls. All of its controls are of the same type.
+
+**Initialization:**
+
+```typescript
+initFormArray([['first'], ['second']]);
+```
+
+**Summary:**
+
+```typescript
+getFormArraySummary(state.array))
+```
+
+**Updating / Reducing:**
+
+```typescript
+reduceFormArray(state.array, update);
+```
+
+**Dynamically adding controls:**
+
+```typescript
+array: {
+    ...state.array,
+    controls: [...state.array.controls, initFormControl(['new'])],
+}
+```
+
+**Binding inside the template:**
+
+```html
+<form ngrxFormArray [formSummary$]="formArray$" (formUpdate)="updateFormArray($event)">
+    <input *ngFor="let key of (formArray$ | async).keys" [ngrxFormControl]="key" type="text" />
+</form>
+```
+
+### Additional configuration and throttling
+
+You can provide an additional configuration to the `NgrxFormsModule` using the `.withConfig()` method:
+
+```typescript
+import { NgrxCleanFormsModule } from 'ngrx-clean-forms';
+
+NgrxCleanFormsModule.withConfig({
+    throttleTime: 15,
+}),
+```
+
+The following config attributes can be passed:
+
+-   `throttleTime`: Number of how many milliseconds needs to pass between individual updates of a `FormControl`. There is no delay on the first update and also always an update after the delay. **Default:** `15`.
+-   `distinctWritesOnly`: Specifies whether only distinct values should be written to a `FormControl`. Only applies to custom inputs added with `ControlValueAccessor`. Prevents update loops and uses `JSON.stringfy()` for comparison. **Default:** `true`.
+
+The configuration for an individual `FormControl` can also be overridden with the `[controlConfig]` input:
+
+```ts
+<input
+    type="range"
+    ngrxFormControl="rangeInput"
+    [controlConfig]="{ throttleTime: 500 }"
+/>
+```
 
 ## Not yet supported features
 

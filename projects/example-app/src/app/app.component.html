@@ -1,53 +1,75 @@
-<h3>Form example:</h3>
-<form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+<div class="container">
     <div>
-        <input type="text" ngrxFormControl="textInput" />
-        <input type="number" ngrxFormControl="numberInput" />
-        <input type="range" ngrxFormControl="rangeInput" />
-        <input type="checkbox" ngrxFormControl="checkboxInput" />
-        <app-custom-input ngrxFormControl="customInput"></app-custom-input>
+        <h3>Form example:</h3>
+        <form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+            <div>
+                <input type="text" ngrxFormControl="textInput" />
+                <input type="number" ngrxFormControl="numberInput" />
+                <input type="range" ngrxFormControl="rangeInput" />
+                <input type="checkbox" ngrxFormControl="checkboxInput" />
+                <app-custom-input ngrxFormControl="customInput"></app-custom-input>
+            </div>
+        </form>
+
+        <h3>Single example:</h3>
+        <input
+            ngrxFormControl
+            [controlSummary$]="singleInput$"
+            (controlUpdate)="updateSingleInput($event)"
+        />
+
+        <h3>State access example:</h3>
+        <small>Forbidden number (from state): {{ forbiddenNumber$ | async }}</small>
+        <form
+            ngrxFormGroup
+            [formSummary$]="stateAccessFormGroup$"
+            (formUpdate)="updateStateAccessFormGroup($event)"
+        >
+            <input type="number" ngrxFormControl="exampleInput" />
+        </form>
+
+        <h3>Duplicate form example:</h3>
+        <form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+            <div>
+                <input type="range" ngrxFormControl="numberInput" />
+                <app-custom-input ngrxFormControl="rangeInput"></app-custom-input>
+            </div>
+        </form>
+
+        <h3>Error display example:</h3>
+        <form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+            <div>
+                <input type="number" ngrxFormControl="numberInput" />
+                <small *ngIf="(formGroup$ | async)?.errors?.numberInput">
+                    {{ (formGroup$ | async).errors.numberInput | json }}
+                </small>
+            </div>
+        </form>
+
+        <h3>Form array:</h3>
+        <form ngrxFormArray [formSummary$]="formArray$" (formUpdate)="updateFormArray($event)">
+            <div>
+                <button type="button" (click)="addControlToArray()">Add Input</button>
+                <input
+                    *ngFor="let key of (formArray$ | async).keys"
+                    [ngrxFormControl]="key"
+                    type="text"
+                />
+            </div>
+        </form>
+
+        <h3>Throttle: 500ms</h3>
+        <p>State value: {{ (formGroup$ | async).controls.rangeInput.value }}</p>
+        <form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
+            <input
+                type="range"
+                ngrxFormControl="rangeInput"
+                [controlConfig]="{ throttleTime: 500 }"
+            />
+        </form>
     </div>
-</form>
-
-<h3>Single example:</h3>
-<input
-    ngrxFormControl
-    [controlSummary$]="singleInput$"
-    (controlUpdate)="updateSingleInput($event)"
-/>
-
-<h3>State access example:</h3>
-<small>Forbidden number (from state): {{ forbiddenNumber$ | async }}</small>
-<form
-    ngrxFormGroup
-    [formSummary$]="stateAccessFormGroup$"
-    (formUpdate)="updateStateAccessFormGroup($event)"
->
-    <input type="number" ngrxFormControl="exampleInput" />
-</form>
-
-<h3>Duplicate form example:</h3>
-<form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
     <div>
-        <input type="range" ngrxFormControl="numberInput" />
-        <app-custom-input ngrxFormControl="rangeInput"></app-custom-input>
+        <h3>The following is the current state.</h3>
+        <pre>{{ state$ | async | json }}</pre>
     </div>
-</form>
-
-<h3>Error display example:</h3>
-<form ngrxFormGroup [formSummary$]="formGroup$" (formUpdate)="updateFormGroup($event)">
-    <div>
-        <input type="number" ngrxFormControl="numberInput" />
-        <small *ngIf="(formGroup$ | async)?.errors?.numberInput">
-            {{ (formGroup$ | async).errors.numberInput | json }}
-        </small>
-    </div>
-</form>
-
-<h3>Form array:</h3>
-<form ngrxFormArray [formSummary$]="formArray$" (formUpdate)="updateFormArray($event)">
-    <div>
-        <button type="button" (click)="addControlToArray()">Add Input</button>
-        <input *ngFor="let key of (formArray$ | async).keys" [ngrxFormControl]="key" type="text" />
-    </div>
-</form>
+</div>

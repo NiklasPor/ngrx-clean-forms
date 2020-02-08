@@ -12,6 +12,7 @@ import * as ExampleSelectors from './+state/example.selectors';
     styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, AfterViewInit {
+    state$ = this.store.select(ExampleSelectors.selectExample);
     singleInput$ = this.store.select(ExampleSelectors.selectSingleInput);
     formGroup$ = this.store.select(ExampleSelectors.selectFormGroup);
     stateAccessFormGroup$ = this.store.select(ExampleSelectors.selectStateAccessExampleGroup);

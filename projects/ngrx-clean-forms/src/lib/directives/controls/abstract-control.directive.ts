@@ -1,7 +1,16 @@
-import { ElementRef, EventEmitter, Input, OnDestroy, Output, Renderer2 } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { FormControlSummary, FormControlUpdate } from '../../types';
-import { takeUntil } from 'rxjs/operators';
+import {
+    ElementRef,
+    EventEmitter,
+    Inject,
+    Input,
+    OnDestroy,
+    Output,
+    Renderer2,
+} from '@angular/core';
+import { BehaviorSubject, merge, Observable, Subject, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { FormControlSummary, FormControlUpdate, FormsConfig } from '../../types';
+import { CONFIG_TOKEN, throttle } from './../../config';
 
 const cssClasses = {
     invalid: 'ng-invalid',
@@ -20,29 +29,54 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
 
     @Input('controlSummary$')
     set setControlSummary$(controlSummary$: Observable<FormControlSummary<T>>) {
-        this.destroy$.complete();
+        this.summarySubscription.unsubscribe();
+        this.summarySubscription = controlSummary$.subscribe(summary => {
+            this.updateSummary(summary);
+        });
+    }
 
-        controlSummary$
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(summary => this.updateSummary(summary));
+    @Input('controlConfig')
+    set setConfig(inputConfig: Partial<FormsConfig>) {
+        const config = {
+            ...this.injectedConfig,
+            ...inputConfig,
+        };
+
+        this.config$.next(config);
     }
 
     @Output() controlUpdate = new EventEmitter<FormControlUpdate<T>>(true);
 
-    private destroy$ = new Subject<void>();
+    constructor(
+        protected ref: ElementRef,
+        protected r2: Renderer2,
+        @Inject(CONFIG_TOKEN) private injectedConfig: FormsConfig
+    ) {
+        this.config$
+            .pipe(
+                switchMap(config =>
+                    merge(this.touched$.pipe(throttle(config)), this.value$.pipe(throttle(config)))
+                )
+            )
+            .subscribe(value => this.controlUpdate.emit(value));
+    }
 
-    constructor(protected ref: ElementRef, protected r2: Renderer2) {}
+    private touched$ = new Subject<FormControlUpdate<T>>();
+    private value$ = new Subject<FormControlUpdate<T>>();
+    protected config$ = new BehaviorSubject<FormsConfig>(this.injectedConfig);
+
+    private summarySubscription = new Subscription();
 
     abstract setValue(value: T);
 
     setDisabled?(disabled: boolean);
 
     emitTouched() {
-        this.controlUpdate.emit({ untouched: false });
+        this.touched$.next({ untouched: false });
     }
 
     emitValue(value: T) {
-        this.controlUpdate.emit({ value, pristine: false });
+        this.value$.next({ value, pristine: false });
     }
 
     updateSummary(summary: FormControlSummary<T>) {
@@ -65,6 +99,9 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this.destroy$.complete();
+        this.summarySubscription.unsubscribe();
+        this.config$.complete();
+        this.touched$.complete();
+        this.value$.complete();
     }
 }

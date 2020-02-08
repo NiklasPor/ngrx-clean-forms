@@ -1,13 +1,15 @@
-import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostListener, Renderer2, Inject } from '@angular/core';
 import { AbstractControlDirective, CONTROL_DIRECTIVE_SELECTOR } from './abstract-control.directive';
+import { CONFIG_TOKEN } from '../../config';
+import { FormsConfig } from '../../types';
 
 @Directive({
     // tslint:disable-next-line: max-line-length
     selector: `input[type="text"][${CONTROL_DIRECTIVE_SELECTOR}],textarea[${CONTROL_DIRECTIVE_SELECTOR}],input:not([type="checkbox"]):not([type="number"]):not([type="range"]):not([type="radio"])[${CONTROL_DIRECTIVE_SELECTOR}]`,
 })
 export class TextInputControlDirective extends AbstractControlDirective<string> {
-    constructor(ref: ElementRef, r2: Renderer2) {
-        super(ref, r2);
+    constructor(ref: ElementRef, r2: Renderer2, @Inject(CONFIG_TOKEN) config: FormsConfig) {
+        super(ref, r2, config);
     }
 
     @HostListener('input', ['$event']) onInput($event: Event) {

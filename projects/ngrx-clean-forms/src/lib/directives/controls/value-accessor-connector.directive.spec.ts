@@ -68,7 +68,11 @@ describe('ValueAccessorConnectorDirective', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [NgrxCleanFormsModule],
+            imports: [
+                NgrxCleanFormsModule.withConfig({
+                    distinctWritesOnly: true,
+                }),
+            ],
             declarations: [TestComponent, TestInputComponent],
         });
 
@@ -135,5 +139,68 @@ describe('ValueAccessorConnectorDirective', () => {
         });
 
         testInputComponent.onTouched();
+    });
+
+    describe('distinctWritesOnly', () => {
+        it('duplicate writes should only call once (distinctWritesOnly: true)', () => {
+            const spy = spyOn(testInputComponent, 'writeValue');
+
+            testComponent.componentInstance.summary$.next(
+                getFormControlSummary(initFormControl({ value: '5' }))
+            );
+
+            testComponent.componentInstance.summary$.next(
+                getFormControlSummary(initFormControl({ value: '5' }))
+            );
+
+            expect(spy).toHaveBeenCalledTimes(1);
+        });
+
+        it('different writes should each write', () => {
+            const spy = spyOn(testInputComponent, 'writeValue');
+
+            testComponent.componentInstance.summary$.next(
+                getFormControlSummary(initFormControl({ value: '5' }))
+            );
+
+            testComponent.componentInstance.summary$.next(
+                getFormControlSummary(initFormControl({ value: '6' }))
+            );
+
+            expect(spy).toHaveBeenCalledTimes(2);
+        });
+
+        it('duplicate writes with objects should only write once', () => {
+            const spy = spyOn(testInputComponent, 'writeValue');
+
+            const value: any = { someValue: 'value' };
+
+            testComponent.componentInstance.summary$.next(
+                getFormControlSummary(initFormControl({ value }))
+            );
+
+            testComponent.componentInstance.summary$.next(
+                getFormControlSummary(initFormControl({ value }))
+            );
+
+            expect(spy).toHaveBeenCalledTimes(1);
+        });
+
+        it('duplicate writes with self reference objects should each write', () => {
+            const spy = spyOn(testInputComponent, 'writeValue');
+
+            const value: any = {};
+            value.selfReference = value;
+
+            testComponent.componentInstance.summary$.next(
+                getFormControlSummary(initFormControl({ value }))
+            );
+
+            testComponent.componentInstance.summary$.next(
+                getFormControlSummary(initFormControl({ value }))
+            );
+
+            expect(spy).toHaveBeenCalledTimes(2);
+        });
     });
 });

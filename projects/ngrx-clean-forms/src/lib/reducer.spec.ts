@@ -69,6 +69,16 @@ describe('reducer', () => {
             expect(result).toEqual(group);
         });
 
+        it('undefined update should do nothing', () => {
+            const group = initFormGroup({ test: ['test'] });
+
+            const update = undefined;
+
+            const result = reduceFormGroup(group, update);
+
+            expect(result).toEqual(group);
+        });
+
         it('group update should only update affected', () => {
             interface TestControls {
                 affected: string;

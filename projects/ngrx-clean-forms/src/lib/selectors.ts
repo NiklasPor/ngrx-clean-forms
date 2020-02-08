@@ -13,7 +13,13 @@ import {
     FormArrayControlSummaries,
     FormArrayState,
 } from './types';
-import { mapFormControlStates, mapFormControlSummaries } from './utils';
+import {
+    mapFormGroupControlStates,
+    mapFormGroupControlSummaries,
+    mergeFormGroupErrors,
+    mergeFormControlErrors,
+    mergeFormArrayErrors,
+} from './utils';
 
 export function getFormControlErrors<T>(control: FormControlState<T>): FormControlErrors[] {
     return control.validators.map(validator => validator(control));
@@ -22,7 +28,7 @@ export function getFormControlErrors<T>(control: FormControlState<T>): FormContr
 export function getFormGroupErrors<TControls extends FormControls>(
     summaries: FormGroupControlSummaries<TControls>
 ): FormGroupErrors<TControls> | null {
-    const errors = mapFormControlSummaries(summaries, summary => summary.errors);
+    const errors = mapFormGroupControlSummaries(summaries, summary => summary.errors);
 
     Object.entries(errors)
         .filter(([_, value]) => value === null)
@@ -39,6 +45,13 @@ export function getFormArrayErrors<T>(
     return errors.filter(Boolean).length ? errors : null;
 }
 
+/**
+ * Creates a `FormControlSummary` from the given `FormControlState`.
+ * It is possible to add additional errors.
+ *
+ * @param control The `FormControlState` which is used to create the `FormControlSummary`.
+ * @param additionalErrors An array of `FormControlErrors` which will be merged into the errors of the control.
+ */
 export function getFormControlSummary<T>(
     control: FormControlState<T>,
     ...additionalErrors: FormControlErrors[]
@@ -58,7 +71,7 @@ export function getFormGroupControlSummaries<TControls extends FormControls>(
 ): FormGroupControlSummaries<TControls> {
     const additionalError = mergeFormGroupErrors(...additionalErrors);
 
-    return mapFormControlStates(controls, (control, key) =>
+    return mapFormGroupControlStates(controls, (control, key) =>
         getFormControlSummary(control, additionalError ? additionalError[key] : null)
     );
 }
@@ -98,6 +111,13 @@ export function getFormArrayKeys<T>(array: FormArrayState<T>): number[] {
     return array.controls.map((_, i) => i);
 }
 
+/**
+ * Creates a `FormGroupSummary` from the given `FormGroupState`.
+ * It is possible to add additional errors.
+ *
+ * @param group The input `FormGroupState`. Used to create the `FormGroupSummary`.
+ * @param additionalErrors An array of additional `FormGroupErrors`, which will be merged into the errors of the group and of each control.
+ */
 export function getFormGroupSummary<TControls extends FormControls>(
     group: FormGroupState<TControls>,
     ...additionalErrors: FormGroupErrors<TControls>[]
@@ -114,6 +134,13 @@ export function getFormGroupSummary<TControls extends FormControls>(
     };
 }
 
+/**
+ * Creates a `FormArraySummary` from the given `FormArrayState`.
+ * It is possible to add additional errors.
+ *
+ * @param array The input `FormArrayState`. Used to create the `FormArraySummary`.
+ * @param additionalErrors An array of additional `FormArrayErrors`, which will be merged into the errors of the array and of each control.
+ */
 export function getFormArraySummary<T>(
     array: FormArrayState<T>,
     ...additionalErrors: FormArrayErrors[]
@@ -129,69 +156,4 @@ export function getFormArraySummary<T>(
         errors,
         valid: errors === null,
     };
-}
-
-export function mergeFormControlErrors(...errors: FormControlErrors[]): FormControlErrors | null {
-    return errors.reduce((e1, e2) => {
-        if (!e1 && !e2) {
-            return null;
-        }
-
-        if (!e1) {
-            return e2;
-        }
-
-        if (!e2) {
-            return e1;
-        }
-
-        return {
-            ...e1,
-            ...e2,
-        };
-    }, null);
-}
-
-export function mergeFormGroupErrors<TControls extends FormControls>(
-    ...errors: FormGroupErrors<TControls>[]
-): FormGroupErrors<TControls> | null {
-    return errors.reduce((group1, group2) => {
-        if (!group1 && !group2) {
-            return null;
-        }
-
-        if (!group1) {
-            return group2;
-        }
-
-        if (!group2) {
-            return group1;
-        }
-
-        return {
-            ...group1,
-            ...group2,
-            ...Object.keys(group1)
-                .filter(key1 => Object.keys(group2).find(key2 => key1 === key2))
-                .map(key => ({
-                    [key]: mergeFormControlErrors(group1[key], group2[key]),
-                }))
-                .reduce(
-                    (e1, e2) => ({
-                        ...e1,
-                        ...e2,
-                    }),
-                    {}
-                ),
-        };
-    }, null);
-}
-
-export function mergeFormArrayErrors(...errors: FormArrayErrors[]): FormArrayErrors | null {
-    const mergedErrors = errors
-        .filter(Boolean)
-        .reduce((arr1, arr2) => (arr1.length >= arr2.length ? arr1 : arr2), [])
-        .map((_, i) => mergeFormControlErrors(...errors.map(arrayErrors => arrayErrors[i])));
-
-    return mergedErrors.filter(Boolean).length > 0 ? mergedErrors : null;
 }

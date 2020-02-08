@@ -10,8 +10,8 @@ export class FormArrayDirective extends AbstractFormDirective<
     FormArraySummary<any>,
     FormArrayUpdate<any>
 > {
-    emitUpdate(update: FormControlUpdate<any>, key: string) {
-        const index = parseInt(key, 10);
+    emitUpdate(update: FormControlUpdate<any>, key: string | number) {
+        const index = parseInt(key.toString(), 10);
         const controls = new Array(index + 1);
 
         controls[index] = update;
