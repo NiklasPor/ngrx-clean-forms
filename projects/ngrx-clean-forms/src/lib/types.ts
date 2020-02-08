@@ -3,6 +3,11 @@ export interface FormControls {
     [key: string]: any;
 }
 
+export interface FormsConfig {
+    throttleTime: number;
+    distinctOnly: boolean;
+}
+
 // tslint:disable-next-line: no-empty-interface
 export interface FormGroupBase<TControls extends FormControls> {}
 

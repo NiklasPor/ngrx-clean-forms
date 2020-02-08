@@ -1,6 +1,8 @@
 import { Directive, ElementRef, Inject, Optional, Renderer2 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AbstractControlDirective, CONTROL_DIRECTIVE_SELECTOR } from './abstract-control.directive';
+import { CONFIG_TOKEN } from '../../ngrx-clean-forms.module';
+import { FormsConfig } from '../../types';
 
 @Directive({
     selector: `[${CONTROL_DIRECTIVE_SELECTOR}]`,
@@ -11,11 +13,12 @@ export class ValueAccessorConnectorDirective extends AbstractControlDirective<an
     constructor(
         ref: ElementRef,
         r2: Renderer2,
+        @Inject(CONFIG_TOKEN) config: FormsConfig,
         @Optional()
         @Inject(NG_VALUE_ACCESSOR)
         accessors: ControlValueAccessor[]
     ) {
-        super(ref, r2);
+        super(ref, r2, config);
         this.initAccessor(accessors);
     }
 

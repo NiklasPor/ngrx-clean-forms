@@ -1,11 +1,13 @@
-import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostListener, Renderer2, Inject } from '@angular/core';
 import { AbstractControlDirective, CONTROL_DIRECTIVE_SELECTOR } from './abstract-control.directive';
+import { CONFIG_TOKEN } from '../../ngrx-clean-forms.module';
+import { FormsConfig } from '../../types';
 @Directive({
     selector: `input[type="range"][${CONTROL_DIRECTIVE_SELECTOR}]`,
 })
 export class RangeInputControlDirective extends AbstractControlDirective<number> {
-    constructor(ref: ElementRef, r2: Renderer2) {
-        super(ref, r2);
+    constructor(ref: ElementRef, r2: Renderer2, @Inject(CONFIG_TOKEN) config: FormsConfig) {
+        super(ref, r2, config);
     }
 
     @HostListener('input', ['$event']) onInput($event: Event) {
