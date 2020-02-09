@@ -142,16 +142,19 @@ export function mapFormControls<TControls extends FormControls, R>(
 }
 
 /**
- * Converts an Angular validator for the usage with this framework.
+ * Converts one or multiple Angular validators for the usage with this framework.
  * Does **not** support asynchronous validators.
+ * Uses Validators.compose from @angular/forms.
  *
  * Only a subset of properties is available for the Angular validators:
  * `value, dirty, pristine, touched, untouched, enabled, disabled`
  * @param fn Angular validator function..
  */
-export function validatorOf<T>(fn: ValidatorFn): Validator<T> {
+export function validatorOf<T>(...fn: ValidatorFn[]): Validator<T> {
+    const composed = Validators.compose(fn);
+
     return (control: FormControlState<T>) =>
-        fn({
+        composed({
             value: control.value,
             dirty: !control.pristine,
             pristine: control.pristine,
