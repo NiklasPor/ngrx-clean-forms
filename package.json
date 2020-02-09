@@ -19,7 +19,7 @@
         "build-docs": "cd website && docusaurus-build ../dist/docs",
         "publish-docs": "npm run build-docs && surge website/build/ngrx-clean-forms",
         "release-docs": "npm run build-docs && npm run publish-docs https://ngrx-clean-forms.surge.sh",
-        "release-all": "release-codecov-lib && npm run release-example && npm run release-docs && npm run release-lib"
+        "release-all": "npm run release-codecov-lib && npm run release-example && npm run release-docs && npm run release-lib"
     },
     "dependencies": {
         "@angular/animations": "~8.2.0",
