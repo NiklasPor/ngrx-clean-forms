@@ -1,0 +1,12 @@
+{
+    "docs": {
+        "Introduction": ["getting-started", "first-form"],
+        "FormControl": [],
+        "FormGroup": [],
+        "FormArray": [],
+        "Other": ["changelog", "not-supported"]
+    },
+    "docs-other": {
+        "First Category": ["doc4", "doc5"]
+    }
+}
