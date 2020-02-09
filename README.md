@@ -6,7 +6,9 @@
 
 This library contains the necessary tools to integrate the form management into the general state management of an application. While this library was written with the usage of [NgRx](https://ngrx.io/docs) in mind, it has no dependency to it. Therefore it can also be used with other frameworks like [NgXs](https://www.ngxs.io/).
 
-[Live example.](http://example.nrgx-clean-forms.surge.sh/)
+[Official docs.](https://nrgx-clean-forms.surge.sh)
+
+[Live example.](https://example.nrgx-clean-forms.surge.sh)
 
 This library excels in the following topics:
 
@@ -18,28 +20,26 @@ This library excels in the following topics:
 
 ## Table of Contents
 
-* [Getting Started](#getting-started)
-	* [Import the NgrxCleanFormsModule](#import-the-ngrxcleanformsmodule)
-	* [Add the form state to your state managment](#add-the-form-state-to-your-state-managment)
-	* [Accessing the form state & errors](#accessing-the-form-state-errors)
-	* [Updating (reducing) the form state](#updating-reducing-the-form-state)
-	* [Binding your HTML form to your state](#binding-your-html-form-to-your-state)
-* [Additional Resources](#additional-resources)
-	* [Adding validators](#adding-validators)
-	* [Using the Angular forms validators](#using-the-angular-forms-validators)
-	* [Adding custom (state based) validation](#adding-custom-state-based-validation)
-	* [Displaying errors (CSS classes)](#displaying-errors-css-classes)
-	* [Displaying errors (values)](#displaying-errors-values)
-	* [Binding to custom input components](#binding-to-custom-input-components)
-	* [Binding to an input without a form](#binding-to-an-input-without-a-form)
-	* [Binding multiple HTML forms to the same state](#binding-multiple-html-forms-to-the-same-state)
-	* [Disabling forms / Setting disabled](#disabling-forms-setting-disabled)
-	* [Utilizing FormArrays](#utilizing-formarrays)
-	* [Additional configuration and throttling](#additional-configuration-and-throttling)
-* [Changelog](#changelog)
-	* [4.0.0](#400)
-	* [3.1.0](#310)
-* [Not yet supported features](#not-yet-supported-features)
+-   [Getting Started](#getting-started)
+    _ [Import the NgrxCleanFormsModule](#import-the-ngrxcleanformsmodule)
+    _ [Add the form state to your state managment](#add-the-form-state-to-your-state-managment)
+    _ [Accessing the form state & errors](#accessing-the-form-state-errors)
+    _ [Updating (reducing) the form state](#updating-reducing-the-form-state) \* [Binding your HTML form to your state](#binding-your-html-form-to-your-state)
+-   [Additional Resources](#additional-resources)
+    _ [Adding validators](#adding-validators)
+    _ [Using the Angular forms validators](#using-the-angular-forms-validators)
+    _ [Adding custom (state based) validation](#adding-custom-state-based-validation)
+    _ [Displaying errors (CSS classes)](#displaying-errors-css-classes)
+    _ [Displaying errors (values)](#displaying-errors-values)
+    _ [Binding to custom input components](#binding-to-custom-input-components)
+    _ [Binding to an input without a form](#binding-to-an-input-without-a-form)
+    _ [Binding multiple HTML forms to the same state](#binding-multiple-html-forms-to-the-same-state)
+    _ [Disabling forms / Setting disabled](#disabling-forms-setting-disabled)
+    _ [Utilizing FormArrays](#utilizing-formarrays) \* [Additional configuration and throttling](#additional-configuration-and-throttling)
+-   [Changelog](#changelog)
+    _ [4.0.0](#400)
+    _ [3.1.0](#310)
+-   [Not yet supported features](#not-yet-supported-features)
 
 ## Getting Started
 

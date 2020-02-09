@@ -3,7 +3,7 @@ id: first-form
 title: Setting up a form
 ---
 
-First of all basic knowledge of the follwing topic is recommended:
+First of all basic knowledge of the follwing topics is recommended:
 
 -   Angular
 -   NgRx v8
@@ -49,12 +49,10 @@ import { FormControlState, FormGroupState } from 'ngrx-clean-forms';
 export interface ExampleFormControls {
     textInput: string;
     numberInput: number;
-    ..
 }
 
 export interface ExampleState {
     group: FormGroupState<ExampleFormControls>;
-    ..
 }
 ```
 
@@ -71,7 +69,6 @@ export const initialState: ExampleState = {
     group: initFormGroup<ExampleFormControls>({
         textInput: [''],
         numberInput: [0],
-        ..
     }),
 };
 ```
