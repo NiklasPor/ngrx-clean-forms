@@ -50,3 +50,4 @@ Thumbs.db
 
 # Docusaurus
 website/node_modules
+website/build

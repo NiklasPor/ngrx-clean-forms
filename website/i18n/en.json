@@ -19,7 +19,9 @@
       }
     },
     "links": {
-      "Docs": "Docs"
+      "Docs": "Docs",
+      "GitHub": "GitHub",
+      "NPM": "NPM"
     },
     "categories": {
       "Introduction": "Introduction",

@@ -14,7 +14,11 @@
         "publish-example": "surge dist/ExampleApp example.ngrx-clean-forms.surge.sh",
         "release-example": "npm run build-example && npm run publish-example",
         "release-all": "npm run release-lib && npm run release-example",
-        "generate-toc": "toc-md README.md README.md"
+        "generate-toc": "toc-md README.md README.md",
+        "start-docs": "cd website && docusaurus-start",
+        "build-docs": "cd website && docusaurus-build ../dist/docs",
+        "publish-docs": "npm run build-docs && surge website/build/ngrx-clean-forms",
+        "release-docs": "npm run build-docs && npm run publish-docs ngrx-clean-forms.surge.sh"
     },
     "dependencies": {
         "@angular/animations": "~8.2.0",
@@ -55,6 +59,7 @@
         "ts-node": "~7.0.0",
         "tsickle": "^0.36.0",
         "tslint": "~5.15.0",
-        "typescript": "~3.5.3"
+        "typescript": "~3.5.3",
+        "docusaurus": "^1.14.4"
     }
 }
