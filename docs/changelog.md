@@ -7,7 +7,7 @@ title: Changelog
 
 **Breaking Changes:**
 
--   Renamed `ngrxControl` directive to `ngrxFormControl``
+-   Renamed `ngrxControl` directive to `ngrxFormControl`.
 -   Directive input `formSummary$` was changed to `formSummary` and now receives the summary instead of an Observable.
     -   Migration: Replace `[formSummary$]="form$"` with `[formSummary]="form$ | async"`
 -   Directive input `controlSummary$` was changed to `controlSummary`.

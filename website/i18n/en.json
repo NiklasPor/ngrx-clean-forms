@@ -3,7 +3,7 @@
   "localized-strings": {
     "next": "Next",
     "previous": "Previous",
-    "tagline": "A website for testing",
+    "tagline": "Clean forms leveraged to your state.",
     "docs": {
       "changelog": {
         "title": "Changelog"
@@ -26,8 +26,7 @@
       "FormControl": "FormControl",
       "FormGroup": "FormGroup",
       "FormArray": "FormArray",
-      "Other": "Other",
-      "First Category": "First Category"
+      "Other": "Other"
     }
   },
   "pages-strings": {

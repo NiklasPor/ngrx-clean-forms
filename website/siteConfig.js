@@ -22,7 +22,7 @@ const users = [
 
 const siteConfig = {
     title: 'ngrx-clean-forms', // Title for your website.
-    tagline: 'A website for testing',
+    tagline: 'Clean forms leveraged to your state.',
     url: 'https://your-docusaurus-test-site.com', // Your website URL
     baseUrl: '/', // Base URL for your project */
     // For github.io type URLs, you would set the url and baseUrl like:
@@ -31,7 +31,7 @@ const siteConfig = {
 
     // Used for publishing and more
     projectName: 'ngrx-clean-forms',
-    organizationName: 'facebook',
+    // organizationName: '',
     // For top-level user or org sites, the organization is still the same.
     // e.g., for the https://JoelMarcey.github.io site, it would be set like...
     //   organizationName: 'JoelMarcey'
@@ -43,9 +43,9 @@ const siteConfig = {
     users,
 
     /* path to images for header/footer */
-    headerIcon: 'img/favicon.ico',
-    footerIcon: 'img/favicon.ico',
-    favicon: 'img/favicon.ico',
+    // headerIcon: 'img/favicon.ico',
+    // footerIcon: 'img/favicon.ico',
+    // favicon: 'img/favicon.ico',
 
     /* Colors for website */
     colors: {
