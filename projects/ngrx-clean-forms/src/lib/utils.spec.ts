@@ -119,6 +119,23 @@ describe('utils', () => {
 
             expect(result).toEqual(expected);
         });
+
+        it('should merge multiple validators', () => {
+            const expected = { first: true, second: true };
+
+            const resultFunc = validatorOf(
+                control => ({
+                    first: true,
+                }),
+                control => ({
+                    second: true,
+                })
+            );
+
+            const result = resultFunc({} as FormControlState<any>);
+
+            expect(result).toEqual(expected);
+        });
     });
 
     describe('mergeFormGroupErrors', () => {

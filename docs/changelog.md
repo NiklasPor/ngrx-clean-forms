@@ -3,6 +3,12 @@ id: changelog
 title: Changelog
 ---
 
+## 4.1.0
+
+**New features:**
+
+-   `validatorOf()` can now receive **multiple** Angular validators. Internally uses `Validators.compose` from `@angular/forms`.
+
 ## 4.0.0
 
 **Breaking Changes:**
