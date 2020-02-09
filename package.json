@@ -11,14 +11,14 @@
         "version-lib": "cd projects/ngrx-clean-forms && npm version",
         "publish-codecov-lib": "codecov -t $npm_config_ngrx_clean_forms_codecov",
         "build-example": "npm run build-lib && ng build ExampleApp",
-        "publish-example": "surge dist/ExampleApp example.ngrx-clean-forms.surge.sh",
+        "publish-example": "surge dist/ExampleApp https://example.ngrx-clean-forms.surge.sh",
         "release-example": "npm run build-example && npm run publish-example",
         "release-all": "npm run release-lib && npm run release-example",
         "generate-toc": "toc-md README.md README.md",
         "start-docs": "cd website && docusaurus-start",
         "build-docs": "cd website && docusaurus-build ../dist/docs",
         "publish-docs": "npm run build-docs && surge website/build/ngrx-clean-forms",
-        "release-docs": "npm run build-docs && npm run publish-docs ngrx-clean-forms.surge.sh"
+        "release-docs": "npm run build-docs && npm run publish-docs https://ngrx-clean-forms.surge.sh"
     },
     "dependencies": {
         "@angular/animations": "~8.2.0",
