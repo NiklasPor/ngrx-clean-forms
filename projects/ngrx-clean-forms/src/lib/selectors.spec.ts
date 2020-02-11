@@ -12,6 +12,7 @@ import {
     getFormArrayControlSummaries,
     getFormArrayPristine,
     getFormArrayUntouched,
+    getFormGroupChanged,
 } from './selectors';
 import {
     FormControlErrors,
@@ -462,6 +463,41 @@ describe('selectors', () => {
         });
     });
 
+    describe('getFormGroupChanged', () => {
+        it('only initial values should return false', () => {
+            const result = getFormGroupChanged({
+                first: getFormControlSummary(initFormControl(['value'])),
+                second: getFormControlSummary(initFormControl(['value'])),
+            });
+
+            expect(result).toBe(false);
+        });
+
+        it('one changed value should return true', () => {
+            const result = getFormGroupChanged({
+                first: getFormControlSummary(initFormControl(['value'])),
+                second: getFormControlSummary(
+                    initFormControl({ value: 'value', initialValue: 'changed' })
+                ),
+            });
+
+            expect(result).toBe(true);
+        });
+
+        it('all changed values should return true', () => {
+            const result = getFormGroupChanged({
+                first: getFormControlSummary(
+                    initFormControl({ value: 'value', initialValue: 'changed' })
+                ),
+                second: getFormControlSummary(
+                    initFormControl({ value: 'value', initialValue: 'changed' })
+                ),
+            });
+
+            expect(result).toBe(true);
+        });
+    });
+
     describe('getFormArrayUntouched', () => {
         it('all controls untouched should return true', () => {
             const array = {
@@ -578,6 +614,7 @@ describe('selectors', () => {
                 pristine: true,
                 untouched: true,
                 valid: false,
+                changed: false,
             };
 
             const result = getFormGroupSummary(group, additionalError);
@@ -620,6 +657,7 @@ describe('selectors', () => {
                 pristine: true,
                 untouched: true,
                 valid: false,
+                changed: false,
             };
 
             const result = getFormGroupSummary(group, additionalError);
@@ -663,6 +701,7 @@ describe('selectors', () => {
                 pristine: true,
                 untouched: true,
                 valid: false,
+                changed: false,
             };
 
             const result = getFormGroupSummary(group);
@@ -693,6 +732,7 @@ describe('selectors', () => {
                 pristine: true,
                 untouched: true,
                 valid: true,
+                changed: false,
             };
 
             const result = getFormGroupSummary(group);

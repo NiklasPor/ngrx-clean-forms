@@ -109,6 +109,12 @@ export function getFormGroupUntouched<TControls extends FormControls>(
     return Object.values(group.controls).every(control => control.untouched);
 }
 
+export function getFormGroupChanged<TControls extends FormControls>(
+    controls: FormGroupControlSummaries<TControls>
+): boolean {
+    return Object.values(controls).some(control => control.changed);
+}
+
 export function getFormArrayUntouched<T>(array: FormArrayState<T>): boolean {
     return array.controls.every(control => control.untouched);
 }
@@ -137,6 +143,7 @@ export function getFormGroupSummary<TControls extends FormControls>(
         untouched: getFormGroupUntouched(group),
         errors,
         valid: errors === null,
+        changed: getFormGroupChanged(summaries),
     };
 }
 

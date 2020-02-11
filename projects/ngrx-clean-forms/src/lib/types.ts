@@ -228,6 +228,14 @@ export interface FormGroupSummary<TControls extends FormControls>
      * Indicates whether all FormControls inside this group were not yet visited.
      */
     untouched: boolean;
+
+    /**
+     * Indicates whether any of the FormControls was changed.
+     * Comparison is always with the intial property of the FormControl.
+     *
+     * @see `FormControl`
+     */
+    changed: boolean;
 }
 
 /**
