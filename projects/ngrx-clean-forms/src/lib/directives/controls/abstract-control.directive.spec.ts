@@ -53,106 +53,32 @@ describe('AbstractControlDirective', () => {
     });
 
     describe('cssClasses', () => {
-        it('{pristine: true} sets ng-pristine and unsets ng-dirty', () => {
-            testComponent.componentInstance.summary$.next({
-                ...getFormControlSummary(initFormControl([''])),
-                pristine: true,
+        [
+            [{ pristine: true }, 'ng-pristine', 'ng-dirty'],
+            [{ pristine: false }, 'ng-dirty', 'ng-pristine'],
+            [{ valid: true }, 'ng-valid', 'ng-invalid'],
+            [{ valid: false }, 'ng-invalid', 'ng-valid'],
+            [{ untouched: true }, 'ng-untouched', 'ng-touched'],
+            [{ untouched: false }, 'ng-touched', 'ng-untouched'],
+            [{ changed: true }, 'ng-changed', 'ng-initial'],
+            [{ changed: false }, 'ng-initial', 'ng-changed'],
+        ].forEach(([update, shouldSet, shouldUnset]) => {
+            it(`${update} should set ${shouldSet} and unset ${shouldUnset}`, () => {
+                testComponent.componentInstance.summary$.next({
+                    ...getFormControlSummary(initFormControl([''])),
+                    ...(update as Partial<FormControlSummary<any>>),
+                });
+
+                testComponent.detectChanges();
+
+                // tslint:disable-next-line: no-string-literal
+                const isPristine = directive['ref'].nativeElement.classList.contains(shouldSet);
+                // tslint:disable-next-line: no-string-literal
+                const isDirty = directive['ref'].nativeElement.classList.contains(shouldUnset);
+
+                expect(isPristine).toBe(true);
+                expect(isDirty).toBe(false);
             });
-
-            testComponent.detectChanges();
-
-            // tslint:disable-next-line: no-string-literal
-            const isPristine = directive['ref'].nativeElement.classList.contains('ng-pristine');
-            // tslint:disable-next-line: no-string-literal
-            const isDirty = directive['ref'].nativeElement.classList.contains('ng-dirty');
-
-            expect(isPristine).toBe(true);
-            expect(isDirty).toBe(false);
-        });
-
-        it('{pristine: false} sets ng-dirty and unsets ng-pristine', () => {
-            testComponent.componentInstance.summary$.next({
-                ...getFormControlSummary(initFormControl([''])),
-                pristine: false,
-            });
-
-            testComponent.detectChanges();
-
-            // tslint:disable-next-line: no-string-literal
-            const isPristine = directive['ref'].nativeElement.classList.contains('ng-pristine');
-            // tslint:disable-next-line: no-string-literal
-            const isDirty = directive['ref'].nativeElement.classList.contains('ng-dirty');
-
-            expect(isPristine).toBe(false);
-            expect(isDirty).toBe(true);
-        });
-
-        it('{valid: true} sets ng-valid and unsets ng-invalid', () => {
-            testComponent.componentInstance.summary$.next({
-                ...getFormControlSummary(initFormControl([''])),
-                valid: true,
-            });
-
-            testComponent.detectChanges();
-
-            // tslint:disable-next-line: no-string-literal
-            const isValid = directive['ref'].nativeElement.classList.contains('ng-valid');
-            // tslint:disable-next-line: no-string-literal
-            const isInvalid = directive['ref'].nativeElement.classList.contains('ng-invalid');
-
-            expect(isValid).toBe(true);
-            expect(isInvalid).toBe(false);
-        });
-
-        it('{valid: false} sets ng-invalid and unsets ng-valid', () => {
-            testComponent.componentInstance.summary$.next({
-                ...getFormControlSummary(initFormControl([''])),
-                valid: false,
-            });
-
-            testComponent.detectChanges();
-
-            // tslint:disable-next-line: no-string-literal
-            const isValid = directive['ref'].nativeElement.classList.contains('ng-valid');
-            // tslint:disable-next-line: no-string-literal
-            const isInvalid = directive['ref'].nativeElement.classList.contains('ng-invalid');
-
-            expect(isValid).toBe(false);
-            expect(isInvalid).toBe(true);
-        });
-
-        it('{untouched: true} sets ng-untouched and unsets ng-touched', () => {
-            testComponent.componentInstance.summary$.next({
-                ...getFormControlSummary(initFormControl([''])),
-                untouched: true,
-            });
-
-            testComponent.detectChanges();
-
-            // tslint:disable-next-line: no-string-literal
-            const isUntouched = directive['ref'].nativeElement.classList.contains('ng-untouched');
-            // tslint:disable-next-line: no-string-literal
-            const isTouched = directive['ref'].nativeElement.classList.contains('ng-touched');
-
-            expect(isUntouched).toBe(true);
-            expect(isTouched).toBe(false);
-        });
-
-        it('{untouched: false} sets ng-touched and unsets ng-untouched', () => {
-            testComponent.componentInstance.summary$.next({
-                ...getFormControlSummary(initFormControl([''])),
-                untouched: false,
-            });
-
-            testComponent.detectChanges();
-
-            // tslint:disable-next-line: no-string-literal
-            const isUntouched = directive['ref'].nativeElement.classList.contains('ng-untouched');
-            // tslint:disable-next-line: no-string-literal
-            const isTouched = directive['ref'].nativeElement.classList.contains('ng-touched');
-
-            expect(isUntouched).toBe(false);
-            expect(isTouched).toBe(true);
         });
     });
 

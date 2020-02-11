@@ -19,6 +19,8 @@ const cssClasses = {
     dirty: 'ng-dirty',
     touched: 'ng-touched',
     untouched: 'ng-untouched',
+    changed: 'ng-changed',
+    initial: 'ng-initial',
 };
 
 export const CONTROL_DIRECTIVE_SELECTOR = `ngrxFormControl`;
@@ -87,6 +89,7 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
         this.chooseClass(cssClasses.invalid, cssClasses.valid, summary.valid);
         this.chooseClass(cssClasses.dirty, cssClasses.pristine, summary.pristine);
         this.chooseClass(cssClasses.touched, cssClasses.untouched, summary.untouched);
+        this.chooseClass(cssClasses.initial, cssClasses.changed, summary.changed);
     }
 
     chooseClass(class1: string, class2: string, chooseSecond: boolean) {
