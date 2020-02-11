@@ -13,6 +13,7 @@ import {
     getFormArrayPristine,
     getFormArrayUntouched,
     getFormGroupChanged,
+    getFormArrayChanged,
 } from './selectors';
 import {
     FormControlErrors,
@@ -463,6 +464,42 @@ describe('selectors', () => {
         });
     });
 
+    describe('getFormArrayUntouched', () => {
+        it('all controls untouched should return true', () => {
+            const array = {
+                controls: [
+                    {
+                        untouched: true,
+                    } as FormControlState<any>,
+                    {
+                        untouched: true,
+                    } as FormControlState<any>,
+                ],
+            };
+
+            const result = getFormArrayUntouched(array);
+
+            expect(result).toEqual(true);
+        });
+
+        it('one control touched should return false', () => {
+            const array = {
+                controls: [
+                    {
+                        untouched: true,
+                    } as FormControlState<any>,
+                    {
+                        untouched: false,
+                    } as FormControlState<any>,
+                ],
+            };
+
+            const result = getFormArrayUntouched(array);
+
+            expect(result).toEqual(false);
+        });
+    });
+
     describe('getFormGroupChanged', () => {
         it('only initial values should return false', () => {
             const result = getFormGroupChanged({
@@ -498,39 +535,38 @@ describe('selectors', () => {
         });
     });
 
-    describe('getFormArrayUntouched', () => {
-        it('all controls untouched should return true', () => {
-            const array = {
-                controls: [
-                    {
-                        untouched: true,
-                    } as FormControlState<any>,
-                    {
-                        untouched: true,
-                    } as FormControlState<any>,
-                ],
-            };
+    describe('getFormArrayChanged', () => {
+        it('only initial values should return false', () => {
+            const result = getFormArrayChanged([
+                getFormControlSummary(initFormControl(['value'])),
+                getFormControlSummary(initFormControl(['value'])),
+            ]);
 
-            const result = getFormArrayUntouched(array);
-
-            expect(result).toEqual(true);
+            expect(result).toBe(false);
         });
 
-        it('one control touched should return false', () => {
-            const array = {
-                controls: [
-                    {
-                        untouched: true,
-                    } as FormControlState<any>,
-                    {
-                        untouched: false,
-                    } as FormControlState<any>,
-                ],
-            };
+        it('one changed value should return true', () => {
+            const result = getFormArrayChanged([
+                getFormControlSummary(initFormControl(['value'])),
+                getFormControlSummary(
+                    initFormControl({ value: 'value', initialValue: 'initialValue' })
+                ),
+            ]);
 
-            const result = getFormArrayUntouched(array);
+            expect(result).toBe(true);
+        });
 
-            expect(result).toEqual(false);
+        it('all changed values should return true', () => {
+            const result = getFormArrayChanged([
+                getFormControlSummary(
+                    initFormControl({ value: 'value', initialValue: 'initialValue' })
+                ),
+                getFormControlSummary(
+                    initFormControl({ value: 'value', initialValue: 'initialValue' })
+                ),
+            ]);
+
+            expect(result).toBe(true);
         });
     });
 
@@ -806,6 +842,7 @@ describe('selectors', () => {
                 pristine: true,
                 untouched: true,
                 valid: false,
+                changed: false,
             };
 
             const result = getFormArraySummary(array, additionalError);
@@ -847,6 +884,7 @@ describe('selectors', () => {
                 pristine: true,
                 untouched: true,
                 valid: false,
+                changed: false,
             };
 
             const result = getFormArraySummary(array, additionalError);
@@ -886,6 +924,7 @@ describe('selectors', () => {
                 pristine: true,
                 untouched: true,
                 valid: false,
+                changed: false,
             };
 
             const result = getFormArraySummary(array);
@@ -915,6 +954,7 @@ describe('selectors', () => {
                 pristine: true,
                 untouched: true,
                 valid: true,
+                changed: false,
             };
 
             const result = getFormArraySummary(array);
