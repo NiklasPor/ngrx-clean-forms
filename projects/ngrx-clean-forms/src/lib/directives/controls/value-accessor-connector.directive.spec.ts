@@ -196,23 +196,33 @@ describe('ValueAccessorConnectorDirective', () => {
             expect(spy).toHaveBeenCalledTimes(1);
         });
 
-        it('duplicate writes with self reference objects should each write', () => {
+        it('duplicate writes with circular referencing objects should write once', () => {
+            const value = 'value';
+
+            function CircularExample(val) {
+                this.me = {
+                    deeply: {
+                        nested: {
+                            reference: this,
+                        },
+                    },
+                    val,
+                };
+            }
+
             const spy = spyOn(testInputComponent, 'writeValue');
 
-            const value: any = {};
-            value.selfReference = value;
-
             testComponent.componentInstance.summary$.next(
-                getFormControlSummary(initFormControl({ value }))
+                getFormControlSummary(initFormControl({ value: new CircularExample(value) }))
             );
             testComponent.detectChanges();
 
             testComponent.componentInstance.summary$.next(
-                getFormControlSummary(initFormControl({ value }))
+                getFormControlSummary(initFormControl({ value: new CircularExample(value) }))
             );
             testComponent.detectChanges();
 
-            expect(spy).toHaveBeenCalledTimes(2);
+            expect(spy).toHaveBeenCalledTimes(1);
         });
     });
 });

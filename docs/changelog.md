@@ -3,6 +3,12 @@ id: changelog
 title: Changelog
 ---
 
+## 4.2.0
+
+**New features:**
+
+-   `distinctWritesOnly` now supports circular objects. Also the comparison performance has greatly increased with the use of [fast-equals](https://www.npmjs.com/package/fast-equals).
+
 ## 4.1.0
 
 **New features:**

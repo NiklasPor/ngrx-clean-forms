@@ -3,13 +3,14 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CONFIG_TOKEN } from '../../config';
 import { FormsConfig } from '../../types';
 import { AbstractControlDirective, CONTROL_DIRECTIVE_SELECTOR } from './abstract-control.directive';
+import { circularDeepEqual } from 'fast-equals';
 
 @Directive({
     selector: `[${CONTROL_DIRECTIVE_SELECTOR}]`,
 })
 export class ValueAccessorConnectorDirective extends AbstractControlDirective<any> {
     accessor: ControlValueAccessor;
-    lastValue: string;
+    lastValue: any;
 
     constructor(
         ref: ElementRef,
@@ -52,14 +53,12 @@ export class ValueAccessorConnectorDirective extends AbstractControlDirective<an
     }
 
     equalsLastValue(value: any) {
-        try {
-            const valueString = JSON.stringify(value);
-            const isEqual = valueString === this.lastValue;
+        const result = circularDeepEqual(value, this.lastValue);
 
-            this.lastValue = valueString;
-            return isEqual;
-        } catch {
-            return false;
+        if (!result) {
+            this.lastValue = value;
         }
+
+        return result;
     }
 }

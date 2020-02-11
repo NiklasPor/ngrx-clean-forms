@@ -18,30 +18,38 @@ This library excels in the following topics:
 -   Providing a single source of truth for a form. Even linking multiple instances of a form to a single form state is possible.
 -   High test coverage and stability.
 
+<!-- prettier-ignore-start -->
+
 ## Table of Contents
 
--   [Getting Started](#getting-started)
-    _ [Import the NgrxCleanFormsModule](#import-the-ngrxcleanformsmodule)
-    _ [Add the form state to your state managment](#add-the-form-state-to-your-state-managment)
-    _ [Accessing the form state & errors](#accessing-the-form-state-errors)
-    _ [Updating (reducing) the form state](#updating-reducing-the-form-state) \* [Binding your HTML form to your state](#binding-your-html-form-to-your-state)
--   [Additional Resources](#additional-resources)
-    _ [Adding validators](#adding-validators)
-    _ [Using the Angular forms validators](#using-the-angular-forms-validators)
-    _ [Adding custom (state based) validation](#adding-custom-state-based-validation)
-    _ [Displaying errors (CSS classes)](#displaying-errors-css-classes)
-    _ [Displaying errors (values)](#displaying-errors-values)
-    _ [Binding to custom input components](#binding-to-custom-input-components)
-    _ [Binding to an input without a form](#binding-to-an-input-without-a-form)
-    _ [Binding multiple HTML forms to the same state](#binding-multiple-html-forms-to-the-same-state)
-    _ [Disabling forms / Setting disabled](#disabling-forms-setting-disabled)
-    _ [Utilizing FormArrays](#utilizing-formarrays) \* [Additional configuration and throttling](#additional-configuration-and-throttling)
--   [Changelog](#changelog)
-    _ [4.0.0](#400)
-    _ [3.1.0](#310)
--   [Not yet supported features](#not-yet-supported-features)
+* [Getting Started](#getting-started)
+	* [Import the NgrxCleanFormsModule](#import-the-ngrxcleanformsmodule)
+	* [Add the form state to your state managment](#add-the-form-state-to-your-state-managment)
+	* [Accessing the form state & errors](#accessing-the-form-state-errors)
+	* [Updating (reducing) the form state](#updating-reducing-the-form-state)
+	* [Binding your HTML form to your state](#binding-your-html-form-to-your-state)
+* [Additional Resources](#additional-resources)
+	* [Adding validators](#adding-validators)
+	* [Using the Angular forms validators](#using-the-angular-forms-validators)
+	* [Adding custom (state based) validation](#adding-custom-state-based-validation)
+	* [Displaying errors (CSS classes)](#displaying-errors-css-classes)
+	* [Displaying errors (values)](#displaying-errors-values)
+	* [Binding to custom input components](#binding-to-custom-input-components)
+	* [Binding to an input without a form](#binding-to-an-input-without-a-form)
+	* [Binding multiple HTML forms to the same state](#binding-multiple-html-forms-to-the-same-state)
+	* [Disabling forms / Setting disabled](#disabling-forms-setting-disabled)
+	* [Utilizing FormArrays](#utilizing-formarrays)
+	* [Additional configuration and throttling](#additional-configuration-and-throttling)
+* [Changelog](#changelog)
+	* [4.2.0](#420)
+	* [4.1.0](#410)
+	* [4.0.0](#400)
+	* [3.1.0](#310)
+* [Not yet supported features](#not-yet-supported-features)
 
 ## Getting Started
+
+<!-- prettier-ignore-end -->
 
 ```
 npm i ngrx-clean-forms
@@ -389,6 +397,12 @@ The configuration for an individual `FormControl` can also be overridden with th
 ```
 
 ## Changelog
+
+### 4.2.0
+
+**New features:**
+
+-   `distinctWritesOnly` now supports circular objects. Also the comparison performance has greatly increased with the use of [fast-equals](https://www.npmjs.com/package/fast-equals).
 
 ### 4.1.0
 
