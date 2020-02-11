@@ -20,6 +20,7 @@ import {
     mergeFormControlErrors,
     mergeFormArrayErrors,
 } from './utils';
+import { circularDeepEqual } from 'fast-equals';
 
 export function getFormControlErrors<T>(control: FormControlState<T>): FormControlErrors[] {
     return control.validators.map(validator => validator(control));
@@ -45,6 +46,10 @@ export function getFormArrayErrors<T>(
     return errors.filter(Boolean).length ? errors : null;
 }
 
+export function getFormControlChanged<T>(control: FormControlState<T>): boolean {
+    return !circularDeepEqual(control.value, control.initialValue);
+}
+
 /**
  * Creates a `FormControlSummary` from the given `FormControlState`.
  * It is possible to add additional errors.
@@ -62,6 +67,7 @@ export function getFormControlSummary<T>(
         ...control,
         errors,
         valid: errors === null,
+        changed: getFormControlChanged(control),
     };
 }
 

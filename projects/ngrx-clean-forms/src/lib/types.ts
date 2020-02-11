@@ -183,6 +183,14 @@ export interface FormControlSummary<T> extends FormControlState<T> {
      * Whether the FormControl has any errors.
      */
     valid: boolean;
+
+    /**
+     * Whether the value is the same as the intial set value.
+     * Uses the `intialValue` property of the `FormControlState`.
+     *
+     * @see  `FormControlState`
+     */
+    changed: boolean;
 }
 
 export type FormGroupControlSummaries<TControls extends FormControls> = {

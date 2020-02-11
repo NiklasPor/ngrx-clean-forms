@@ -193,6 +193,38 @@ describe('selectors', () => {
     });
 
     describe('getFormControlSummary', () => {
+        [undefined, null, 0, { value: 'value' }].forEach(value => {
+            it(`${value} match should return changed: false`, () => {
+                const result = getFormControlSummary(initFormControl([value]));
+
+                expect(result.changed).toBe(false);
+            });
+        });
+
+        it('should return changed: true for changed simple value', () => {
+            const result = getFormControlSummary(
+                initFormControl({
+                    value: 'value',
+                    initialValue: 'initialValue',
+                })
+            );
+
+            expect(result.changed).toBe(true);
+        });
+
+        it('should return changed: true for object key value change', () => {
+            const result = getFormControlSummary(
+                initFormControl({
+                    value: { deeper: { deep: 'value' } },
+                    initialValue: { deeper: { deep: 'initialValue' } },
+                })
+            );
+
+            expect(result.changed).toBe(true);
+        });
+    });
+
+    describe('getFormControlSummary', () => {
         it('should return valid = true, errors = null, controls for valid control', () => {
             const control: FormControlState<string> = {
                 pristine: true,
@@ -212,6 +244,7 @@ describe('selectors', () => {
                 disabled: false,
                 errors: null,
                 valid: true,
+                changed: false,
             };
 
             const result = getFormControlSummary(control);
@@ -244,6 +277,7 @@ describe('selectors', () => {
                 disabled: false,
                 errors: error,
                 valid: false,
+                changed: false,
             };
 
             const result = getFormControlSummary(control);
@@ -274,6 +308,7 @@ describe('selectors', () => {
                 disabled: false,
                 errors: additionalError,
                 valid: false,
+                changed: false,
             };
 
             const result = getFormControlSummary(control, additionalError);
@@ -310,6 +345,7 @@ describe('selectors', () => {
                 disabled: false,
                 errors: { alwaysTrue: true, additionalError: true },
                 valid: false,
+                changed: false,
             };
 
             const result = getFormControlSummary(control, additionalError);
@@ -530,6 +566,7 @@ describe('selectors', () => {
                             externalError: true,
                             controlError: true,
                         },
+                        changed: false,
                     },
                 },
                 errors: {
@@ -572,6 +609,7 @@ describe('selectors', () => {
                         errors: {
                             externalError: true,
                         },
+                        changed: false,
                     },
                 },
                 errors: {
@@ -614,6 +652,7 @@ describe('selectors', () => {
                         errors: {
                             stringError: true,
                         },
+                        changed: false,
                     },
                 },
                 errors: {
@@ -647,6 +686,7 @@ describe('selectors', () => {
                         valid: true,
                         validators: group.controls.stringControl.validators,
                         errors: null,
+                        changed: false,
                     },
                 },
                 errors: null,
@@ -713,6 +753,7 @@ describe('selectors', () => {
                             externalError: true,
                             controlError: true,
                         },
+                        changed: false,
                     },
                 ],
                 keys: [0],
@@ -754,6 +795,7 @@ describe('selectors', () => {
                         errors: {
                             externalError: true,
                         },
+                        changed: false,
                     },
                 ],
                 keys: [0],
@@ -792,6 +834,7 @@ describe('selectors', () => {
                         errors: {
                             stringError: true,
                         },
+                        changed: false,
                     },
                 ],
                 keys: [0],
@@ -824,6 +867,7 @@ describe('selectors', () => {
                         valid: true,
                         validators: array.controls[0].validators,
                         errors: null,
+                        changed: false,
                     },
                 ],
                 keys: [0],
