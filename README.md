@@ -41,6 +41,7 @@ This library excels in the following topics:
 	* [Utilizing FormArrays](#utilizing-formarrays)
 	* [Additional configuration and throttling](#additional-configuration-and-throttling)
 * [Changelog](#changelog)
+* [4.3.0](#430)
 	* [4.2.0](#420)
 	* [4.1.0](#410)
 	* [4.0.0](#400)
@@ -261,7 +262,7 @@ This variant of validation should only be used, when the `validators` array isn'
 
 ### Displaying errors (CSS classes)
 
-This library utilizes the same error classes as angular. Excerpt from the Angular [documentation](https://angular.io/guide/form-validation#control-status-css-classes):
+This library extends the error classes of Angular. Excerpt from the Angular [documentation](https://angular.io/guide/form-validation#control-status-css-classes):
 
 -   `.ng-valid`
 -   `.ng-invalid`
@@ -270,6 +271,11 @@ This library utilizes the same error classes as angular. Excerpt from the Angula
 -   `.ng-dirty`
 -   `.ng-untouched`
 -   `.ng-touched`
+
+Added classes:
+
+-   `ng-changed`: Value changed from the initial value.
+-   `ng-initial`: Value is the same as the initial value.
 
 Those classes will be automatically assigned to the controls and forms managed by this library.
 
@@ -397,6 +403,16 @@ The configuration for an individual `FormControl` can also be overridden with th
 ```
 
 ## Changelog
+
+## 4.3.0
+
+**New features:**
+
+-   Every `FormControlState` now supports the `initialValue` property. It is set automatically when creating with one of the provided initializer functions.
+-   Every `FormControlSummary` now additional supports the `changed` property. It is set to true when `initialValue` and `value` are different. For object comparison again [fast-equals](https://www.npmjs.com/package/fast-equals) was used.
+    -   CSS class `.ng-changed` is now set on inputs when `changed: true`.
+    -   CSS class `.ng-initial` is now set on inputs when `changed: false`.
+-   `FormGroupSummary` and `FormGroupArray` also support the `changed` property. It is set when atleast one control was changed.
 
 ### 4.2.0
 

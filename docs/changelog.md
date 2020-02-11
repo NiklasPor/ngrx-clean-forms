@@ -3,6 +3,16 @@ id: changelog
 title: Changelog
 ---
 
+## 4.3.0
+
+**New features:**
+
+-   Every `FormControlState` now supports the `initialValue` property. It is set automatically when creating with one of the provided initializer functions.
+-   Every `FormControlSummary` now additional supports the `changed` property. It is set to true when `initialValue` and `value` are different. For object comparison again [fast-equals](https://www.npmjs.com/package/fast-equals) was used.
+    -   CSS class `.ng-changed` is now set on inputs when `changed: true`.
+    -   CSS class `.ng-initial` is now set on inputs when `changed: false`.
+-   `FormGroupSummary` and `FormGroupArray` also support the `changed` property. It is set when atleast one control was changed.
+
 ## 4.2.0
 
 **New features:**
