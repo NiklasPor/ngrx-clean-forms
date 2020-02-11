@@ -20,6 +20,7 @@ import {
     mergeFormControlErrors,
     mergeFormArrayErrors,
 } from './utils';
+import { circularDeepEqual } from 'fast-equals';
 
 export function getFormControlErrors<T>(control: FormControlState<T>): FormControlErrors[] {
     return control.validators.map(validator => validator(control));
@@ -45,6 +46,10 @@ export function getFormArrayErrors<T>(
     return errors.filter(Boolean).length ? errors : null;
 }
 
+export function getFormControlChanged<T>(control: FormControlState<T>): boolean {
+    return !circularDeepEqual(control.value, control.initialValue);
+}
+
 /**
  * Creates a `FormControlSummary` from the given `FormControlState`.
  * It is possible to add additional errors.
@@ -62,6 +67,7 @@ export function getFormControlSummary<T>(
         ...control,
         errors,
         valid: errors === null,
+        changed: getFormControlChanged(control),
     };
 }
 
@@ -103,6 +109,16 @@ export function getFormGroupUntouched<TControls extends FormControls>(
     return Object.values(group.controls).every(control => control.untouched);
 }
 
+export function getFormGroupChanged<TControls extends FormControls>(
+    controls: FormGroupControlSummaries<TControls>
+): boolean {
+    return Object.values(controls).some(control => control.changed);
+}
+
+export function getFormArrayChanged<T>(controls: FormArrayControlSummaries<T>): boolean {
+    return controls.some(control => control.changed);
+}
+
 export function getFormArrayUntouched<T>(array: FormArrayState<T>): boolean {
     return array.controls.every(control => control.untouched);
 }
@@ -131,6 +147,7 @@ export function getFormGroupSummary<TControls extends FormControls>(
         untouched: getFormGroupUntouched(group),
         errors,
         valid: errors === null,
+        changed: getFormGroupChanged(summaries),
     };
 }
 
@@ -155,5 +172,6 @@ export function getFormArraySummary<T>(
         untouched: getFormArrayUntouched(array),
         errors,
         valid: errors === null,
+        changed: getFormArrayChanged(summaries),
     };
 }

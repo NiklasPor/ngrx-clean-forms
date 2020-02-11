@@ -81,6 +81,7 @@ function initFormControlFromUpdate<T = any>(
     return reduceFormControl(
         {
             value: undefined,
+            initialValue: initialUpdate.value,
             pristine: true,
             untouched: true,
             disabled: false,

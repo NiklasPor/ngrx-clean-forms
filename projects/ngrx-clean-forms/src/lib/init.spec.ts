@@ -10,6 +10,7 @@ describe('init', () => {
             it('["value"] should create a valid form control state', () => {
                 const expected: FormControlState<string> = {
                     value,
+                    initialValue: value,
                     disabled: false,
                     pristine: true,
                     untouched: true,
@@ -24,6 +25,7 @@ describe('init', () => {
             it('["value", [() => null]] should create a valid form control state with validator', () => {
                 const expected: FormControlState<string> = {
                     value,
+                    initialValue: value,
                     disabled: false,
                     pristine: true,
                     untouched: true,
@@ -40,6 +42,7 @@ describe('init', () => {
             it('{value: value} should create a valid form control state', () => {
                 const expected: FormControlState<string> = {
                     value,
+                    initialValue: value,
                     disabled: false,
                     pristine: true,
                     untouched: true,
@@ -54,6 +57,7 @@ describe('init', () => {
             it('["value", [() => null]] should create a valid form control state with validator', () => {
                 const expected: FormControlState<string> = {
                     value,
+                    initialValue: value,
                     disabled: false,
                     pristine: true,
                     untouched: true,
@@ -68,6 +72,7 @@ describe('init', () => {
             it('{value: value, disabled: true, pristine: false, untouched: false} should create a valid form control state', () => {
                 const expected: FormControlState<string> = {
                     value,
+                    initialValue: value,
                     disabled: true,
                     pristine: false,
                     untouched: false,
@@ -80,6 +85,43 @@ describe('init', () => {
                     pristine: expected.pristine,
                     untouched: expected.untouched,
                     validators: [],
+                });
+
+                expect(result).toEqual(expected);
+            });
+
+            it('value only should set initialValue', () => {
+                const expected: FormControlState<string> = {
+                    value,
+                    initialValue: value,
+                    disabled: false,
+                    pristine: true,
+                    untouched: true,
+                    validators: [],
+                };
+
+                const result = initFormControl({
+                    value,
+                });
+
+                expect(result).toEqual(expected);
+            });
+
+            it('intialValue should set initialValue', () => {
+                const initialValue = 'initial';
+
+                const expected: FormControlState<string> = {
+                    value,
+                    initialValue,
+                    disabled: false,
+                    pristine: true,
+                    untouched: true,
+                    validators: [],
+                };
+
+                const result = initFormControl({
+                    value,
+                    initialValue,
                 });
 
                 expect(result).toEqual(expected);
@@ -97,6 +139,7 @@ describe('init', () => {
                         untouched: true,
                         validators: [validator],
                         value,
+                        initialValue: value,
                     },
                     update: {
                         disabled: true,
@@ -104,6 +147,7 @@ describe('init', () => {
                         untouched: false,
                         validators: [validator],
                         value,
+                        initialValue: value,
                     },
                 },
             };
@@ -133,6 +177,7 @@ describe('init', () => {
                         disabled: false,
                         pristine: true,
                         untouched: true,
+                        initialValue: value,
                     },
                 ],
             };
@@ -151,6 +196,7 @@ describe('init', () => {
                         disabled: true,
                         pristine: false,
                         untouched: false,
+                        initialValue: value,
                     },
                 ],
             };

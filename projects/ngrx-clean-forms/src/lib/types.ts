@@ -111,7 +111,15 @@ export type FormArrayErrors = FormControlErrors[];
  * Represents the state of a single FormControl.
  */
 export interface FormControlState<T extends any> {
+    /**
+     * The value of this control.
+     */
     value: T;
+
+    /**
+     * The initial value of this control.
+     */
+    initialValue: T;
 
     /**
      * Indicates whether the value was not yet changed.
@@ -175,6 +183,14 @@ export interface FormControlSummary<T> extends FormControlState<T> {
      * Whether the FormControl has any errors.
      */
     valid: boolean;
+
+    /**
+     * Whether the value is the same as the intial set value.
+     * Uses the `intialValue` property of the `FormControlState`.
+     *
+     * @see  `FormControlState`
+     */
+    changed: boolean;
 }
 
 export type FormGroupControlSummaries<TControls extends FormControls> = {
@@ -212,6 +228,14 @@ export interface FormGroupSummary<TControls extends FormControls>
      * Indicates whether all FormControls inside this group were not yet visited.
      */
     untouched: boolean;
+
+    /**
+     * Indicates whether any of the FormControls was changed.
+     * Comparison is always with the intial property of the FormControl.
+     *
+     * @see `FormControl`
+     */
+    changed: boolean;
 }
 
 /**
@@ -251,4 +275,12 @@ export interface FormArraySummary<T> extends FormArrayState<T> {
      * Indicates whether all FormControls inside this array were not yet visited.
      */
     untouched: boolean;
+
+    /**
+     * Indicates whether any of the FormControls was changed.
+     * Comparison is always with the intial property of the FormControl.
+     *
+     * @see `FormControl`
+     */
+    changed: boolean;
 }
