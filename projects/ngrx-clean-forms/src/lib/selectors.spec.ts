@@ -198,6 +198,7 @@ describe('selectors', () => {
                 pristine: true,
                 untouched: true,
                 value: '',
+                initialValue: '',
                 validators: [],
                 disabled: false,
             };
@@ -206,6 +207,7 @@ describe('selectors', () => {
                 pristine: true,
                 untouched: true,
                 value: '',
+                initialValue: '',
                 validators: [],
                 disabled: false,
                 errors: null,
@@ -228,6 +230,7 @@ describe('selectors', () => {
                 pristine: true,
                 untouched: true,
                 value: '',
+                initialValue: '',
                 validators,
                 disabled: false,
             };
@@ -236,6 +239,7 @@ describe('selectors', () => {
                 pristine: control.pristine,
                 untouched: control.untouched,
                 value: control.value,
+                initialValue: '',
                 validators,
                 disabled: false,
                 errors: error,
@@ -256,6 +260,7 @@ describe('selectors', () => {
                 pristine: true,
                 untouched: true,
                 value: '',
+                initialValue: '',
                 validators: [],
                 disabled: false,
             };
@@ -265,6 +270,7 @@ describe('selectors', () => {
                 untouched: control.untouched,
                 value: control.value,
                 validators: [],
+                initialValue: '',
                 disabled: false,
                 errors: additionalError,
                 valid: false,
@@ -290,6 +296,7 @@ describe('selectors', () => {
                 pristine: true,
                 untouched: true,
                 value: '',
+                initialValue: '',
                 validators,
                 disabled: false,
             };
@@ -298,6 +305,7 @@ describe('selectors', () => {
                 pristine: control.pristine,
                 untouched: control.untouched,
                 value: control.value,
+                initialValue: '',
                 validators,
                 disabled: false,
                 errors: { alwaysTrue: true, additionalError: true },
@@ -512,6 +520,7 @@ describe('selectors', () => {
                 controls: {
                     stringControl: {
                         value: 'initial',
+                        initialValue: 'initial',
                         disabled: false,
                         pristine: true,
                         untouched: true,
@@ -554,6 +563,7 @@ describe('selectors', () => {
                 controls: {
                     stringControl: {
                         value: 'initial',
+                        initialValue: 'initial',
                         disabled: false,
                         pristine: true,
                         untouched: true,
@@ -595,6 +605,7 @@ describe('selectors', () => {
                 controls: {
                     stringControl: {
                         value: 'initial',
+                        initialValue: 'initial',
                         disabled: false,
                         pristine: true,
                         untouched: true,
@@ -629,6 +640,7 @@ describe('selectors', () => {
                 controls: {
                     stringControl: {
                         value: 'initial',
+                        initialValue: 'initial',
                         disabled: false,
                         pristine: true,
                         untouched: true,
@@ -691,6 +703,7 @@ describe('selectors', () => {
                 controls: [
                     {
                         value: 'initial',
+                        initialValue: 'initial',
                         disabled: false,
                         pristine: true,
                         untouched: true,
@@ -732,6 +745,7 @@ describe('selectors', () => {
                 controls: [
                     {
                         value: 'initial',
+                        initialValue: 'initial',
                         disabled: false,
                         pristine: true,
                         untouched: true,
@@ -769,6 +783,7 @@ describe('selectors', () => {
                 controls: [
                     {
                         value: 'initial',
+                        initialValue: 'initial',
                         disabled: false,
                         pristine: true,
                         untouched: true,
@@ -802,6 +817,7 @@ describe('selectors', () => {
                 controls: [
                     {
                         value: 'initial',
+                        initialValue: 'initial',
                         disabled: false,
                         pristine: true,
                         untouched: true,

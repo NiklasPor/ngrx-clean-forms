@@ -130,6 +130,7 @@ describe('reducer', () => {
 
         it('array update should only update affected', () => {
             const value = 'value';
+            const initialValue = 'initial';
             const pristine = false;
 
             const controlUpdate: FormControlUpdate<string> = {
@@ -137,7 +138,7 @@ describe('reducer', () => {
                 pristine,
             };
 
-            const array = initFormArray([['1'], ['2'], ['3'], ['4']]);
+            const array = initFormArray([['1'], [initialValue], ['3'], ['4']]);
 
             const update: FormArrayUpdate<string> = {
                 controls: [null, controlUpdate, null],
@@ -146,7 +147,7 @@ describe('reducer', () => {
             const expected: FormArrayState<string> = {
                 controls: [
                     initFormControl(['1']),
-                    initFormControl({ value, pristine }),
+                    initFormControl({ value, pristine, initialValue }),
                     initFormControl(['3']),
                     initFormControl(['4']),
                 ],

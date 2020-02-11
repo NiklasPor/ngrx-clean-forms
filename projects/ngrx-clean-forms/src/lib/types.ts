@@ -111,7 +111,15 @@ export type FormArrayErrors = FormControlErrors[];
  * Represents the state of a single FormControl.
  */
 export interface FormControlState<T extends any> {
+    /**
+     * The value of this control.
+     */
     value: T;
+
+    /**
+     * The initial value of this control.
+     */
+    initialValue: T;
 
     /**
      * Indicates whether the value was not yet changed.
