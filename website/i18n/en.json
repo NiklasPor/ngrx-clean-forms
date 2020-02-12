@@ -8,6 +8,9 @@
       "changelog": {
         "title": "Changelog"
       },
+      "empty": {
+        "title": "empty"
+      },
       "first-form": {
         "title": "Setting up a form"
       },
@@ -16,6 +19,12 @@
       },
       "not-supported": {
         "title": "Open Features"
+      },
+      "status": {
+        "title": "Status"
+      },
+      "form-validation": {
+        "title": "Validation"
       }
     },
     "links": {

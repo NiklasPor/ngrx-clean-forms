@@ -1,0 +1,4 @@
+---
+id: empty
+title: empty
+---
