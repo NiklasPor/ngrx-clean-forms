@@ -21,6 +21,9 @@ import {
     updateStateAccessExampleFormGroup,
 } from './example.actions';
 
+const below6: Validator<number> = (control: FormControlState<number>) =>
+    control.value < 6 ? null : { below6: false };
+
 const required: Validator<string> = (control: FormControlState<string>) =>
     control.value.trim().length ? null : { required: true };
 
