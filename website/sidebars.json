@@ -1,7 +1,7 @@
 {
     "docs": {
         "Introduction": ["getting-started", "first-form"],
-        "FormControl": ["form-validation", "status"],
+        "FormControl": ["control-initialization", "form-validation", "status"],
         "FormGroup": [],
         "FormArray": [],
         "Other": ["changelog", "not-supported"]

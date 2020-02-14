@@ -8,6 +8,9 @@
       "changelog": {
         "title": "Changelog"
       },
+      "control-initialization": {
+        "title": "Initialization"
+      },
       "empty": {
         "title": "empty"
       },
