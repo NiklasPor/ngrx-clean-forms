@@ -11,6 +11,9 @@
       "control-initialization": {
         "title": "Initialization"
       },
+      "control-reset": {
+        "title": "Reset"
+      },
       "empty": {
         "title": "empty"
       },

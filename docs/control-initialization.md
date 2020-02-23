@@ -9,10 +9,11 @@ The initialization method supports two different ways of creating a new `FormCon
 
 ## Tuple Initialization
 
-This initialization method is a shorthand and only supports the following two attributes to be set:
+This initialization method is a shorthand and only supports the following three attributes to be set:
 
 -   `value: T`
 -   `validators?: Validator[]`
+-   `disabled?: boolean`
 
 #### Without validators
 
@@ -33,6 +34,14 @@ const below6: Validator<number> = (control: FormControlState<number>) =>
 initFormControl([4, [below6]]);
 ```
 
+#### Initially disabled
+
+```ts
+import { initFormControl, FormControlState } from 'ngrx-clean-forms';
+
+initFormControl(['initial', [], true]);
+```
+
 ## Update Initialization
 
 The update initialization is the more explicit way to initialize a `FormControlState`. This initialization method supports **all** properties that can be set in a `FormControlState`.
@@ -44,17 +53,6 @@ The only required value is the actual value of the `FormControlState`. Other val
 -   `untouched`: `true`
 -   `disabled`: `false`
 -   `validators`: `[]`
-
-#### Initially disabled
-
-```ts
-import { initFormControl } from 'ngrx-clean-forms';
-
-initFormControl({
-    value: 'initial',
-    disabled: true,
-});
-```
 
 #### With validators
 
@@ -68,4 +66,15 @@ initFormControl({
     value: 4,
     validators: [below6]
 }]);
+```
+
+#### Initially disabled
+
+```ts
+import { initFormControl } from 'ngrx-clean-forms';
+
+initFormControl({
+    value: 'initial',
+    disabled: true,
+});
 ```
