@@ -27,6 +27,10 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.store.dispatch(ExampleActions.updateSingleFormControl({ update: controlUpdate }));
     }
 
+    resetFormGroup() {
+        this.store.dispatch(ExampleActions.resetFormGroup());
+    }
+
     updateFormGroup(update: FormGroupUpdate<ExampleGroupControls>) {
         this.store.dispatch(ExampleActions.updateFormGroup({ update }));
     }

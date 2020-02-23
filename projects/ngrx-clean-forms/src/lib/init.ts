@@ -68,11 +68,12 @@ export function initFormArray<T>(initial: FormArrayInit<T>): FormArrayState<T> {
     };
 }
 
-function initFormControlFromTuple<T>([value, validators]: FormControlInitTuple<
-    T
->): FormControlState<T> {
-    validators = validators || [];
-    return initFormControlFromUpdate({ value, validators });
+function initFormControlFromTuple<T>([
+    value,
+    validators = [],
+    disabled = false,
+]: FormControlInitTuple<T>): FormControlState<T> {
+    return initFormControlFromUpdate({ value, validators, disabled });
 }
 
 function initFormControlFromUpdate<T = any>(

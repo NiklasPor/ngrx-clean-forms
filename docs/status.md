@@ -53,4 +53,4 @@ Switching `'A' -> 'B' -> 'A'` will therefore still set `changed: false`. To rese
 CSS classes:
 
 -   `changed: true` -> `ng-changed`
--   `initial: false` -> `ng-initial`
+-   `changed: false` -> `ng-initial`

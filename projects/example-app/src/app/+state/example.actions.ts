@@ -13,6 +13,8 @@ export const updateFormGroup = createAction(
     props<{ update: FormGroupUpdate<ExampleGroupControls> }>()
 );
 
+export const resetFormGroup = createAction('[FormGroup] Reset Form Group');
+
 export const updateFormArray = createAction(
     '[FormArray] Update Form Array',
     props<{ update: FormArrayUpdate<string> }>()

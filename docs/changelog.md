@@ -3,6 +3,13 @@ id: changelog
 title: Changelog
 ---
 
+## 4.4.0
+
+**New features:**
+
+-   `initFormControl` (and also `initFormGroup` and `initFormArray`) now support a third parameter: `disabled`. The parameter is optional and defaults to `false`.
+-   `resetFormControl` resets a `FormControlState` to the original values. Detailed behaviour is described in the documentation. `resetFormGroup` and `resetFormArray` function analogously.
+
 ## 4.3.0
 
 **New features:**

@@ -36,6 +36,21 @@ describe('init', () => {
 
                 expect(result).toEqual(expected);
             });
+
+            it('["value", undefined, true] should create a valid form control state which is disabled', () => {
+                const expected: FormControlState<string> = {
+                    value,
+                    initialValue: value,
+                    disabled: true,
+                    pristine: true,
+                    untouched: true,
+                    validators: [],
+                };
+
+                const result = initFormControl([value, undefined, true]);
+
+                expect(result).toEqual(expected);
+            });
         });
 
         describe('initialUpdate', () => {

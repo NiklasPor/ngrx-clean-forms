@@ -10,16 +10,11 @@ import {
     reduceFormArray,
     reduceFormControl,
     reduceFormGroup,
+    resetFormGroup,
     Validator,
     validatorOf,
 } from 'ngrx-clean-forms';
-import {
-    addControlToArray,
-    updateFormArray,
-    updateFormGroup,
-    updateSingleFormControl,
-    updateStateAccessExampleFormGroup,
-} from './example.actions';
+import * as ExampleActions from './example.actions';
 
 const below6: Validator<number> = (control: FormControlState<number>) =>
     control.value < 6 ? null : { below6: false };
@@ -51,7 +46,7 @@ export const initialState: ExampleState = {
     singleControl: initFormControl(['initial', [required]]),
     group: initFormGroup({
         textInput: { value: 'disabled', disabled: true },
-        numberInput: [0, [validatorOf(Validators.required, Validators.max(4))]],
+        numberInput: [0, [validatorOf(Validators.required), below6]],
         rangeInput: [0],
         checkboxInput: [false],
         customInput: [0],
@@ -64,22 +59,27 @@ export const initialState: ExampleState = {
 const internalExampleReducer = createReducer(
     initialState,
 
-    on(updateSingleFormControl, (state, { update }) => ({
+    on(ExampleActions.updateSingleFormControl, (state, { update }) => ({
         ...state,
         singleControl: reduceFormControl(state.singleControl, update),
     })),
 
-    on(updateFormGroup, (state, { update }) => ({
+    on(ExampleActions.updateFormGroup, (state, { update }) => ({
         ...state,
         group: reduceFormGroup(state.group, update),
     })),
 
-    on(updateFormArray, (state, { update }) => ({
+    on(ExampleActions.resetFormGroup, state => ({
+        ...state,
+        group: resetFormGroup(state.group),
+    })),
+
+    on(ExampleActions.updateFormArray, (state, { update }) => ({
         ...state,
         array: reduceFormArray(state.array, update),
     })),
 
-    on(addControlToArray, state => ({
+    on(ExampleActions.addControlToArray, state => ({
         ...state,
         array: {
             ...state.array,
@@ -87,7 +87,7 @@ const internalExampleReducer = createReducer(
         },
     })),
 
-    on(updateStateAccessExampleFormGroup, (state, props) => ({
+    on(ExampleActions.updateStateAccessExampleFormGroup, (state, props) => ({
         ...state,
         stateAccessExampleGroup: reduceFormGroup(state.stateAccessExampleGroup, props.update),
     }))
