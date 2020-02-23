@@ -13,7 +13,7 @@ This framework takes an opinionated approach to managing forms. Following goals 
 
 While all of these goals were met during the implementation of this framework, it comes at the same cost as NgRx. The necessary boilerplate code in comparison to Reactive Forms is significantly larger.
 
-[Example application](example.ngrx-clean-forms.surge.sh).
+[Example application](https://example.ngrx-clean-forms.surge.sh).
 
 ## Installation
 
