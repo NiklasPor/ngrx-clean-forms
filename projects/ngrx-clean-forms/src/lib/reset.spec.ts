@@ -1,6 +1,6 @@
-import { FormControlState, FormGroupState } from './types';
-import { resetFormControl, resetFormGroup } from './reset';
-import { initFormControl, initFormGroup } from './init';
+import { FormControlState, FormGroupState, FormArrayState } from './types';
+import { resetFormControl, resetFormGroup, resetFormArray } from './reset';
+import { initFormControl, initFormGroup, initFormArray } from './init';
 
 describe('resetFormControl', () => {
     const initialValue = 'initial';
@@ -74,6 +74,45 @@ describe('resetFormGorup', () => {
             k1: [initialValue1, validators1],
             k2: [initialValue2, validators2],
         });
+
+        expect(result).toEqual(expected);
+    });
+});
+
+describe('resetFormArray', () => {
+    const initialValue1 = 'init1';
+    const initialValue2 = 'init2';
+
+    const validators1 = [() => ({ alwaysTrue: true })];
+    const validators2 = [];
+
+    const array: FormArrayState<string> = {
+        controls: [
+            {
+                disabled: true,
+                initialValue: initialValue1,
+                value: 'some1',
+                pristine: false,
+                untouched: true,
+                validators: validators1,
+            },
+            {
+                disabled: false,
+                initialValue: initialValue2,
+                value: 'some2',
+                pristine: false,
+                untouched: true,
+                validators: validators2,
+            },
+        ],
+    };
+
+    it('should reset group', () => {
+        const result = resetFormArray(array);
+        const expected: typeof array = initFormArray([
+            [initialValue1, validators1],
+            [initialValue2, validators2],
+        ]);
 
         expect(result).toEqual(expected);
     });

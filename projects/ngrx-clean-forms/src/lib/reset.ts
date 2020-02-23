@@ -1,5 +1,11 @@
-import { FormControlState, FormControls, FormGroupState, FormControlInitTuple } from './types';
-import { initFormControl, initFormGroup } from './init';
+import {
+    FormControlState,
+    FormControls,
+    FormGroupState,
+    FormControlInitTuple,
+    FormArrayState,
+} from './types';
+import { initFormControl, initFormGroup, initFormArray } from './init';
 import { mapFormGroupControlStates } from './utils';
 
 export function resetFormControl<T>(
@@ -18,4 +24,12 @@ export function resetFormGroup<TControls extends FormControls>(
     );
 
     return initFormGroup(initTuple);
+}
+
+export function resetFormArray<T>(array: FormArrayState<T>): FormArrayState<T> {
+    const initTuple = array.controls.map(
+        ({ initialValue, validators }): FormControlInitTuple<any> => [initialValue, validators]
+    );
+
+    return initFormArray(initTuple);
 }
