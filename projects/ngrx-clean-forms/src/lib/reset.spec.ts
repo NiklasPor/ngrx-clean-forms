@@ -5,9 +5,10 @@ import { initFormControl, initFormGroup, initFormArray } from './init';
 describe('resetFormControl', () => {
     const initialValue = 'initial';
     const validators = [() => null];
+    const disabled = true;
 
     const control: FormControlState<string> = {
-        disabled: true,
+        disabled,
         initialValue,
         pristine: false,
         untouched: false,
@@ -21,11 +22,18 @@ describe('resetFormControl', () => {
         expect(result.validators).toBe(validators);
     });
 
+    it('should keep disabled', () => {
+        const result = resetFormControl(control);
+
+        expect(result.disabled).toBe(disabled);
+    });
+
     it('should reset everything except validators to initial', () => {
         const result = resetFormControl(control);
         const expected = initFormControl([initialValue]);
 
         expected.validators = validators;
+        expected.disabled = disabled;
 
         expect(result).toEqual(expected);
     });
@@ -71,8 +79,8 @@ describe('resetFormGorup', () => {
     it('should reset group', () => {
         const result = resetFormGroup(group);
         const expected: typeof group = initFormGroup({
-            k1: [initialValue1, validators1],
-            k2: [initialValue2, validators2],
+            k1: [initialValue1, validators1, true],
+            k2: [initialValue2, validators2, false],
         });
 
         expect(result).toEqual(expected);
@@ -110,8 +118,8 @@ describe('resetFormArray', () => {
     it('should reset group', () => {
         const result = resetFormArray(array);
         const expected: typeof array = initFormArray([
-            [initialValue1, validators1],
-            [initialValue2, validators2],
+            [initialValue1, validators1, true],
+            [initialValue2, validators2, false],
         ]);
 
         expect(result).toEqual(expected);

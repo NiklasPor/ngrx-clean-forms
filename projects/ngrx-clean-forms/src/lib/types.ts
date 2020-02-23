@@ -66,8 +66,9 @@ export type FormControlInit<T> = FormControlInitTuple<T> | FormControlInitUpdate
  * A shorthand to create a new FormControl.
  * - [0]: Initial value of the control.
  * - [1]: Validator array. Optional.
+ * - [2]: Disabled state. Default false. Optional.
  */
-export type FormControlInitTuple<T> = [T, Validator<T>[]?];
+export type FormControlInitTuple<T> = [T, Validator<T>[]?, boolean?];
 
 /**
  * An object of keys and associated `FormControlInit`.
