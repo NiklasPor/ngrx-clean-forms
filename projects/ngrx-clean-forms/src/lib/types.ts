@@ -1,3 +1,5 @@
+import { FormGroup } from '@angular/forms';
+
 // Base structural type
 export interface FormControls {
     [key: string]: any;
@@ -54,6 +56,15 @@ export interface FormArrayUpdate<T> extends FormArrayBase<T> {
  * @param control A FormControl which the validator will be applied on.
  */
 export type Validator<T> = (control: FormControlState<T>) => FormControlErrors | null;
+
+/**
+ * A FormGroup validator.
+ *
+ * @param group A FormGroupState which the validator will be applied on.
+ */
+export type GroupValidator<TControls> = (
+    group: FormGroupState<TControls>
+) => FormGroupErrors<TControls> | null;
 
 /**
  * Can be either of:
@@ -156,6 +167,12 @@ export interface FormGroupState<TControls extends FormControls> extends FormGrou
      * An object containing all controls of this group.
      */
     controls: FormGroupControlStates<TControls>;
+
+    /**
+     * Validators which will be used to calculate the errors.
+     * Mainly used inside the summary creation.
+     */
+    validators: GroupValidator<TControls>[];
 }
 
 /**

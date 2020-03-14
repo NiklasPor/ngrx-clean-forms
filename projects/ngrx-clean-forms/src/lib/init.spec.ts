@@ -1,8 +1,9 @@
-import { initFormArray, initFormControl, initFormGroup } from './init';
 import { FormArrayState, FormControlState, FormGroupState } from './types';
+import { initFormArray, initFormControl, initFormGroup } from './init';
 
 describe('init', () => {
     const validator = () => null;
+    const groupValidator = () => null;
     const value = 'value';
 
     describe('initFormControl', () => {
@@ -165,18 +166,22 @@ describe('init', () => {
                         initialValue: value,
                     },
                 },
+                validators: [groupValidator],
             };
 
-            const result = initFormGroup({
-                tuple: [value, [validator]],
-                update: {
-                    value,
-                    validators: [validator],
-                    disabled: true,
-                    pristine: false,
-                    untouched: false,
+            const result = initFormGroup(
+                {
+                    tuple: [value, [validator]],
+                    update: {
+                        value,
+                        validators: [validator],
+                        disabled: true,
+                        pristine: false,
+                        untouched: false,
+                    },
                 },
-            });
+                [groupValidator]
+            );
 
             expect(result).toEqual(expected);
         });

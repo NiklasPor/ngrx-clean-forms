@@ -1,16 +1,18 @@
-import { reduceFormControl } from './reducer';
 import {
-    FormControlInitTuple,
-    FormControlInitUpdate,
-    FormControls,
-    FormControlState,
-    FormGroupControlStates,
-    FormGroupInit,
-    FormGroupState,
     FormArrayInit,
     FormArrayState,
     FormControlInit,
+    FormControlInitTuple,
+    FormControlInitUpdate,
+    FormControlState,
+    FormControls,
+    FormGroupControlStates,
+    FormGroupInit,
+    FormGroupState,
+    GroupValidator,
 } from './types';
+
+import { reduceFormControl } from './reducer';
 
 /**
  * Initializes a new `FormControlState`.
@@ -38,7 +40,8 @@ export function initFormControl<T>(initial: FormControlInit<T>): FormControlStat
  * })
  */
 export function initFormGroup<TControls extends FormControls>(
-    controls: FormGroupInit<TControls>
+    controls: FormGroupInit<TControls>,
+    validators: GroupValidator<TControls>[] = []
 ): FormGroupState<TControls> {
     return {
         controls: Object.entries(controls)
@@ -48,6 +51,7 @@ export function initFormGroup<TControls extends FormControls>(
             .reduce((ctrl1, ctrl2) => ({ ...ctrl1, ...ctrl2 }), {}) as FormGroupControlStates<
             TControls
         >,
+        validators,
     };
 }
 

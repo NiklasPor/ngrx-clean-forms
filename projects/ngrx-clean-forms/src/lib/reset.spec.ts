@@ -1,6 +1,6 @@
-import { FormControlState, FormGroupState, FormArrayState } from './types';
-import { resetFormControl, resetFormGroup, resetFormArray } from './reset';
-import { initFormControl, initFormGroup, initFormArray } from './init';
+import { FormArrayState, FormControlState, FormGroupState } from './types';
+import { initFormArray, initFormControl, initFormGroup } from './init';
+import { resetFormArray, resetFormControl, resetFormGroup } from './reset';
 
 describe('resetFormControl', () => {
     const initialValue = 'initial';
@@ -74,6 +74,7 @@ describe('resetFormGorup', () => {
                 validators: validators2,
             },
         },
+        validators: [],
     };
 
     it('should reset group', () => {
