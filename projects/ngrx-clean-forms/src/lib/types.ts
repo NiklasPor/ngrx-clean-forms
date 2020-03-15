@@ -67,6 +67,13 @@ export type GroupValidator<TControls> = (
 ) => FormGroupErrors<TControls> | null;
 
 /**
+ * A FormArray validator.
+ *
+ * @param array A FormArrayState which the validator will be applied on.
+ */
+export type ArrayValidator<T> = (group: FormArrayState<T>) => FormArrayErrors | null;
+
+/**
  * Can be either of:
  * @see `FormControlInitTuple`
  * @see `FormControlInitUpdate`
@@ -183,6 +190,12 @@ export interface FormArrayState<T> extends FormArrayBase<T> {
      * An array of all controls contained by this form.
      */
     controls: FormControlState<T>[];
+
+    /**
+     * Validators which will be used to calculate the errors.
+     * Mainly used inside the summary creation.
+     */
+    validators: ArrayValidator<T>[];
 }
 
 // Summaries

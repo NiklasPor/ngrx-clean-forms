@@ -4,6 +4,8 @@ import { initFormArray, initFormControl, initFormGroup } from './init';
 describe('init', () => {
     const validator = () => null;
     const groupValidator = () => null;
+    const arrayValidator = () => null;
+
     const value = 'value';
 
     describe('initFormControl', () => {
@@ -200,9 +202,10 @@ describe('init', () => {
                         initialValue: value,
                     },
                 ],
+                validators: [arrayValidator],
             };
 
-            const result = initFormArray([[value, [validator]]]);
+            const result = initFormArray([[value, [validator]]], [arrayValidator]);
 
             expect(result).toEqual(expected);
         });
@@ -219,17 +222,21 @@ describe('init', () => {
                         initialValue: value,
                     },
                 ],
+                validators: [arrayValidator],
             };
 
-            const result = initFormArray([
-                {
-                    value,
-                    validators: [validator],
-                    disabled: true,
-                    pristine: false,
-                    untouched: false,
-                },
-            ]);
+            const result = initFormArray(
+                [
+                    {
+                        value,
+                        validators: [validator],
+                        disabled: true,
+                        pristine: false,
+                        untouched: false,
+                    },
+                ],
+                [arrayValidator]
+            );
 
             expect(result).toEqual(expected);
         });

@@ -1,4 +1,5 @@
 import {
+    ArrayValidator,
     FormArrayInit,
     FormArrayState,
     FormControlInit,
@@ -66,9 +67,13 @@ export function initFormGroup<TControls extends FormControls>(
  *  {value: 'value', validators: [validator], disabled: true, ...}
  * ])
  */
-export function initFormArray<T>(initial: FormArrayInit<T>): FormArrayState<T> {
+export function initFormArray<T>(
+    initial: FormArrayInit<T>,
+    validators: ArrayValidator<T>[] = []
+): FormArrayState<T> {
     return {
         controls: initial.map(init => initFormControl(init)),
+        validators,
     };
 }
 

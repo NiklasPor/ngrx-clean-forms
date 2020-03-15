@@ -1,16 +1,16 @@
 import { AbstractControl, ValidatorFn, Validators } from '@angular/forms';
 import {
-    FormControls,
+    FormArrayErrors,
+    FormControlErrors,
     FormControlState,
     FormControlSummary,
     FormControlUpdate,
+    FormControls,
     FormGroupControlStates,
     FormGroupControlSummaries,
     FormGroupControlUpdates,
-    Validator,
     FormGroupErrors,
-    FormArrayErrors,
-    FormControlErrors,
+    Validator,
 } from './types';
 
 /**
@@ -286,7 +286,9 @@ export function mergeFormArrayErrors(...errors: FormArrayErrors[]): FormArrayErr
     const mergedErrors = errors
         .filter(Boolean)
         .reduce((arr1, arr2) => (arr1.length >= arr2.length ? arr1 : arr2), [])
-        .map((_, i) => mergeFormControlErrors(...errors.map(arrayErrors => arrayErrors[i])));
+        .map((_, i) =>
+            mergeFormControlErrors(...errors.map(arrayErrors => arrayErrors && arrayErrors[i]))
+        );
 
     return mergedErrors.filter(Boolean).length > 0 ? mergedErrors : null;
 }

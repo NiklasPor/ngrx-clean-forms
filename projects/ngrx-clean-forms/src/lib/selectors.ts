@@ -39,18 +39,22 @@ export function getFormGroupControlSummariesErrors<TControls extends FormControl
     return Object.keys(errors).length ? errors : null;
 }
 
+export function getFormArrayControlSummariesErrors<T>(
+    summaries: FormArrayControlSummaries<T>
+): FormArrayErrors | null {
+    const errors = summaries.map(summary => summary.errors);
+
+    return errors.filter(Boolean).length ? errors : null;
+}
+
 export function getFormGroupErrors<TControls extends FormControls>(
     group: FormGroupState<TControls>
 ): FormGroupErrors<TControls> | null {
     return mergeFormGroupErrors(...group.validators.map(validator => validator(group)));
 }
 
-export function getFormArrayErrors<T>(
-    summaries: FormArrayControlSummaries<T>
-): FormArrayErrors | null {
-    const errors = summaries.map(summary => summary.errors);
-
-    return errors.filter(Boolean).length ? errors : null;
+export function getFormArrayErrors<T>(array: FormArrayState<T>): FormArrayErrors | null {
+    return mergeFormArrayErrors(...array.validators.map(validator => validator(array)));
 }
 
 export function getFormControlChanged<T>(control: FormControlState<T>): boolean {
@@ -175,8 +179,13 @@ export function getFormArraySummary<T>(
     array: FormArrayState<T>,
     ...additionalErrors: FormArrayErrors[]
 ): FormArraySummary<T> {
-    const summaries = getFormArrayControlSummaries(array.controls, ...additionalErrors);
-    const errors = getFormArrayErrors(summaries);
+    const arrayErrors = getFormArrayErrors(array);
+    const summaries = getFormArrayControlSummaries(
+        array.controls,
+        arrayErrors,
+        ...additionalErrors
+    );
+    const errors = getFormArrayControlSummariesErrors(summaries);
 
     return {
         controls: summaries,
@@ -186,5 +195,6 @@ export function getFormArraySummary<T>(
         errors,
         valid: errors === null,
         changed: getFormArrayChanged(summaries),
+        validators: array.validators,
     };
 }

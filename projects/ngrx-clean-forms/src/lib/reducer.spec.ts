@@ -1,12 +1,12 @@
-import { initFormArray, initFormControl, initFormGroup } from './init';
-import { reduceFormArray, reduceFormControl, reduceFormGroup } from './reducer';
 import {
     FormArrayState,
     FormArrayUpdate,
+    FormControlUpdate,
     FormGroupState,
     FormGroupUpdate,
-    FormControlUpdate,
 } from './types';
+import { initFormArray, initFormControl, initFormGroup } from './init';
+import { reduceFormArray, reduceFormControl, reduceFormGroup } from './reducer';
 
 describe('reducer', () => {
     describe('reduceFormControl', () => {
@@ -151,6 +151,7 @@ describe('reducer', () => {
                     initFormControl(['3']),
                     initFormControl(['4']),
                 ],
+                validators: [],
             };
 
             const result = reduceFormArray(array, update);
