@@ -32,7 +32,8 @@ export function initFormControl<T>(initial: FormControlInit<T>): FormControlStat
 /**
  * Initializes a new `FormGroupState`.
  * @param controls An object containing control initializations.
- * @see `FormGroupInit`
+ * @param validators An array of GroupValidators which will be used for additional error detection.
+ * @see `FormGroupInit`, `GroupValidator`
  *
  * @example
  * initFormGroup({
@@ -59,13 +60,16 @@ export function initFormGroup<TControls extends FormControls>(
 /**
  * Initializes a new `FormArrayState`.
  * @param controls An object containing control initializations.
- * @see `FormArrayInit`
+ * @param validators An array of ArrayValidators which will be used for additional error detection.
+ * @see `FormArrayInit`, `ArrayValidator`
  *
  * @example
- * initFormArray([
- *  ['firstValue', [validator]],
- *  {value: 'value', validators: [validator], disabled: true, ...}
- * ])
+ * initFormArray(
+ *  [
+ *      ['firstValue', [validator]],
+ *      {value: 'value', validators: [validator], disabled: true, ...}
+ *  ],
+ *  [arrayValidator])
  */
 export function initFormArray<T>(
     initial: FormArrayInit<T>,
@@ -76,6 +80,14 @@ export function initFormArray<T>(
         validators,
     };
 }
+
+initFormArray(
+    [
+        ['firstValue', [() => null]],
+        { value: 'value', validators: [() => null], disabled: true, initialValue: 'test' },
+    ],
+    [() => null]
+);
 
 function initFormControlFromTuple<T>([
     value,
