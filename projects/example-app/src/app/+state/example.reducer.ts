@@ -1,9 +1,11 @@
-import { Validators } from '@angular/forms';
-import { createReducer, on } from '@ngrx/store';
+import * as ExampleActions from './example.actions';
+
 import {
+    ArrayValidator,
     FormArrayState,
     FormControlState,
     FormGroupState,
+    Validator,
     initFormArray,
     initFormControl,
     initFormGroup,
@@ -11,16 +13,26 @@ import {
     reduceFormControl,
     reduceFormGroup,
     resetFormGroup,
-    Validator,
     validatorOf,
 } from 'ngrx-clean-forms';
-import * as ExampleActions from './example.actions';
+import { createReducer, on } from '@ngrx/store';
+
+import { Validators } from '@angular/forms';
 
 const below6: Validator<number> = (control: FormControlState<number>) =>
     control.value < 6 ? null : { below6: false };
 
 const required: Validator<string> = (control: FormControlState<string>) =>
     control.value.trim().length ? null : { required: true };
+
+const noDuplicates: ArrayValidator<string> = ({ controls }) =>
+    controls
+        .map(control =>
+            controls.find(
+                bufferCtrl => control !== bufferCtrl && control.value === bufferCtrl.value
+            )
+        )
+        .map(result => (result ? { duplicate: true } : null));
 
 export interface ExampleGroupControls {
     textInput: string;
@@ -51,7 +63,7 @@ export const initialState: ExampleState = {
         checkboxInput: [false],
         customInput: [0],
     }),
-    array: initFormArray([['first'], ['second']]),
+    array: initFormArray([['first'], ['second']], [noDuplicates]),
     stateAccessExampleGroup: initFormGroup({ exampleInput: [1] }),
     forbiddenNumber: 2,
 };

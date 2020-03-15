@@ -1,12 +1,14 @@
+import { FormControlErrors, FormControlState, FormGroupErrors } from './types';
 import {
     mapFormGroupControlStates,
-    validatorOf,
-    mergeFormGroupErrors,
-    mergeFormControlErrors,
     mergeFormArrayErrors,
+    mergeFormControlErrors,
+    mergeFormGroupErrors,
+    validatorOf,
 } from './utils';
+
+import { FormArrayErrors } from 'ngrx-clean-forms/lib/types';
 import { initFormControl } from './init';
-import { FormControlState, FormGroupErrors, FormControlErrors } from './types';
 
 describe('utils', () => {
     describe('mapFormGroupControlStates', () => {
@@ -432,7 +434,7 @@ describe('utils', () => {
 
         it('null, error & null, null, null should return null, error, null', () => {
             const error = { error: 'error' };
-            const errors = [null, error];
+            const errors: FormArrayErrors = [null, error];
 
             const result = mergeFormArrayErrors([null, null, null], errors);
 

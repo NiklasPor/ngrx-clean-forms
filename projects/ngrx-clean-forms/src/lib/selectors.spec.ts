@@ -1,31 +1,30 @@
-import { initFormControl, initFormGroup, initFormArray } from './init';
 import {
-    getFormControlErrors,
-    getFormControlSummary,
-    getFormGroupControlSummaries,
-    getFormGroupErrors,
-    getFormGroupPristine,
-    getFormGroupSummary,
-    getFormGroupUntouched,
-    getFormArrayErrors,
-    getFormArraySummary,
-    getFormArrayControlSummaries,
-    getFormArrayPristine,
-    getFormArrayUntouched,
-    getFormGroupChanged,
-    getFormArrayChanged,
-} from './selectors';
-import {
-    FormControlErrors,
+    ArrayValidator,
+    FormArrayErrors,
+    FormArraySummary,
     FormControlState,
     FormControlSummary,
     FormGroupErrors,
     FormGroupState,
     FormGroupSummary,
-    FormArrayState,
-    FormArrayErrors,
-    FormArraySummary,
 } from './types';
+import {
+    getFormArrayChanged,
+    getFormArrayControlSummaries,
+    getFormArrayControlSummariesErrors,
+    getFormArrayPristine,
+    getFormArraySummary,
+    getFormArrayUntouched,
+    getFormControlErrors,
+    getFormControlSummary,
+    getFormGroupChanged,
+    getFormGroupControlSummaries,
+    getFormGroupControlSummariesErrors,
+    getFormGroupPristine,
+    getFormGroupSummary,
+    getFormGroupUntouched,
+} from './selectors';
+import { initFormArray, initFormControl, initFormGroup } from './init';
 
 describe('selectors', () => {
     describe('getFormControlErrors', () => {
@@ -78,13 +77,15 @@ describe('selectors', () => {
         });
     });
 
-    describe('getFormGroupErrors', () => {
+    describe('getFormGroupControlSummariesErrors', () => {
         it('should return null for no control errors', () => {
             const group = initFormGroup({
                 c1: ['c1'],
             });
 
-            const result = getFormGroupErrors(getFormGroupControlSummaries(group.controls));
+            const result = getFormGroupControlSummariesErrors(
+                getFormGroupControlSummaries(group.controls)
+            );
 
             expect(result).toBe(null);
         });
@@ -104,7 +105,9 @@ describe('selectors', () => {
                 },
             };
 
-            const result = getFormGroupErrors(getFormGroupControlSummaries(group.controls));
+            const result = getFormGroupControlSummariesErrors(
+                getFormGroupControlSummaries(group.controls)
+            );
 
             expect(result).toEqual(expected);
         });
@@ -132,17 +135,21 @@ describe('selectors', () => {
                 },
             };
 
-            const result = getFormGroupErrors(getFormGroupControlSummaries(group.controls));
+            const result = getFormGroupControlSummariesErrors(
+                getFormGroupControlSummaries(group.controls)
+            );
 
             expect(result).toEqual(expected);
         });
     });
 
-    describe('getFormArrayErrors', () => {
+    describe('getFormArrayControlSummariesErrors', () => {
         it('should return null for no control errors', () => {
             const array = initFormArray([['c1']]);
 
-            const result = getFormArrayErrors(getFormArrayControlSummaries(array.controls));
+            const result = getFormArrayControlSummariesErrors(
+                getFormArrayControlSummaries(array.controls)
+            );
 
             expect(result).toBe(null);
         });
@@ -160,7 +167,9 @@ describe('selectors', () => {
                 },
             ];
 
-            const result = getFormArrayErrors(getFormArrayControlSummaries(array.controls));
+            const result = getFormArrayControlSummariesErrors(
+                getFormArrayControlSummaries(array.controls)
+            );
 
             expect(result).toEqual(expected);
         });
@@ -188,7 +197,9 @@ describe('selectors', () => {
                 },
             ];
 
-            const result = getFormArrayErrors(getFormArrayControlSummaries(group.controls));
+            const result = getFormArrayControlSummariesErrors(
+                getFormArrayControlSummaries(group.controls)
+            );
 
             expect(result).toEqual(expected);
         });
@@ -367,6 +378,7 @@ describe('selectors', () => {
                         pristine: true,
                     } as FormControlState<any>,
                 },
+                validators: [],
             } as FormGroupState<any>;
 
             const result = getFormGroupPristine(group);
@@ -384,6 +396,7 @@ describe('selectors', () => {
                         pristine: false,
                     } as FormControlState<any>,
                 },
+                validators: [],
             } as FormGroupState<any>;
 
             const result = getFormGroupPristine(group);
@@ -403,6 +416,7 @@ describe('selectors', () => {
                         pristine: true,
                     } as FormControlState<any>,
                 ],
+                validators: [],
             };
 
             const result = getFormArrayPristine(array);
@@ -420,6 +434,7 @@ describe('selectors', () => {
                         pristine: false,
                     } as FormControlState<any>,
                 ],
+                validators: [],
             };
 
             const result = getFormArrayPristine(array);
@@ -439,6 +454,7 @@ describe('selectors', () => {
                         untouched: true,
                     } as FormControlState<any>,
                 },
+                validators: [],
             } as FormGroupState<any>;
 
             const result = getFormGroupUntouched(group);
@@ -456,6 +472,7 @@ describe('selectors', () => {
                         untouched: false,
                     } as FormControlState<any>,
                 },
+                validators: [],
             } as FormGroupState<any>;
 
             const result = getFormGroupUntouched(group);
@@ -475,6 +492,7 @@ describe('selectors', () => {
                         untouched: true,
                     } as FormControlState<any>,
                 ],
+                validators: [],
             };
 
             const result = getFormArrayUntouched(array);
@@ -492,6 +510,7 @@ describe('selectors', () => {
                         untouched: false,
                     } as FormControlState<any>,
                 ],
+                validators: [],
             };
 
             const result = getFormArrayUntouched(array);
@@ -651,6 +670,7 @@ describe('selectors', () => {
                 untouched: true,
                 valid: false,
                 changed: false,
+                validators: [],
             };
 
             const result = getFormGroupSummary(group, additionalError);
@@ -694,6 +714,7 @@ describe('selectors', () => {
                 untouched: true,
                 valid: false,
                 changed: false,
+                validators: [],
             };
 
             const result = getFormGroupSummary(group, additionalError);
@@ -738,6 +759,7 @@ describe('selectors', () => {
                 untouched: true,
                 valid: false,
                 changed: false,
+                validators: [],
             };
 
             const result = getFormGroupSummary(group);
@@ -769,19 +791,43 @@ describe('selectors', () => {
                 untouched: true,
                 valid: true,
                 changed: false,
+                validators: [],
             };
 
             const result = getFormGroupSummary(group);
 
             expect(result).toEqual(expected);
         });
+
+        it('should detect group validation errors', () => {
+            const controlError = { controlError: true };
+            const groupError = { groupError: true };
+
+            const group = initFormGroup<TestControls>(
+                {
+                    stringControl: ['initial', [() => controlError]],
+                },
+                [() => ({ stringControl: groupError })]
+            );
+
+            const result = getFormGroupSummary(group);
+            const expectedErrors: FormGroupErrors<TestControls> = {
+                stringControl: {
+                    controlError: true,
+                    groupError: true,
+                },
+            };
+
+            expect(result.errors).toEqual(expectedErrors);
+            expect(result.controls.stringControl.errors).toEqual(expectedErrors.stringControl);
+        });
     });
 
     describe('getFormArraySummary', () => {
         it('all valid should return errors = null & valid = true', () => {
-            const group = initFormArray([['']]);
+            const array = initFormArray([['']]);
 
-            const result = getFormGroupSummary(group);
+            const result = getFormArraySummary(array);
 
             expect(result.errors).toEqual(null);
             expect(result.valid).toEqual(true);
@@ -792,11 +838,11 @@ describe('selectors', () => {
                 alwaysTrue: true,
             };
 
-            const group = initFormArray([[''], ['', [() => error]], ['']]);
+            const array = initFormArray([[''], ['', [() => error]], ['']]);
 
             const expected = [null, error, null];
 
-            const result = getFormArraySummary(group);
+            const result = getFormArraySummary(array);
 
             expect(result.errors).toEqual(expected);
             expect(result.valid).toEqual(false);
@@ -807,7 +853,9 @@ describe('selectors', () => {
                 controlError: true,
             });
 
-            const array = initFormArray([['initial', [validator]]]);
+            const arrayValidator: ArrayValidator<string> = () => [{ firstEntryError: true }];
+
+            const array = initFormArray([['initial', [validator]]], [arrayValidator]);
 
             const additionalError: FormArrayErrors = [
                 {
@@ -828,6 +876,7 @@ describe('selectors', () => {
                         errors: {
                             externalError: true,
                             controlError: true,
+                            firstEntryError: true,
                         },
                         changed: false,
                     },
@@ -837,12 +886,14 @@ describe('selectors', () => {
                     {
                         externalError: true,
                         controlError: true,
+                        firstEntryError: true,
                     },
                 ],
                 pristine: true,
                 untouched: true,
                 valid: false,
                 changed: false,
+                validators: [arrayValidator],
             };
 
             const result = getFormArraySummary(array, additionalError);
@@ -885,6 +936,7 @@ describe('selectors', () => {
                 untouched: true,
                 valid: false,
                 changed: false,
+                validators: [],
             };
 
             const result = getFormArraySummary(array, additionalError);
@@ -925,6 +977,7 @@ describe('selectors', () => {
                 untouched: true,
                 valid: false,
                 changed: false,
+                validators: [],
             };
 
             const result = getFormArraySummary(array);
@@ -955,6 +1008,7 @@ describe('selectors', () => {
                 untouched: true,
                 valid: true,
                 changed: false,
+                validators: [],
             };
 
             const result = getFormArraySummary(array);
