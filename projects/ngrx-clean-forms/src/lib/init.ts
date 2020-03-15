@@ -81,14 +81,6 @@ export function initFormArray<T>(
     };
 }
 
-initFormArray(
-    [
-        ['firstValue', [() => null]],
-        { value: 'value', validators: [() => null], disabled: true, initialValue: 'test' },
-    ],
-    [() => null]
-);
-
 function initFormControlFromTuple<T>([
     value,
     validators = [],
