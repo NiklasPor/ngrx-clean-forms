@@ -8,7 +8,7 @@
             "status",
             "control-reset"
         ],
-        "FormGroup": [],
+        "FormGroup": ["group-validation"],
         "FormArray": [],
         "Other": ["changelog", "not-supported"]
     }
