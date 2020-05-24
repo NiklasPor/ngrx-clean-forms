@@ -1,4 +1,4 @@
-import { ContentChildren, QueryList } from '@angular/core';
+import { ContentChildren, QueryList, Directive } from '@angular/core';
 import { AbstractControlDirective } from '../controls/abstract-control.directive';
 import { NumberInputControlDirective } from './../controls/number-input-control.directive';
 import { TextInputControlDirective } from './../controls/text-input-control.directive';
@@ -13,6 +13,7 @@ import { combineLatest } from 'rxjs';
 type directiveQuery = QueryList<AbstractControlDirective<any>>;
 const config = { descendants: true };
 
+@Directive()
 export abstract class ControlChildren {
     @ContentChildren(TextInputControlDirective, config) private textInputs: directiveQuery;
     @ContentChildren(CheckboxInputControlDirective, config) private checkboxInputs: directiveQuery;

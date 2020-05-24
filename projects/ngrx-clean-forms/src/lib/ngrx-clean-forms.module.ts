@@ -38,7 +38,7 @@ export class NgrxCleanFormsModule {
      * }),
      *
      */
-    static withConfig(config: Partial<FormsConfig>): ModuleWithProviders {
+    static withConfig(config: Partial<FormsConfig>): ModuleWithProviders<NgrxCleanFormsModule> {
         return {
             ngModule: NgrxCleanFormsModule,
             providers: [

@@ -1,12 +1,4 @@
-import {
-    ElementRef,
-    EventEmitter,
-    Inject,
-    Input,
-    OnDestroy,
-    Output,
-    Renderer2,
-} from '@angular/core';
+import { ElementRef, EventEmitter, Inject, Input, OnDestroy, Output, Renderer2, Directive } from '@angular/core';
 import { BehaviorSubject, merge, Observable, Subject, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { FormControlSummary, FormControlUpdate, FormsConfig } from '../../types';
@@ -25,6 +17,7 @@ const cssClasses = {
 
 export const CONTROL_DIRECTIVE_SELECTOR = `ngrxFormControl`;
 
+@Directive()
 export abstract class AbstractControlDirective<T> implements OnDestroy {
     @Input(CONTROL_DIRECTIVE_SELECTOR)
     controlKey?: string;

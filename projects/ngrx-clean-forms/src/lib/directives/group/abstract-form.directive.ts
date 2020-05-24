@@ -1,4 +1,4 @@
-import { AfterViewInit, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, EventEmitter, Input, OnDestroy, Output, Directive } from '@angular/core';
 import { combineLatest, merge, Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, switchMap, takeUntil } from 'rxjs/operators';
 import {
@@ -14,6 +14,7 @@ import { ControlChildren } from './control-children';
 type FormSummary = FormGroupSummary<any> | FormArraySummary<any>;
 type FormUpdate = FormGroupUpdate<any> | FormArrayUpdate<any>;
 
+@Directive()
 export abstract class AbstractFormDirective<Summary extends FormSummary, Update extends FormUpdate>
     extends ControlChildren
     implements AfterViewInit, OnDestroy {
