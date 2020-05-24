@@ -32,7 +32,11 @@ describe('numberInputControlDirective', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [NgrxCleanFormsModule],
+            imports: [
+                NgrxCleanFormsModule.withConfig({
+                    distinctWritesOnly: false,
+                }),
+            ],
             declarations: [TestComponent],
         });
 
