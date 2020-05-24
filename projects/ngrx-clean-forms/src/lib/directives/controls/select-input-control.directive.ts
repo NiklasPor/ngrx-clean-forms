@@ -18,7 +18,9 @@ export class SelectInputControlDirective extends AbstractControlDirective<boolea
         throw SelectControlNotSupported;
     }
 
-    setValue(value: boolean) {
-        throw SelectControlNotSupported;
+    setValue(value: boolean) {}
+
+    getValue() {
+        return null;
     }
 }

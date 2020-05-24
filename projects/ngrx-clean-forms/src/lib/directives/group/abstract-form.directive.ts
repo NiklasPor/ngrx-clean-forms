@@ -1,4 +1,4 @@
-import { AfterViewInit, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, EventEmitter, Input, OnDestroy, Output, Directive } from '@angular/core';
 import { combineLatest, merge, Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, switchMap, takeUntil } from 'rxjs/operators';
 import {
@@ -14,6 +14,7 @@ import { ControlChildren } from './control-children';
 type FormSummary = FormGroupSummary<any> | FormArraySummary<any>;
 type FormUpdate = FormGroupUpdate<any> | FormArrayUpdate<any>;
 
+@Directive()
 export abstract class AbstractFormDirective<Summary extends FormSummary, Update extends FormUpdate>
     extends ControlChildren
     implements AfterViewInit, OnDestroy {
@@ -35,18 +36,18 @@ export abstract class AbstractFormDirective<Summary extends FormSummary, Update 
 
         children$
             .pipe(
-                map(children =>
-                    children.map(child =>
+                map((children) =>
+                    children.map((child) =>
                         child.controlUpdate.pipe(
                             map((update): [typeof update, string] => [update, child.controlKey])
                         )
                     )
                 ),
-                switchMap(children => merge(...children))
+                switchMap((children) => merge(...children))
             )
             .subscribe(([update, key]) => this.emitUpdate(update, key));
 
-        combineLatest(children$, this.formSummary$).subscribe(([children, summary]) =>
+        combineLatest([children$, this.formSummary$]).subscribe(([children, summary]) =>
             this.updateChildren(children, summary)
         );
     }
@@ -56,11 +57,7 @@ export abstract class AbstractFormDirective<Summary extends FormSummary, Update 
     }
 
     updateChildren(children: AbstractControlDirective<any>[], summary: FormSummary) {
-        if (!children.length) {
-            return;
-        }
-
-        children.forEach(control => {
+        children.forEach((control) => {
             control.updateSummary(summary.controls[control.controlKey]);
         });
     }

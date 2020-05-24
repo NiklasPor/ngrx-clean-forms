@@ -1,6 +1,6 @@
 ---
 id: group-validation
-title: Group Validation
+title: Validation
 ---
 
 In most cases the [validation of a single control](validators.md) is enough. But there are cases were the validation depends on values of multiple controls or even on other parts of the state.

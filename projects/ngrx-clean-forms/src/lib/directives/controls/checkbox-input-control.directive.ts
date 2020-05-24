@@ -11,13 +11,16 @@ export class CheckboxInputControlDirective extends AbstractControlDirective<bool
         super(ref, r2, config);
     }
 
-    @HostListener('input', ['$event']) onInput($event: Event) {
-        const checked = ($event.target as HTMLInputElement).checked;
-        this.emitValue(checked);
+    @HostListener('input') onInput() {
+        this.emitValue(this.getValue());
     }
 
     @HostListener('blur') onBlur() {
         this.emitTouched();
+    }
+
+    getValue() {
+        return (this.ref.nativeElement as HTMLInputElement).checked;
     }
 
     setValue(value: boolean) {

@@ -30,8 +30,12 @@ export class ValueAccessorConnectorDirective extends AbstractControlDirective<an
         }
 
         this.accessor = accessors[0];
-        this.accessor.registerOnChange(val => super.emitValue(val));
+        this.accessor.registerOnChange((val) => super.emitValue(val));
         this.accessor.registerOnTouched(() => super.emitTouched());
+    }
+
+    getValue() {
+        return this.lastValue;
     }
 
     setValue(value: any) {
@@ -39,26 +43,13 @@ export class ValueAccessorConnectorDirective extends AbstractControlDirective<an
             return;
         }
 
-        if (this.config$.value.distinctWritesOnly && this.equalsLastValue(value)) {
-            return;
-        }
-
         this.accessor.writeValue(value);
+        this.lastValue = value;
     }
 
     setDisabled(disabled: boolean) {
         if (this.accessor && this.accessor.setDisabledState) {
             this.accessor.setDisabledState(disabled);
         }
-    }
-
-    equalsLastValue(value: any) {
-        const result = circularDeepEqual(value, this.lastValue);
-
-        if (!result) {
-            this.lastValue = value;
-        }
-
-        return result;
     }
 }

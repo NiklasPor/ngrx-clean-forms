@@ -12,13 +12,16 @@ export class TextInputControlDirective extends AbstractControlDirective<string> 
         super(ref, r2, config);
     }
 
-    @HostListener('input', ['$event']) onInput($event: Event) {
-        const value = ($event.target as HTMLInputElement).value;
-        this.emitValue(value);
+    @HostListener('input') onInput() {
+        this.emitValue(this.getValue());
     }
 
     @HostListener('blur') onBlur() {
         this.emitTouched();
+    }
+
+    getValue() {
+        return (this.ref.nativeElement as HTMLInputElement).value;
     }
 
     setValue(value: string) {

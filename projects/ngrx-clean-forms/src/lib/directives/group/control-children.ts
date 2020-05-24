@@ -1,4 +1,4 @@
-import { ContentChildren, QueryList } from '@angular/core';
+import { ContentChildren, QueryList, Directive } from '@angular/core';
 import { AbstractControlDirective } from '../controls/abstract-control.directive';
 import { NumberInputControlDirective } from './../controls/number-input-control.directive';
 import { TextInputControlDirective } from './../controls/text-input-control.directive';
@@ -11,16 +11,28 @@ import { map, startWith } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 
 type directiveQuery = QueryList<AbstractControlDirective<any>>;
-const config = { descendants: true };
 
 export abstract class ControlChildren {
-    @ContentChildren(TextInputControlDirective, config) private textInputs: directiveQuery;
-    @ContentChildren(CheckboxInputControlDirective, config) private checkboxInputs: directiveQuery;
-    @ContentChildren(NumberInputControlDirective, config) private numberInputs: directiveQuery;
-    @ContentChildren(RadioInputControlDirective, config) private radioInputs: directiveQuery;
-    @ContentChildren(RangeInputControlDirective, config) private rangeInputs: directiveQuery;
-    @ContentChildren(SelectInputControlDirective, config) private selectInputs: directiveQuery;
-    @ContentChildren(ValueAccessorConnectorDirective, config) private customInputs: directiveQuery;
+    @ContentChildren(TextInputControlDirective, { descendants: true })
+    private textInputs: directiveQuery;
+
+    @ContentChildren(CheckboxInputControlDirective, { descendants: true })
+    private checkboxInputs: directiveQuery;
+
+    @ContentChildren(NumberInputControlDirective, { descendants: true })
+    private numberInputs: directiveQuery;
+
+    @ContentChildren(RadioInputControlDirective, { descendants: true })
+    private radioInputs: directiveQuery;
+
+    @ContentChildren(RangeInputControlDirective, { descendants: true })
+    private rangeInputs: directiveQuery;
+
+    @ContentChildren(SelectInputControlDirective, { descendants: true })
+    private selectInputs: directiveQuery;
+
+    @ContentChildren(ValueAccessorConnectorDirective, { descendants: true })
+    private customInputs: directiveQuery;
 
     protected getChildren() {
         const queries$ = [
@@ -33,12 +45,12 @@ export abstract class ControlChildren {
             this.checkboxInputs,
         ]
             .filter(Boolean)
-            .map(query => {
+            .map((query) => {
                 return this.convertToObservable(query);
             });
 
         return combineLatest(queries$).pipe(
-            map(queries => queries.reduce((q1, q2) => [...q1, ...q2], []))
+            map((queries) => queries.reduce((q1, q2) => [...q1, ...q2], []))
         );
     }
 
@@ -46,7 +58,7 @@ export abstract class ControlChildren {
         return query.changes.pipe(
             map(() => query),
             startWith(query),
-            map(list => list.toArray())
+            map((list) => list.toArray())
         );
     }
 }

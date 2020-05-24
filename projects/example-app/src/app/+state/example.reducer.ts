@@ -27,12 +27,12 @@ const required: Validator<string> = (control: FormControlState<string>) =>
 
 const noDuplicates: ArrayValidator<string> = ({ controls }) =>
     controls
-        .map(control =>
+        .map((control) =>
             controls.find(
-                bufferCtrl => control !== bufferCtrl && control.value === bufferCtrl.value
+                (bufferCtrl) => control !== bufferCtrl && control.value === bufferCtrl.value
             )
         )
-        .map(result => (result ? { duplicate: true } : null));
+        .map((result) => (result ? { duplicate: true } : null));
 
 export interface ExampleGroupControls {
     textInput: string;
@@ -81,7 +81,7 @@ const internalExampleReducer = createReducer(
         group: reduceFormGroup(state.group, update),
     })),
 
-    on(ExampleActions.resetFormGroup, state => ({
+    on(ExampleActions.resetFormGroup, (state) => ({
         ...state,
         group: resetFormGroup(state.group),
     })),
@@ -91,7 +91,7 @@ const internalExampleReducer = createReducer(
         array: reduceFormArray(state.array, update),
     })),
 
-    on(ExampleActions.addControlToArray, state => ({
+    on(ExampleActions.addControlToArray, (state) => ({
         ...state,
         array: {
             ...state.array,
