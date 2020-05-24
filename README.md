@@ -16,6 +16,6 @@ While all of these goals were met during the implementation of this framework, i
 
 [Getting Started Guide](https://ngrx-clean-forms.surge.sh/docs/getting-started)
 
-[Example application](https://example.ngrx-clean-forms.surge.sh)
+[Example Application](https://example.ngrx-clean-forms.surge.sh)
 
 [Official Docs](https://ngrx-clean-forms.surge.sh)
