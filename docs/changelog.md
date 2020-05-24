@@ -20,7 +20,7 @@ title: Changelog
 
 **Fixed Bugs:**
 
--   Fixed #32: Editing inside Safari caused the cursor to jump.
+-   Fixes #32: Editing inside Safari caused the cursor to jump.
 
 ## 4.4.0
 
