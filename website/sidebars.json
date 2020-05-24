@@ -6,10 +6,11 @@
             "control-template",
             "form-validation",
             "status",
-            "control-reset"
+            "control-reset",
+            "control-custom"
         ],
         "FormGroup": ["group-validation"],
-        "FormArray": [],
-        "Other": ["changelog", "not-supported"]
+        "FormArray": ["array-initialization", "array-adding-controls"],
+        "Other": ["configuration", "additional-resources", "changelog", "not-supported"]
     }
 }

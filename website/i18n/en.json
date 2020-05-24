@@ -5,8 +5,23 @@
     "previous": "Previous",
     "tagline": "Clean forms leveraged to your state.",
     "docs": {
+      "additional-resources": {
+        "title": "Additional Resources"
+      },
+      "array-adding-controls": {
+        "title": "Addition & Removal"
+      },
+      "array-initialization": {
+        "title": "Initialization"
+      },
       "changelog": {
         "title": "Changelog"
+      },
+      "configuration": {
+        "title": "Configuration"
+      },
+      "control-custom": {
+        "title": "Custom Components"
       },
       "control-initialization": {
         "title": "Initialization"
@@ -27,7 +42,7 @@
         "title": "Getting started"
       },
       "group-validation": {
-        "title": "Group Validation"
+        "title": "Validation"
       },
       "not-supported": {
         "title": "Open Features"
