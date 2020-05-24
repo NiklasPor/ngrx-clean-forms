@@ -47,7 +47,7 @@ export abstract class AbstractFormDirective<Summary extends FormSummary, Update 
             )
             .subscribe(([update, key]) => this.emitUpdate(update, key));
 
-        combineLatest(children$, this.formSummary$).subscribe(([children, summary]) =>
+        combineLatest([children$, this.formSummary$]).subscribe(([children, summary]) =>
             this.updateChildren(children, summary)
         );
     }
