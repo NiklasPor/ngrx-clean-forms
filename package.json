@@ -1,7 +1,7 @@
 {
     "scripts": {
         "start": "npm run build-lib && ng serve",
-        "build-lib": "npm run generate-toc && cp ./README.md ./projects/ngrx-clean-forms/README.md && ng build NgrxCleanForms --prod && rm ./projects/ngrx-clean-forms/README.md",
+        "build-lib": "cp ./README.md ./projects/ngrx-clean-forms/README.md && ng build NgrxCleanForms --prod && rm ./projects/ngrx-clean-forms/README.md",
         "test-lib": "ng test NgrxCleanForms",
         "test-lib:coverage": "npm run test-lib -- --watch=false --codeCoverage=true",
         "test-lib:publish": "npm run test-lib:coverage && npm run publish-codecov-lib",
@@ -43,7 +43,6 @@
         "@angular/cli": "~9.1.7",
         "@angular/compiler-cli": "~9.1.9",
         "@angular/language-service": "~9.1.9",
-        "@toc/markdown": "0.0.4",
         "@types/jasmine": "~3.3.8",
         "@types/jasminewd2": "~2.0.3",
         "@types/node": "^12.11.1",
