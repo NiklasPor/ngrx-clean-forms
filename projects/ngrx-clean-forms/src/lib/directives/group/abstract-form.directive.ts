@@ -36,14 +36,14 @@ export abstract class AbstractFormDirective<Summary extends FormSummary, Update 
 
         children$
             .pipe(
-                map(children =>
-                    children.map(child =>
+                map((children) =>
+                    children.map((child) =>
                         child.controlUpdate.pipe(
                             map((update): [typeof update, string] => [update, child.controlKey])
                         )
                     )
                 ),
-                switchMap(children => merge(...children))
+                switchMap((children) => merge(...children))
             )
             .subscribe(([update, key]) => this.emitUpdate(update, key));
 
@@ -57,11 +57,7 @@ export abstract class AbstractFormDirective<Summary extends FormSummary, Update 
     }
 
     updateChildren(children: AbstractControlDirective<any>[], summary: FormSummary) {
-        if (!children.length) {
-            return;
-        }
-
-        children.forEach(control => {
+        children.forEach((control) => {
             control.updateSummary(summary.controls[control.controlKey]);
         });
     }
