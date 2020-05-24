@@ -95,7 +95,7 @@ const internalExampleReducer = createReducer(
         ...state,
         array: {
             ...state.array,
-            controls: [...state.array.controls.slice(0, state.array.controls.length - 1)],
+            controls: [...state.array.controls, initFormControl(['new'])],
         },
     })),
 
