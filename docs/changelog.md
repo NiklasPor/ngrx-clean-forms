@@ -3,6 +3,20 @@ id: changelog
 title: Changelog
 ---
 
+## 5.0.0
+
+**New features:**
+
+-   Added group & array validators.
+-   Improved documentation.
+    -   Partly restructrured, still WIP.
+    -   Content for dynamically adding & removing controls to FormArrays were added.
+
+**Breaking changes:**
+
+-   `fast-equals` is now a **direct** dependency instead of a peer-dependency. Therefore it should be removed from your package.json, if you're not using it elsewhere.
+-   Angular version support starts now at `^9.0.0`.
+
 ## 4.4.0
 
 **New features:**
