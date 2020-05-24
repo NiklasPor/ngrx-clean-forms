@@ -18,7 +18,9 @@ export class RadioInputControlDirective extends AbstractControlDirective<boolean
         throw RadioControlNotSupported;
     }
 
-    setValue(value: boolean) {
-        throw RadioControlNotSupported;
+    setValue(value: boolean) {}
+
+    getValue() {
+        return null;
     }
 }

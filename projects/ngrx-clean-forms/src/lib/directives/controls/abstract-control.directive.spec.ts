@@ -102,4 +102,49 @@ describe('AbstractControlDirective', () => {
             expect(config$.value).toEqual(config);
         });
     });
+
+    describe('updateSummary', () => {
+        const value = 'value';
+        let spy: jasmine.Spy;
+
+        beforeEach(() => {
+            spy = spyOn(directive, 'setValue');
+        });
+
+        it('should always write when distinct check is disabled & value is circular-equal', () => {
+            directive.getValue = () => value;
+
+            directive.setConfig = { distinctWritesOnly: false };
+            directive.updateSummary(getFormControlSummary(initFormControl([value])));
+
+            expect(spy).toHaveBeenCalledWith(value);
+        });
+
+        it('should always write when distinct check is disabled & value differs', () => {
+            directive.getValue = () => value;
+
+            directive.setConfig = { distinctWritesOnly: false };
+            directive.updateSummary(getFormControlSummary(initFormControl([value])));
+
+            expect(spy).toHaveBeenCalledWith(value);
+        });
+
+        it('should always write when distinct check is enabled & value differs', () => {
+            directive.getValue = () => 'other value';
+
+            directive.setConfig = { distinctWritesOnly: true };
+            directive.updateSummary(getFormControlSummary(initFormControl([value])));
+
+            expect(spy).toHaveBeenCalledWith(value);
+        });
+
+        it('should never write when distinct check is enabled & value is circular-equal', () => {
+            directive.getValue = () => value;
+
+            directive.setConfig = { distinctWritesOnly: true };
+            directive.updateSummary(getFormControlSummary(initFormControl([value])));
+
+            expect(spy).toHaveBeenCalledTimes(0);
+        });
+    });
 });

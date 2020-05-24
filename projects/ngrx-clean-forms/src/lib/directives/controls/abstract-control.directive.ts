@@ -1,8 +1,18 @@
-import { ElementRef, EventEmitter, Inject, Input, OnDestroy, Output, Renderer2, Directive } from '@angular/core';
+import {
+    ElementRef,
+    EventEmitter,
+    Inject,
+    Input,
+    OnDestroy,
+    Output,
+    Renderer2,
+    Directive,
+} from '@angular/core';
 import { BehaviorSubject, merge, Observable, Subject, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { FormControlSummary, FormControlUpdate, FormsConfig } from '../../types';
 import { CONFIG_TOKEN, throttle } from './../../config';
+import { circularDeepEqual } from 'fast-equals';
 
 const cssClasses = {
     invalid: 'ng-invalid',
@@ -50,11 +60,11 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
     ) {
         this.config$
             .pipe(
-                switchMap(config =>
+                switchMap((config) =>
                     merge(this.touched$.pipe(throttle(config)), this.value$.pipe(throttle(config)))
                 )
             )
-            .subscribe(value => this.controlUpdate.emit(value));
+            .subscribe((value) => this.controlUpdate.emit(value));
     }
 
     private touched$ = new Subject<FormControlUpdate<T>>();
@@ -64,6 +74,15 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
     private summarySubscription = new Subscription();
 
     abstract setValue(value: T);
+
+    abstract getValue(): T;
+
+    isValueChanged(nextValue: T) {
+        const disabled = !this.config$.value.distinctWritesOnly;
+        const lastValue = this.getValue();
+
+        return disabled || !circularDeepEqual(nextValue, lastValue);
+    }
 
     setDisabled?(disabled: boolean);
 
@@ -76,7 +95,10 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
     }
 
     updateSummary(summary: FormControlSummary<T>) {
-        this.setValue(summary.value);
+        if (this.isValueChanged(summary.value)) {
+            this.setValue(summary.value);
+        }
+
         this.setDisabled(summary.disabled);
 
         this.chooseClass(cssClasses.invalid, cssClasses.valid, summary.valid);

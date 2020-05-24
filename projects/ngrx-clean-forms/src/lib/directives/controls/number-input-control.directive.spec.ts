@@ -95,7 +95,7 @@ describe('numberInputControlDirective', () => {
         expect(result).toBe(false);
     });
 
-    it('value update propagates from child', done => {
+    it('value update propagates from child', (done) => {
         const value = 5;
 
         const expected: FormControlUpdate<number> = {
@@ -103,19 +103,17 @@ describe('numberInputControlDirective', () => {
             pristine: false,
         };
 
-        directive.controlUpdate.subscribe(result => {
+        directive.controlUpdate.subscribe((result) => {
             expect(result).toEqual(expected);
             done();
         });
 
-        directive.onInput({
-            target: {
-                value,
-            },
-        } as any);
+        // tslint:disable-next-line: no-string-literal
+        directive['ref'].nativeElement = { value };
+        directive.onInput();
     });
 
-    it('empty value update propagates from child as null', done => {
+    it('empty value update propagates from child as null', (done) => {
         const value = '';
 
         const expected: FormControlUpdate<number> = {
@@ -123,24 +121,22 @@ describe('numberInputControlDirective', () => {
             pristine: false,
         };
 
-        directive.controlUpdate.subscribe(result => {
+        directive.controlUpdate.subscribe((result) => {
             expect(result).toEqual(expected);
             done();
         });
 
-        directive.onInput({
-            target: {
-                value,
-            },
-        } as any);
+        // tslint:disable-next-line: no-string-literal
+        directive['ref'].nativeElement.value = value;
+        directive.onInput();
     });
 
-    it('touched update propagates from child', done => {
+    it('touched update propagates from child', (done) => {
         const expected: FormControlUpdate<number> = {
             untouched: false,
         };
 
-        directive.controlUpdate.subscribe(result => {
+        directive.controlUpdate.subscribe((result) => {
             expect(result).toEqual(expected);
             done();
         });

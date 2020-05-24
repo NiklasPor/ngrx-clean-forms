@@ -16,6 +16,11 @@ title: Changelog
 
 -   `fast-equals` is now a **direct** dependency instead of a peer-dependency. Therefore it should be removed from your package.json, if you're not using it elsewhere.
 -   Angular version support starts now at `^9.0.0`.
+-   Writes now only occur if the value of an input differs from the value that will be written. This can be turned off by adjusting `distinctWritesOnly` inside the config.
+
+**Fixed Bugs:**
+
+-   Fixed #32: Editing inside Safari caused the cursor to jump.
 
 ## 4.4.0
 

@@ -17,7 +17,6 @@ export interface FormsConfig {
     throttleTime: number;
     /**
      * Specifies whether only distinct values should be written to a `FormControl`.
-     * Only applies to custom inputs added with `ControlValueAccessor`.
      * Prevents update loops and uses [fast-equals](https://www.npmjs.com/package/fast-equals) for comparison.
      */
     distinctWritesOnly: boolean;

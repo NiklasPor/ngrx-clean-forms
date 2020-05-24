@@ -101,7 +101,7 @@ describe('checkboxInputControlDirective', () => {
         expect(result).toBe(false);
     });
 
-    it('value update propagates from child', done => {
+    it('value update propagates from child', (done) => {
         const value = true;
 
         const expected: FormControlUpdate<boolean> = {
@@ -109,24 +109,22 @@ describe('checkboxInputControlDirective', () => {
             pristine: false,
         };
 
-        directive.controlUpdate.subscribe(result => {
+        directive.controlUpdate.subscribe((result) => {
             expect(result).toEqual(expected);
             done();
         });
 
-        directive.onInput({
-            target: {
-                checked: value,
-            },
-        } as any);
+        // tslint:disable-next-line: no-string-literal
+        directive['ref'].nativeElement = { checked: value };
+        directive.onInput();
     });
 
-    it('touched update propagates from child', done => {
+    it('touched update propagates from child', (done) => {
         const expected: FormControlUpdate<boolean> = {
             untouched: false,
         };
 
-        directive.controlUpdate.subscribe(result => {
+        directive.controlUpdate.subscribe((result) => {
             expect(result).toEqual(expected);
             done();
         });

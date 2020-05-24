@@ -82,7 +82,7 @@ describe('TextInputControlDirective', () => {
         expect(result).toBe(false);
     });
 
-    it('value update propagates from child', done => {
+    it('value update propagates from child', (done) => {
         const value = '5';
 
         const expected: FormControlUpdate<string> = {
@@ -90,24 +90,22 @@ describe('TextInputControlDirective', () => {
             pristine: false,
         };
 
-        directive.controlUpdate.subscribe(result => {
+        directive.controlUpdate.subscribe((result) => {
             expect(result).toEqual(expected);
             done();
         });
 
-        directive.onInput({
-            target: {
-                value,
-            },
-        } as any);
+        // tslint:disable-next-line: no-string-literal
+        directive['ref'].nativeElement = { value };
+        directive.onInput();
     });
 
-    it('touched update propagates from child', done => {
+    it('touched update propagates from child', (done) => {
         const expected: FormControlUpdate<string> = {
             untouched: false,
         };
 
-        directive.controlUpdate.subscribe(result => {
+        directive.controlUpdate.subscribe((result) => {
             expect(result).toEqual(expected);
             done();
         });

@@ -10,13 +10,17 @@ export class NumberInputControlDirective extends AbstractControlDirective<number
         super(ref, r2, config);
     }
 
-    @HostListener('input', ['$event']) onInput($event: Event) {
-        const value = ($event.target as HTMLInputElement).value;
-        this.emitValue(value === '' ? null : parseFloat(value));
+    @HostListener('input') onInput() {
+        this.emitValue(this.getValue());
     }
 
     @HostListener('blur') onBlur() {
         this.emitTouched();
+    }
+
+    getValue() {
+        const value = (this.ref.nativeElement as HTMLInputElement).value;
+        return value === '' ? null : parseFloat(value);
     }
 
     setValue(value: number) {
