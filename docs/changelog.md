@@ -3,6 +3,13 @@ id: changelog
 title: Changelog
 ---
 
+## 5.0.1
+
+**Fixed Bugs:**
+
+-   Fixes #36: Removing controls from arrays can throw errors.
+    -   Additionally improved handling of unknown control keys. Errors now indicate the misspelled control.
+
 ## 5.0.0
 
 **New features:**
