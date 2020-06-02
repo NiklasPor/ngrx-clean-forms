@@ -19,7 +19,7 @@ import {
 import { AbstractControlDirective } from '../controls/abstract-control.directive';
 import { ControlChildren } from './control-children';
 
-const UnkownControlError = (controlKey) =>
+export const UnkownControlError = (controlKey) =>
     new Error(`The control "${controlKey}" is not part of the form.`);
 
 type FormSummary = FormGroupSummary<any> | FormArraySummary<any>;
@@ -75,7 +75,7 @@ export abstract class AbstractFormDirective<Summary extends FormSummary, Update 
         children: AbstractControlDirective<any>[],
         summary: FormSummary,
         shouldRetry = true
-    ) {
+    ): Promise<any> {
         const safeChildren = children.filter(Boolean);
 
         const unknownControl = safeChildren.find(

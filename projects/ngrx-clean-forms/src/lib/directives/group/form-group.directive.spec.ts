@@ -11,6 +11,7 @@ import { FormGroupSummary } from '../../types';
 import { TextInputControlDirective } from '../controls/text-input-control.directive';
 import { FormGroupUpdate } from './../../types';
 import { FormGroupDirective } from './form-group.directive';
+import { UnkownControlError } from './abstract-form.directive';
 
 @Component({
     template: `
@@ -82,9 +83,31 @@ describe('FormGroupDirective', () => {
         // tslint:disable-next-line: no-string-literal
         const spy = spyOn(directive['cdr'], 'detectChanges');
 
-        expect(() => {
-            directive.updateChildren([childDir], summary('test'));
-        }).not.toThrowError();
+        expectAsync(directive.updateChildren([childDir], summary('test'))).toBeResolved();
+
+        expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should trigger change detection on unkown key child', () => {
+        testComponent.componentInstance.showInput = false;
+        testComponent.detectChanges();
+
+        const summary = (value) => getFormGroupSummary(initFormGroup({ control: [value] }));
+
+        testComponent.componentInstance.formSummary$.next(summary(''));
+
+        const childDir = new TextInputControlDirective(undefined, undefined, defaultConfig);
+        childDir.controlKey = 'unkownKey';
+
+        // tslint:disable-next-line: no-string-literal
+        const spy = spyOn(directive['cdr'], 'detectChanges');
+
+        // tslint:disable-next-line: no-string-literal
+        directive['getChildren'] = () => of([childDir]);
+
+        expectAsync(directive.updateChildren([childDir], summary('test'))).toBeRejectedWith(
+            UnkownControlError(childDir.controlKey)
+        );
 
         expect(spy).toHaveBeenCalledTimes(1);
     });
