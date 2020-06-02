@@ -1,6 +1,14 @@
-import { AfterViewInit, EventEmitter, Input, OnDestroy, Output, Directive } from '@angular/core';
+import {
+    AfterViewInit,
+    EventEmitter,
+    Input,
+    OnDestroy,
+    Output,
+    Directive,
+    ChangeDetectorRef,
+} from '@angular/core';
 import { combineLatest, merge, Observable, ReplaySubject, Subject } from 'rxjs';
-import { map, switchMap, takeUntil } from 'rxjs/operators';
+import { map, switchMap, takeUntil, first } from 'rxjs/operators';
 import {
     FormArraySummary,
     FormArrayUpdate,
@@ -10,6 +18,9 @@ import {
 } from '../../types';
 import { AbstractControlDirective } from '../controls/abstract-control.directive';
 import { ControlChildren } from './control-children';
+
+const UnkownControlError = (controlKey) =>
+    new Error(`The control "${controlKey}" is not part of the form.`);
 
 type FormSummary = FormGroupSummary<any> | FormArraySummary<any>;
 type FormUpdate = FormGroupUpdate<any> | FormArrayUpdate<any>;
@@ -28,6 +39,10 @@ export abstract class AbstractFormDirective<Summary extends FormSummary, Update 
     }
 
     @Output() formUpdate = new EventEmitter<Update>();
+
+    constructor(private cdr: ChangeDetectorRef) {
+        super();
+    }
 
     formSummary$ = new ReplaySubject<FormSummary>(1);
 
@@ -56,8 +71,28 @@ export abstract class AbstractFormDirective<Summary extends FormSummary, Update 
         this.formSummary$.complete();
     }
 
-    updateChildren(children: AbstractControlDirective<any>[], summary: FormSummary) {
-        children.forEach((control) => {
+    async updateChildren(
+        children: AbstractControlDirective<any>[],
+        summary: FormSummary,
+        shouldRetry = true
+    ) {
+        const safeChildren = children.filter(Boolean);
+
+        const unknownControl = safeChildren.find(
+            (child) => summary.controls[child.controlKey] === undefined
+        );
+
+        if (unknownControl && !shouldRetry) {
+            throw UnkownControlError(unknownControl.controlKey);
+        }
+
+        if (unknownControl) {
+            this.cdr.detectChanges();
+            const updatedChildren = await this.getChildren().pipe(first()).toPromise();
+            return this.updateChildren(updatedChildren, summary, false);
+        }
+
+        safeChildren.forEach((control) => {
             control.updateSummary(summary.controls[control.controlKey]);
         });
     }

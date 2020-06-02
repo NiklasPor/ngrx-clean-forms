@@ -6,7 +6,7 @@ describe('FormArrayDirective', () => {
     let formUpdateSpy: any;
 
     beforeEach(() => {
-        directive = new FormArrayDirective();
+        directive = new FormArrayDirective(undefined);
 
         controlUpdate = {
             value: 'nextValue',
