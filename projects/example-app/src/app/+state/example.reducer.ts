@@ -66,9 +66,7 @@ export const initialState: ExampleState = {
         checkboxInput: [false],
         customInput: [0],
     }),
-
     array: initFormArray([['first'], ['second']], [noDuplicates, allRequired]),
-
     stateAccessExampleGroup: initFormGroup({ exampleInput: [1] }),
     forbiddenNumber: 2,
 };
