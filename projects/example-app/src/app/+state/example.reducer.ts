@@ -34,6 +34,9 @@ const noDuplicates: ArrayValidator<string> = ({ controls }) =>
         )
         .map((result) => (result ? { duplicate: true } : null));
 
+const allRequired: ArrayValidator<string> = ({ controls }) =>
+    controls.map((control) => validatorOf(Validators.required)(control));
+
 export interface ExampleGroupControls {
     textInput: string;
     numberInput: number;
@@ -63,7 +66,7 @@ export const initialState: ExampleState = {
         checkboxInput: [false],
         customInput: [0],
     }),
-    array: initFormArray([['first'], ['second']], [noDuplicates]),
+    array: initFormArray([['first'], ['second']], [noDuplicates, allRequired]),
     stateAccessExampleGroup: initFormGroup({ exampleInput: [1] }),
     forbiddenNumber: 2,
 };
