@@ -3,6 +3,12 @@ id: changelog
 title: Changelog
 ---
 
+## 6.0.0
+
+**Breaking Changes:**
+
+-   Angular support `>= 12.0.0`
+
 ## 5.0.1
 
 **Fixed Bugs:**

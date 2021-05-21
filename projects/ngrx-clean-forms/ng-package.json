@@ -7,5 +7,5 @@
             "fast-equals": "fast-equals"
         }
     },
-    "whitelistedNonPeerDependencies": ["fast-equals"]
+    "allowedNonPeerDependencies": ["fast-equals"]
 }

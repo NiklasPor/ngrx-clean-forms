@@ -15,7 +15,7 @@ describe('NgrxCleanFormsModule', () => {
             ],
         }).compileComponents();
 
-        const result: FormsConfig = TestBed.get(CONFIG_TOKEN);
+        const result: FormsConfig = TestBed.inject(CONFIG_TOKEN);
 
         expect(result).toEqual(expected);
     });
@@ -35,7 +35,7 @@ describe('NgrxCleanFormsModule', () => {
             ],
         }).compileComponents();
 
-        const result: FormsConfig = TestBed.get(CONFIG_TOKEN);
+        const result: FormsConfig = TestBed.inject(CONFIG_TOKEN);
 
         expect(result).toEqual(expected);
     });

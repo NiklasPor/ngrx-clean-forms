@@ -17,7 +17,7 @@ import {
     FormGroupUpdate,
 } from '../../types';
 import { AbstractControlDirective } from '../controls/abstract-control.directive';
-import { ControlChildren } from './control-children';
+import { ControlChildrenDirective } from './control-children';
 
 export const UnkownControlError = (controlKey) =>
     new Error(`The control "${controlKey}" is not part of the form.`);
@@ -27,8 +27,9 @@ type FormUpdate = FormGroupUpdate<any> | FormArrayUpdate<any>;
 
 @Directive()
 export abstract class AbstractFormDirective<Summary extends FormSummary, Update extends FormUpdate>
-    extends ControlChildren
-    implements AfterViewInit, OnDestroy {
+    extends ControlChildrenDirective
+    implements AfterViewInit, OnDestroy
+{
     @Input('formSummary')
     set setFormSummary(summary: Summary) {
         if (!summary) {

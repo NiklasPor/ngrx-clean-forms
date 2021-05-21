@@ -11,8 +11,8 @@ import { map, startWith } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 
 type directiveQuery = QueryList<AbstractControlDirective<any>>;
-
-export abstract class ControlChildren {
+@Directive()
+export abstract class ControlChildrenDirective {
     @ContentChildren(TextInputControlDirective, { descendants: true })
     private textInputs: directiveQuery;
 
