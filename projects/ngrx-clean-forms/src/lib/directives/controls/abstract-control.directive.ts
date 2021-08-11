@@ -28,7 +28,7 @@ const cssClasses = {
 export const CONTROL_DIRECTIVE_SELECTOR = `ngrxFormControl`;
 
 @Directive()
-export abstract class AbstractControlDirective<T> implements OnDestroy {
+export abstract class AbstractControlDirective<T = any> implements OnDestroy {
     @Input(CONTROL_DIRECTIVE_SELECTOR)
     controlKey?: string;
 
@@ -52,6 +52,13 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
     }
 
     @Output() controlUpdate = new EventEmitter<FormControlUpdate<T>>(true);
+    controlSummary$ = new Subject<FormControlSummary<T>>();
+
+    get controlSummary() {
+        return this._controlSummary;
+    }
+
+    private _controlSummary: FormControlSummary<T>;
 
     constructor(
         protected ref: ElementRef,
@@ -95,6 +102,8 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
     }
 
     updateSummary(summary: FormControlSummary<T>) {
+        this._controlSummary = summary;
+        this.controlSummary$.next(summary);
         if (this.isValueChanged(summary.value)) {
             this.setValue(summary.value);
         }
@@ -122,5 +131,6 @@ export abstract class AbstractControlDirective<T> implements OnDestroy {
         this.config$.complete();
         this.touched$.complete();
         this.value$.complete();
+        this.controlSummary$.complete();
     }
 }
