@@ -4,6 +4,12 @@ import { CONFIG_TOKEN } from '../../config';
 import { FormsConfig } from '../../types';
 @Directive({
     selector: `input[type="range"][${CONTROL_DIRECTIVE_SELECTOR}]`,
+    providers: [
+        {
+            provide: AbstractControlDirective,
+            useExisting: RangeInputControlDirective,
+        },
+    ],
 })
 export class RangeInputControlDirective extends AbstractControlDirective<number> {
     constructor(ref: ElementRef, r2: Renderer2, @Inject(CONFIG_TOKEN) config: FormsConfig) {

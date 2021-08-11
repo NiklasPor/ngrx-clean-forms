@@ -10,6 +10,12 @@ export const SelectControlNotSupported = Error(
 
 @Directive({
     selector: `select[${CONTROL_DIRECTIVE_SELECTOR}]`,
+    providers: [
+        {
+            provide: AbstractControlDirective,
+            useExisting: SelectInputControlDirective,
+        },
+    ],
 })
 export class SelectInputControlDirective extends AbstractControlDirective<boolean> {
     constructor(ref: ElementRef, r2: Renderer2, @Inject(CONFIG_TOKEN) config: FormsConfig) {

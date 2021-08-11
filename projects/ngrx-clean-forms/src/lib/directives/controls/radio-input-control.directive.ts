@@ -10,6 +10,12 @@ export const RadioControlNotSupported = Error(
 
 @Directive({
     selector: `input[type="radio"][${CONTROL_DIRECTIVE_SELECTOR}]`,
+    providers: [
+        {
+            provide: AbstractControlDirective,
+            useExisting: RadioInputControlDirective,
+        },
+    ],
 })
 export class RadioInputControlDirective extends AbstractControlDirective<boolean> {
     constructor(ref: ElementRef, r2: Renderer2, @Inject(CONFIG_TOKEN) config: FormsConfig) {

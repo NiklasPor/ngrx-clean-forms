@@ -3,10 +3,15 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CONFIG_TOKEN } from '../../config';
 import { FormsConfig } from '../../types';
 import { AbstractControlDirective, CONTROL_DIRECTIVE_SELECTOR } from './abstract-control.directive';
-import { circularDeepEqual } from 'fast-equals';
 
 @Directive({
-    selector: `[${CONTROL_DIRECTIVE_SELECTOR}]`,
+    selector: `[${CONTROL_DIRECTIVE_SELECTOR}]:not(input):not(textarea):not(select)`,
+    providers: [
+        {
+            provide: AbstractControlDirective,
+            useExisting: ValueAccessorConnectorDirective,
+        },
+    ],
 })
 export class ValueAccessorConnectorDirective extends AbstractControlDirective<any> {
     accessor: ControlValueAccessor;
