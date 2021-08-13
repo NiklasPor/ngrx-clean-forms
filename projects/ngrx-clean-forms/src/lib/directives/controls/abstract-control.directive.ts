@@ -52,11 +52,13 @@ export abstract class AbstractControlDirective<T = any> implements OnDestroy {
     }
 
     @Output() controlUpdate = new EventEmitter<FormControlUpdate<T>>(true);
-    controlSummary$ = new Subject<FormControlSummary<T>>();
 
     get controlSummary() {
         return this._controlSummary;
     }
+
+    private _controlSummary$ = new Subject<FormControlSummary<T>>();
+    readonly controlSummary$ = this._controlSummary$.asObservable();
 
     private _controlSummary: FormControlSummary<T>;
 
@@ -103,7 +105,7 @@ export abstract class AbstractControlDirective<T = any> implements OnDestroy {
 
     updateSummary(summary: FormControlSummary<T>) {
         this._controlSummary = summary;
-        this.controlSummary$.next(summary);
+        this._controlSummary$.next(summary);
         if (this.isValueChanged(summary.value)) {
             this.setValue(summary.value);
         }
@@ -131,6 +133,6 @@ export abstract class AbstractControlDirective<T = any> implements OnDestroy {
         this.config$.complete();
         this.touched$.complete();
         this.value$.complete();
-        this.controlSummary$.complete();
+        this._controlSummary$.complete();
     }
 }
