@@ -3,6 +3,12 @@ id: changelog
 title: Changelog
 ---
 
+## 6.1.0
+
+**New Features:**
+
+-   #40: `AbstractControlDirective` now exposes `FormControlSummary`
+
 ## 6.0.0
 
 **Breaking Changes:**
