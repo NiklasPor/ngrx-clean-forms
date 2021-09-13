@@ -5,6 +5,12 @@ import { FormsConfig } from '../../types';
 
 @Directive({
     selector: `input[type="checkbox"][${CONTROL_DIRECTIVE_SELECTOR}]`,
+    providers: [
+        {
+            provide: AbstractControlDirective,
+            useExisting: CheckboxInputControlDirective,
+        },
+    ],
 })
 export class CheckboxInputControlDirective extends AbstractControlDirective<boolean> {
     constructor(ref: ElementRef, r2: Renderer2, @Inject(CONFIG_TOKEN) config: FormsConfig) {
